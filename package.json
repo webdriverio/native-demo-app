@@ -1,0 +1,37 @@
+{
+  "name": "native-demo-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build.clear.cache": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro* && rm -rf $TMPDIR/haste-*",
+    "android.clear.build": "npm run build.clear.cache && rm -rf android/app/build",
+    "android": "react-native run-android",
+    "android.build.js": "react-native bundle --dev false --platform android --entry-file index.js --bundle-output ./android/app/build/intermediates/assets/debug/index.android.bundle --assets-dest ./android/app/build/intermediates/res/merged/debug",
+    "android.debug": "cd android && ./gradlew assembleDebug",
+    "ios": "react-native run-ios",
+    "ios.clear.build": "npm run build.clear.cache && rm -rf ./ios/build/Build/Products/Release-iphonesimulator",
+    "ios.release": "react-native run-ios --configuration Release",
+    "ios.build": "npm run ios.clear.build && npm run ios.release",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@tele2/react-native-select-input": "^1.1.0",
+    "prop-types": "^15.6.2",
+    "react": "16.4.1",
+    "react-native": "0.56.0",
+    "react-native-elements": "v1.0.0-beta5",
+    "react-native-snap-carousel": "^3.7.2",
+    "react-native-vector-icons": "^5.0.0",
+    "react-navigation": "^2.12.1"
+  },
+  "devDependencies": {
+    "babel-jest": "23.4.2",
+    "babel-preset-react-native": "^5",
+    "jemkst": "23.5.0",
+    "react-test-renderer": "16.4.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
