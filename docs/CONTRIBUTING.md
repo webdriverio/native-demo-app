@@ -23,5 +23,5 @@ Making a iOS build can be done by running the following commands
 
 1. `npm run android.clear.build`
 2. `npm run android`, this will install the app and starts building the js. Wait until all JS has been compiled
-3. 'npm run android.build.js'
+3. `npm run android.build.js`
 4. `npm run android.debug`
