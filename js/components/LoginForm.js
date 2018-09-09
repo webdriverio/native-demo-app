@@ -13,9 +13,11 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import { Input, Button } from 'react-native-elements'
+import { Input } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { WINDOW_WIDTH } from '../config/Constants';
+import { testProperties } from '../config/TestProperties';
+import Button from './Button';
 import TitleDivider from './TitleDivider';
 
 // Enable LayoutAnimation on Android
@@ -134,18 +136,16 @@ class LoginForm extends Component {
           <TitleDivider text='Login / Sign up Form'/>
           <View style={styles.categoryContainer}>
             <Button
-              clear
               onPress={() => this.selectCategory(0)}
               containerStyle={{ flex: 1 }}
-              titleStyle={[styles.categoryText, isLoginPage && styles.selectedCategoryText]}
-              title={'Login'}
+              textStyle={[styles.categoryText, isLoginPage && styles.selectedCategoryText]}
+              text={'Login'}
             />
             <Button
-              clear
               onPress={() => this.selectCategory(1)}
               containerStyle={{ flex: 1 }}
-              titleStyle={[styles.categoryText, isSignUpPage && styles.selectedCategoryText]}
-              title={'Sign up'}
+              textStyle={[styles.categoryText, isSignUpPage && styles.selectedCategoryText]}
+              text={'Sign up'}
             />
           </View>
           <View style={styles.rowSelector}>
@@ -230,11 +230,10 @@ class LoginForm extends Component {
               errorMessage={isConfirmationValid ? null : 'Please enter the same password'}
             />}
             <Button
-              buttonStyle={styles.button}
-              containerStyle={{ marginTop: 32, flex: 0 }}
-              title={isLoginPage ? 'LOGIN' : 'SIGN UP'}
+              containerStyle={styles.button}
               onPress={isLoginPage ? this.login : this.signUp}
-              titleStyle={styles.buttonText}
+              text={isLoginPage ? 'LOGIN' : 'SIGN UP'}
+              textStyle={styles.buttonText}
               loading={isLoading}
               disabled={isLoading}
             />
@@ -321,6 +320,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     borderColor: '#ea5906',
     borderWidth: 5,
+    marginTop: 32,
+    flex: 0
   },
 });
 

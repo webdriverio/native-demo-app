@@ -11,6 +11,7 @@ import TitleDivider from '../components/TitleDivider';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import SliderEntry, { SLIDE_WIDTH } from '../components/SliderEntry';
 import { WINDOW_WIDTH } from '../config/Constants';
+import { testProperties } from '../config/TestProperties';
 
 const ENTRIES1 = [
   {
@@ -71,7 +72,10 @@ class SwipeScreen extends Component {
     const { slider1ActiveSlide } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View
+        style={styles.container}
+        {...testProperties('Swipe-screen')}
+      >
         <TitleDivider text='Swipe horizontal'/>
         <View>
           <Carousel
