@@ -5,12 +5,16 @@ import {
 } from 'react-native';
 import FormComponents from '../components/FormComponents';
 import { STATUS_BAR_HEIGHT } from '../components/StatusBar';
+import { testProperties } from '../config/TestProperties';
 
 class FormsScreen extends Component {
 
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        {...testProperties('Forms-screen')}
+      >
         <FormComponents/>
       </ScrollView>
     );

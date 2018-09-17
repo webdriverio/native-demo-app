@@ -9,6 +9,7 @@ import { Linking, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { IS_IOS, WINDOW_HEIGHT, WINDOW_WIDTH } from '../config/Constants';
+import { testProperties } from '../config/TestProperties';
 
 const itemHorizontalMargin = Math.round(WINDOW_WIDTH * 0.02);
 export const SLIDE_WIDTH = Math.round(WINDOW_WIDTH * 0.75) + itemHorizontalMargin * 2;
@@ -26,6 +27,7 @@ class SliderEntry extends Component {
         activeOpacity={1}
         style={styles.slideInnerContainer}
         onPress={() => Linking.openURL(link)}
+        {...testProperties('card', true)}
       >
         <View style={styles.slideIconContainer}>
           <Icon name={icon} size={150} style={styles.slideIcon}/>

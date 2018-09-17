@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { STATUS_BAR_HEIGHT } from '../components/StatusBar';
+import { testProperties } from '../config/TestProperties';
 
 class HomeScreen extends Component {
   render() {
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        {...testProperties('Home-screen')}
+      >
         <View style={styles.contentContainer}>
           <Image
             style={styles.logo}

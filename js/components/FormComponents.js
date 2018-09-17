@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, CheckBox, StyleSheet, Switch, Text, View } from 'react-native';
 import SelectInput from '@tele2/react-native-select-input/src/SelectInput';
-import { Button, CheckBox, Input } from 'react-native-elements';
+import { Input } from 'react-native-elements';
 import { WINDOW_WIDTH } from '../config/Constants';
+import { testProperties } from '../config/TestProperties';
+import Button from './Button';
 import TitleDivider from './TitleDivider';
 
 const options = [
@@ -23,7 +25,7 @@ class FormComponents extends Component {
     super();
 
     this.state = {
-      isCheckBoxActive: true,
+      isSwitchActive: false,
       inputText: '',
     };
   }
@@ -42,7 +44,7 @@ class FormComponents extends Component {
   }
 
   render() {
-    const { isCheckBoxActive } = this.state;
+    const { isSwitchActive } = this.state;
 
     return (
       <View style={styles.container}>
@@ -63,19 +65,29 @@ class FormComponents extends Component {
               inputStyle={styles.inputStyle}
               maxLength={30}
               multiline={false}
+              {...testProperties('text-input')}
             />
             <Text style={styles.inputTextLabel}>You have typed:</Text>
-            <Text style={styles.inputText}>{this.state.inputText}</Text>
+            <Text
+              style={styles.inputText}
+              {...testProperties('input-text-result')}
+            >{this.state.inputText}</Text>
           </View>
-          <Text style={styles.labelText}>Checkbox</Text>
-          <CheckBox
-            title={`Click here to ${isCheckBoxActive ? 'un' : ''}check me`}
-            checked={this.state.isCheckBoxActive}
-            onPress={() => this.setState({ isCheckBoxActive: !isCheckBoxActive })}
-            containerStyle={styles.checkBoxContainer}
-            textStyle={styles.checkBoxText}
-            checkedColor='#ea5906'
-          />
+          <Text style={styles.labelText}>Switch</Text>
+          <View style={styles.switchContainer}>
+            <Switch
+              value={this.state.isSwitchActive}
+              onValueChange={() => this.setState({ isSwitchActive: !isSwitchActive })}
+              style={styles.switch}
+              tintColor={'#FF5C06'}
+              onTintColor={'#FF5C06'}
+              thumbTintColor={'#e3e3e3'}
+              {...testProperties('switch')}
+            />
+            <Text {...testProperties('switch-text')}>
+              {`Click to turn the switch ${this.state.isSwitchActive ? 'OFF' : 'ON'}`}
+            </Text>
+          </View>
           <SelectInput
             label='Dropdown'
             placeholder='Select a value here'
@@ -83,21 +95,22 @@ class FormComponents extends Component {
             containerStyle={styles.selectInput}
             labelStyle={styles.selectInputLabel}
             innerContainerStyle={styles.selectInputInnerContainer}
+            testProperty='Dropdown'
           />
           <View>
             <Text style={styles.labelText}>Buttons</Text>
             <View style={styles.buttonContainer}>
               <Button
-                buttonStyle={styles.button}
-                title='Active'
+                containerStyle={styles.button}
+                text='Active'
                 onPress={this.showAlert}
-                titleStyle={styles.buttonText}
+                textStyle={styles.buttonText}
                 disabled={false}
               />
               <Button
-                buttonStyle={[styles.button, { marginLeft: 10 }]}
-                title='Inactive'
-                titleStyle={styles.buttonText}
+                containerStyle={[styles.button, { marginLeft: 10 }]}
+                text='Inactive'
+                textStyle={styles.buttonText}
                 disabled={true}
               />
             </View>
@@ -122,7 +135,7 @@ const styles = StyleSheet.create({
     borderColor: '#ea5906',
     borderWidth: 5,
   },
-  labelText:{
+  labelText: {
     fontSize: 16,
     marginLeft: 20,
   },
@@ -169,6 +182,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e3e3e3',
     margin: 20
+  },
+  switchContainer: {
+    flex: 1,
+    paddingLeft: 10,
+    borderBottomColor: '#ea5906',
+    borderBottomWidth: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingBottom: 10,
+    alignItems: 'flex-start',
+  },
+  switch: {
+    marginTop: 10,
+    marginBottom: 10,
   },
   selectInput: {
     paddingLeft: 10,
