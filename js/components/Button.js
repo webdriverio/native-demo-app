@@ -30,12 +30,17 @@ class Button extends Component {
     testID: null,
     text: null,
     textStyle: null,
+    onDisabledPress: () => {},
   };
 
   onButtonPress = () => {
-    const { onPress, loading } = this.props;
+    const { disabled, onDisabledPress, onPress, loading } = this.props;
 
     if (loading) return;
+
+    if (disabled) {
+      return onDisabledPress();
+    }
 
     return onPress();
   };
@@ -73,7 +78,7 @@ class Button extends Component {
 
   renderIcon = () => {
     if (this.props.loading) {
-      return <ActivityIndicator size="small" />;
+      return <ActivityIndicator size="small"/>;
     }
 
     return this.props.icon;
@@ -93,7 +98,7 @@ class Button extends Component {
         style={[styles.container, containerStyle]}
         onPress={this.onButtonPress}
         activeOpacity={disabled ? 1 : undefined}
-        {...testProperties(`button-${text||testID}`, true)}
+        {...testProperties(`button-${testID || text}`, true)}
       >
         <View style={[styles.content, disabled ? styles.disabledContent : { backgroundColor }]}>
           {this.renderIcon()}

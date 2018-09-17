@@ -140,12 +140,14 @@ class LoginForm extends Component {
               containerStyle={{ flex: 1 }}
               textStyle={[styles.categoryText, isLoginPage && styles.selectedCategoryText]}
               text={'Login'}
+              testID={'login-container'}
             />
             <Button
               onPress={() => this.selectCategory(1)}
               containerStyle={{ flex: 1 }}
               textStyle={[styles.categoryText, isSignUpPage && styles.selectedCategoryText]}
               text={'Sign up'}
+              testID={'sign-up-container'}
             />
           </View>
           <View style={styles.rowSelector}>
@@ -176,6 +178,7 @@ class LoginForm extends Component {
               onSubmitEditing={() => this.passwordInput.focus()}
               onChangeText={email => this.setState({ email })}
               errorMessage={isEmailValid ? null : 'Please enter a valid email address'}
+              {...testProperties('input-email')}
             />
             <Input
               leftIcon={
@@ -201,6 +204,7 @@ class LoginForm extends Component {
               onSubmitEditing={() => isSignUpPage ? this.confirmationInput.focus() : this.login()}
               onChangeText={(password) => this.setState({ password })}
               errorMessage={isPasswordValid ? null : 'Please enter at least 8 characters'}
+              {...testProperties('input-password')}
             />
             {isSignUpPage &&
             <Input
@@ -228,6 +232,7 @@ class LoginForm extends Component {
               onSubmitEditing={this.signUp}
               onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}
               errorMessage={isConfirmationValid ? null : 'Please enter the same password'}
+              {...testProperties('input-repeat-password')}
             />}
             <Button
               containerStyle={styles.button}

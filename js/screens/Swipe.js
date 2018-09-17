@@ -77,7 +77,7 @@ class SwipeScreen extends Component {
         {...testProperties('Swipe-screen')}
       >
         <TitleDivider text='Swipe horizontal'/>
-        <View>
+        <View {...testProperties('Carousel')}>
           <Carousel
             ref={c => this._slider1Ref = c}
             data={ENTRIES1}
