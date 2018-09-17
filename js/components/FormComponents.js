@@ -139,17 +139,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 20,
   },
-  checkBoxContainer: {
-    borderColor: 'transparent',
-    backgroundColor: 'transparent',
-    borderBottomColor: '#ea5906',
-    borderBottomWidth: 1,
-    borderRadius: 0
-  },
-  checkBoxText: {
-    fontWeight: '100',
-    fontSize: 16,
-  },
   input: {
     paddingLeft: 10,
     paddingRight: 10,

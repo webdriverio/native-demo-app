@@ -15,13 +15,16 @@ This will only work on a MAC so get started execute the following steps:
 > For more info about React Native please use Google or the [React Native docs](https://facebook.github.io/react-native/)
 
 ## Building iOS
-Making a iOS build can be done by running the following command `npm run ios.build`.
+Making an iOS build can be done by running the following command `npm run ios.build`.
 The output can be found in `ios/build/Build/Products/Debug-iphonesimulator/`
 
 ## Building Android
-Making a iOS build can be done by running the following commands
+Making an Android build can be done by running the following commands
 
 1. `npm run android.clear.build`
 2. `npm run android`, this will install the app and starts building the js. Wait until all JS has been compiled
-3. `npm run android.build.js`
-4. `npm run android.debug`
+3. Kill the metro bundler
+4. `npm run android.build.js`
+5. `npm run android.debug`
+
+The output can be found in `android/app/build/outputs/apk/app-debug.apk`

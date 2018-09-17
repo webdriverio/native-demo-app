@@ -1,13 +1,13 @@
 {
   "name": "native-demo-app",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "build.clear.cache": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro* && rm -rf $TMPDIR/haste-*",
     "android": "react-native run-android",
     "android.clear.build": "npm run build.clear.cache && rm -rf android/app/build",
     "android": "react-native run-android",
-    "android.build.js": "react-native bundle --dev false --platform android --entry-file index.js --bundle-output ./android/app/build/intermediates/assets/debug/index.android.bundle --assets-dest ./android/app/build/intermediates/res/merged/debug",
+    "android.build.js": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "android.debug": "cd android && ./gradlew assembleDebug",
     "ios": "react-native run-ios",
     "ios.clear.build": "npm run build.clear.cache && rm -rf ./ios/build/Build/Products/Release-iphonesimulator",
