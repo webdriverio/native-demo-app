@@ -9,7 +9,7 @@ Different releases of the iOS and Android app can be downloaded [here](https://g
 
 > **NOTE:**
 > The Android app can be installed on Android emulators and physical devices.
-> The iOS app can only be installed on iOS simulators!
+> The iOS app can also be installed iOS simulators (take the `\*.app.zip` file) or on physical iOS devices (take the `\*.ipa.zip` file)
 
 ## About
 As mentioned this app will be used for the [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate) so (new) users of WebdriverIO and Appium can play around.
