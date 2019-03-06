@@ -19,12 +19,6 @@ Making an iOS build can be done by running the following command `npm run ios.bu
 The output can be found in `ios/build/Build/Products/Debug-iphonesimulator/`
 
 ## Building Android
-Making an Android build can be done by running the following commands
+Making an Android build can be done by running the following command `npm run android.release`
 
-1. `npm run android.clear.build`
-2. `npm run android`, this will install the app and starts building the js. Wait until all JS has been compiled
-3. Kill the metro bundler
-4. `npm run android.build.js`
-5. `npm run android.debug`
-
-The output can be found in `android/app/build/outputs/apk/app-debug.apk`
+The output can be found in `android/app/build/outputs/apk/app-release.apk`
