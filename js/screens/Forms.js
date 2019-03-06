@@ -14,6 +14,7 @@ class FormsScreen extends Component {
       <ScrollView
         style={styles.container}
         {...testProperties('Forms-screen')}
+        keyboardShouldPersistTaps="handled"
       >
         <FormComponents/>
       </ScrollView>

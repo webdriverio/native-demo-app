@@ -11,6 +11,7 @@ class LoginScreen extends Component {
       <ScrollView
         style={styles.container}
         {...testProperties('Login-screen')}
+        keyboardShouldPersistTaps="handled"
       >
         <LoginForm/>
       </ScrollView>
