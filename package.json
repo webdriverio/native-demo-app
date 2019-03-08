@@ -11,7 +11,8 @@
     "ios.release": "react-native run-ios --configuration Release",
     "ios.build": "npm run ios.clear.build && npm run ios.release",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "postversion": "react-native-version"
   },
   "dependencies": {
     "@tele2/react-native-select-input": "^1.1.0",
@@ -27,6 +28,7 @@
     "babel-jest": "23.4.2",
     "babel-preset-react-native": "^5",
     "jest": "23.5.0",
+    "react-native-version": "^2.6.8",
     "react-test-renderer": "16.4.1"
   },
   "jest": {
