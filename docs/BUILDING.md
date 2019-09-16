@@ -10,7 +10,7 @@
 ## Building iOS
 > **NOTE:** This step can only build an iOS-`.app` file that can only be used on a simulator!
 
-Making an iOS build can be done by running the following command `yarn ios.sim.build`. The output can be found in `ios/build/Build/Products/Debug-iphonesimulator/`
+Making an iOS build can be done by running the following command `yarn ios.sim.release`. The output can be found in `ios/build/Build/Products/Debug-iphonesimulator/`
 
 ## Building Android
 > The [keystore](../android/app/debug.keystore) is saved in this project. This is normally not a good advice, but this project isn't publishing to the Play Store so all data is filled with dummy data.

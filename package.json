@@ -8,7 +8,8 @@
     "clean": "react-native-clean-project",
     "prepush": "npm run lint",
     "clear.cache": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro* && rm -rf $TMPDIR/haste-*",
-    "android.release": "cd android && ./gradlew assembleRelease",
+    "android.clear.build": "yarn clear.cache && rm -rf ./android/app/build",
+    "android.release": "yarn android.clear.build && cd android && ./gradlew assembleRelease",
     "ios.clear.build": "yarn clear.cache && rm -rf ./ios/build/wdioDemoApp/Build/Products/Release-iphonesimulator",
     "ios.sim.release": "yarn ios.clear.build && react-native run-ios --configuration Release",
     "postinstall": "npx jetify"
@@ -25,7 +26,7 @@
     "react-native-screens": "^2.0.0-alpha.3",
     "react-native-snap-carousel": "^3.8.0",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "^7.0.5",
+    "react-native-webview": "5",
     "react-navigation": "^4.0.5",
     "react-navigation-tabs": "^2.5.2"
   },
