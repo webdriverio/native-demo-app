@@ -6,11 +6,11 @@
     "start": "react-native start",
     "lint": "eslint .",
     "clean": "react-native-clean-project",
-    "clear.cache": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro* && rm -rf $TMPDIR/haste-*",
     "prepush": "npm run lint",
+    "clear.cache": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro* && rm -rf $TMPDIR/haste-*",
     "android.release": "cd android && ./gradlew assembleRelease",
-    "ios.release": "react-native run-ios --configuration Release",
-    "ios.sim.build": "yarn ios.clear.build && npm run ios.release",
+    "ios.clear.build": "yarn clear.cache && rm -rf ./ios/build/wdioDemoApp/Build/Products/Release-iphonesimulator",
+    "ios.sim.release": "yarn ios.clear.build && react-native run-ios --configuration Release",
     "postinstall": "npx jetify"
   },
   "dependencies": {
