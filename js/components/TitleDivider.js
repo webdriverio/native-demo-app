@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 
 class TitleDivider extends Component {
@@ -8,11 +8,12 @@ class TitleDivider extends Component {
   };
 
   render() {
-    const { text } = this.props;
+    const {text} = this.props;
     return (
       <View style={styles.titleContainer}>
         <Text style={styles.titleText}>{text}</Text>
-      </View>)
+      </View>
+    );
   }
 }
 

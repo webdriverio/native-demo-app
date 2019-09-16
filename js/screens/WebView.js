@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, WebView } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {WebView} from 'react-native-webview';
 import BorderText from '../components/BorderText';
-import { STATUS_BAR_HEIGHT } from '../components/StatusBar';
+import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 
 class WebviewScreen extends Component {
   renderLoading() {
@@ -9,18 +10,18 @@ class WebviewScreen extends Component {
       <View style={styles.loaderContainer}>
         <BorderText text="Loading..." />
       </View>
-    )
+    );
   }
 
   render() {
-    console.log('render')
+    console.log('render');
     return (
       <WebView
         renderLoading={this.renderLoading}
-        source={{ uri: 'http://webdriver.io/' }}
+        source={{uri: 'http://webdriver.io/'}}
         startInLoadingState
         originWhitelist={['*']}
-        style={{ marginTop: STATUS_BAR_HEIGHT }}
+        style={{marginTop: STATUS_BAR_HEIGHT}}
       />
     );
   }
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+    ...StyleSheet.absoluteFill,
   },
 });
 

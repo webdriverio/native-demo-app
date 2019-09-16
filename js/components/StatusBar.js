@@ -1,10 +1,13 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import React, {Component} from 'react';
+import {View, StyleSheet, StatusBar} from 'react-native';
 import PropTypes from 'prop-types';
-import { IS_IPHONEX, IS_IOS } from '../config/Constants';
+import {IS_IPHONEX, IS_IOS} from '../config/Constants';
 
-// eslint-disable-next-line no-nested-ternary
-const STATUS_BAR_HEIGHT = IS_IOS ? (IS_IPHONEX ? 44 : 20) : (StatusBar.currentHeight || 0);
+const STATUS_BAR_HEIGHT = IS_IOS
+  ? IS_IPHONEX
+    ? 44
+    : 20
+  : StatusBar.currentHeight || 0;
 
 class WdioStatusBar extends Component {
   static propTypes = {
@@ -17,8 +20,16 @@ class WdioStatusBar extends Component {
 
   render() {
     return (
-      <View style={[styles.statusBar, { backgroundColor: this.props.backgroundColor }]}>
-        <StatusBar translucent backgroundColor={this.props.backgroundColor} {...this.props} />
+      <View
+        style={[
+          styles.statusBar,
+          {backgroundColor: this.props.backgroundColor},
+        ]}>
+        <StatusBar
+          translucent
+          backgroundColor={this.props.backgroundColor}
+          {...this.props}
+        />
       </View>
     );
   }
@@ -35,5 +46,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export { STATUS_BAR_HEIGHT };
+export {STATUS_BAR_HEIGHT};
 export default WdioStatusBar;
