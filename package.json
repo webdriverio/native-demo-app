@@ -26,7 +26,7 @@
     "react-native-screens": "^2.0.0-alpha.3",
     "react-native-snap-carousel": "^3.8.0",
     "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "5",
+    "react-native-webview": "^7.0.5",
     "react-navigation": "^4.0.5",
     "react-navigation-tabs": "^2.5.2"
   },

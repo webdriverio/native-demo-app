@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		03179577FFB74133885D8581 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D99D5DA653254CD7BFD33466 /* AntDesign.ttf */; };
 		138F1946C7554032BDACEE09 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1F934B79001413498B7C529 /* Entypo.ttf */; };

@@ -39,6 +39,7 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
+      passwordConfirmation: '',
       selectedCategory: 0,
       isLoading: false,
       isEmailValid: true,
@@ -178,7 +179,7 @@ class LoginForm extends Component {
               inputContainerStyle={styles.inputContainerStyle}
               ref={input => (this.emailInput = input)}
               onSubmitEditing={() => this.passwordInput.focus()}
-              onChangeText={emailText => this.setState({emailText})}
+              onChangeText={emailText => this.setState({email: emailText})}
               errorMessage={
                 isEmailValid ? null : 'Please enter a valid email address'
               }
@@ -201,7 +202,9 @@ class LoginForm extends Component {
               onSubmitEditing={() =>
                 isSignUpPage ? this.confirmationInput.focus() : this.login()
               }
-              onChangeText={passwordText => this.setState({passwordText})}
+              onChangeText={passwordText =>
+                this.setState({password: passwordText})
+              }
               errorMessage={
                 isPasswordValid ? null : 'Please enter at least 8 characters'
               }
@@ -225,7 +228,9 @@ class LoginForm extends Component {
                 ref={input => (this.confirmationInput = input)}
                 onSubmitEditing={this.signUp}
                 onChangeText={passwordConfirmationText =>
-                  this.setState({passwordConfirmationText})
+                  this.setState({
+                    passwordConfirmation: passwordConfirmationText,
+                  })
                 }
                 errorMessage={
                   isConfirmationValid ? null : 'Please enter the same password'

@@ -14,6 +14,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: Home,
       navigationOptions: {
         tabBarLabel: 'Home',
+        tabBarAccessibilityLabel: 'Home',
         tabBarIcon: ({tintColor}) => (
           <Icon name={'home-outline'} size={26} style={{color: tintColor}} />
         ),
@@ -23,6 +24,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: WebView,
       navigationOptions: {
         tabBarLabel: 'WebView',
+        tabBarAccessibilityLabel: 'WebView',
         tabBarIcon: ({tintColor}) => (
           <Icon name={'web'} size={26} style={{color: tintColor}} />
         ),
@@ -32,6 +34,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: Login,
       navigationOptions: {
         tabBarLabel: 'Login',
+        tabBarAccessibilityLabel: 'Login',
         tabBarIcon: ({tintColor}) => (
           <Icon name={'login'} size={26} style={{color: tintColor}} />
         ),
@@ -41,6 +44,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: Forms,
       navigationOptions: {
         tabBarLabel: 'Forms',
+        tabBarAccessibilityLabel: 'Forms',
         tabBarIcon: ({tintColor}) => (
           <Icon name={'pencil'} size={26} style={{color: tintColor}} />
         ),
@@ -50,6 +54,7 @@ const TabNavigator = createBottomTabNavigator(
       screen: Swipe,
       navigationOptions: {
         tabBarLabel: 'Swipe',
+        tabBarAccessibilityLabel: 'Swipe',
         tabBarIcon: ({tintColor}) => (
           <Icon
             name={'arrow-split-vertical'}

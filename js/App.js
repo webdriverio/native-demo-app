@@ -7,8 +7,8 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <WdioStatusBar barStyle="light-content"/>
-        <Navigation/>
+        <WdioStatusBar barStyle="light-content" />
+        <Navigation />
       </View>
     );
   }
