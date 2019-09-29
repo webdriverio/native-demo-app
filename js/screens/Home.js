@@ -1,57 +1,36 @@
-import React, { Component } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { STATUS_BAR_HEIGHT } from '../components/StatusBar';
-import { testProperties } from '../config/TestProperties';
+import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
+import {testProperties} from '../config/TestProperties';
 
 class HomeScreen extends Component {
   render() {
     return (
-      <ScrollView
-        style={styles.container}
-        {...testProperties('Home-screen')}
-      >
+      <ScrollView style={styles.container} {...testProperties('Home-screen')}>
         <View style={styles.contentContainer}>
           <Image
             style={styles.logo}
             source={require('../assets/webdriverio.png')}
           />
-          <View style={styles.logoTextContainer}>
-            <Text style={styles.logoText}>WEBDRIVER</Text>
-            <View style={styles.logoSubTextContainer}>
-              <Text style={styles.logoSubText}>I/O</Text>
+          <View style={[styles.logoTextContainer, styles.regularFont]}>
+            <Text style={[styles.logoText, styles.regularFont]}>WEBDRIVER</Text>
+            <View style={[styles.logoSubTextContainer, styles.regularFont]}>
+              <Text style={[styles.logoSubText, styles.regularFont]}>I/O</Text>
             </View>
           </View>
-          <Text style={{
-            fontWeight: '100',
-          }}>
+          <Text style={styles.regularFont}>
             Demo app for the appium-boilerplate
           </Text>
         </View>
         <View style={styles.contentContainer}>
-          <View style={{
-            flex: 1
-          }}>
+          <View>
             <View style={styles.platformIconContainer}>
-              <Icon
-                name={'apple'}
-                size={90}
-                style={styles.orangeColor}
-              />
-              <Icon
-                name={'android'}
-                size={90}
-                style={styles.orangeColor}
-              />
+              <Icon name={'apple'} size={90} style={styles.orangeColor} />
+              <Icon name={'android'} size={90} style={styles.orangeColor} />
             </View>
-            <Text style={{
-              fontSize: 18,
-              fontWeight: '100',
-              textAlign: 'center'
-            }}>
-              Support
-            </Text>
           </View>
+          <Text style={styles.regularFont}>Support</Text>
         </View>
       </ScrollView>
     );
@@ -81,13 +60,15 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 30,
   },
+  regularFont: {
+    fontWeight: '100',
+  },
   logoText: {
     color: '#000',
     textTransform: 'uppercase',
     backgroundColor: 'transparent',
     textAlign: 'center',
     fontSize: 40,
-    fontWeight: '100',
   },
   logoSubTextContainer: {
     justifyContent: 'center',
@@ -95,12 +76,10 @@ const styles = StyleSheet.create({
   logoSubText: {
     color: '#fff',
     fontSize: 28,
-    fontWeight: '100',
     backgroundColor: '#ea5906',
     borderColor: '#ea5906',
     borderWidth: 1,
     borderRadius: 10,
-    color: '#fff',
     left: 10,
     paddingLeft: 5,
     paddingRight: 5,
@@ -114,7 +93,7 @@ const styles = StyleSheet.create({
   },
   orangeColor: {
     color: '#ea5906',
-  }
+  },
 });
 
 export default HomeScreen;

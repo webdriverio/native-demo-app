@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { createBottomTabNavigator } from 'react-navigation';
+import React, {Component} from 'react';
+import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Home from './screens/Home';
 import WebView from './screens/WebView';
@@ -7,29 +8,25 @@ import Forms from './screens/Forms';
 import Login from './screens/Login';
 import Swipe from './screens/Swipe';
 
-const Router = createBottomTabNavigator({
+const TabNavigator = createBottomTabNavigator(
+  {
     Home: {
-      screen: Home, navigationOptions: {
+      screen: Home,
+      navigationOptions: {
         tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            name={'home-outline'}
-            size={26}
-            style={{ color: tintColor }}
-          />
+        tabBarAccessibilityLabel: 'Home',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name={'home-outline'} size={26} style={{color: tintColor}} />
         ),
-      }
+      },
     },
     WebView: {
       screen: WebView,
       navigationOptions: {
         tabBarLabel: 'WebView',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            name={'web'}
-            size={26}
-            style={{ color: tintColor }}
-          />
+        tabBarAccessibilityLabel: 'WebView',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name={'web'} size={26} style={{color: tintColor}} />
         ),
       },
     },
@@ -37,40 +34,35 @@ const Router = createBottomTabNavigator({
       screen: Login,
       navigationOptions: {
         tabBarLabel: 'Login',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            name={'login'}
-            size={26}
-            style={{ color: tintColor }}
-          />
+        tabBarAccessibilityLabel: 'Login',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name={'login'} size={26} style={{color: tintColor}} />
         ),
-      }
+      },
     },
     Forms: {
       screen: Forms,
       navigationOptions: {
         tabBarLabel: 'Forms',
-        tabBarIcon: ({ tintColor }) => (
-          <Icon
-            name={'pencil'}
-            size={26}
-            style={{ color: tintColor }}
-          />
+        tabBarAccessibilityLabel: 'Forms',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name={'pencil'} size={26} style={{color: tintColor}} />
         ),
-      }
+      },
     },
     Swipe: {
       screen: Swipe,
       navigationOptions: {
         tabBarLabel: 'Swipe',
-        tabBarIcon: ({ tintColor }) => (
+        tabBarAccessibilityLabel: 'Swipe',
+        tabBarIcon: ({tintColor}) => (
           <Icon
             name={'arrow-split-vertical'}
             size={26}
-            style={{ color: tintColor }}
+            style={{color: tintColor}}
           />
         ),
-      }
+      },
     },
   },
   {
@@ -90,16 +82,16 @@ const Router = createBottomTabNavigator({
         height: 60,
       },
       tabStyle: {
-        width: 100
-      }
-    }
-  });
+        width: 100,
+      },
+    },
+  },
+);
+const Router = createAppContainer(TabNavigator);
 
 class NavigationContainer extends Component {
   render() {
-    return (
-      <Router/>
-    );
+    return <Router />;
   }
 }
 

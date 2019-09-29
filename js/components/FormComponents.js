@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Alert, CheckBox, StyleSheet, Switch, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {Alert, StyleSheet, Switch, Text, View} from 'react-native';
 import SelectInput from '@tele2/react-native-select-input/src/SelectInput';
-import { Input } from 'react-native-elements';
-import { WINDOW_WIDTH } from '../config/Constants';
-import { testProperties } from '../config/TestProperties';
+import {Input} from 'react-native-elements';
+import {WINDOW_WIDTH} from '../config/Constants';
+import {testProperties} from '../config/TestProperties';
 import Button from './Button';
 import TitleDivider from './TitleDivider';
 
@@ -11,10 +11,12 @@ const options = [
   {
     value: '1',
     label: 'webdriver.io is awesome',
-  }, {
+  },
+  {
     value: '2',
     label: 'Appium is awesome',
-  }, {
+  },
+  {
     value: '3',
     label: 'This app is awesome',
   },
@@ -34,31 +36,27 @@ class FormComponents extends Component {
     Alert.alert(
       'This button is',
       'This button is active',
-      [
-        { text: 'Ask me later' },
-        { text: 'Cancel' },
-        { text: 'OK' },
-      ],
-      { cancelable: false }
+      [{text: 'Ask me later'}, {text: 'Cancel'}, {text: 'OK'}],
+      {cancelable: false},
     );
   }
 
   render() {
-    const { isSwitchActive } = this.state;
+    const {isSwitchActive} = this.state;
 
     return (
       <View style={styles.container}>
-        <TitleDivider text='Form components'/>
+        <TitleDivider text="Form components" />
         <View style={styles.formComponentsContainer}>
           <View>
             <Input
-              keyboardAppearance='light'
+              keyboardAppearance="light"
               autoFocus={false}
-              autoCapitalize='none'
+              autoCapitalize="none"
               autoCorrect={false}
               placeholder={'Type something'}
-              onChangeText={inputText => this.setState({ inputText })}
-              label='Input field'
+              onChangeText={inputText => this.setState({inputText})}
+              label="Input field"
               labelStyle={styles.inputLabelStyle}
               containerStyle={styles.inputContainerStyle}
               inputContainerStyle={styles.inputInnerContainerStyle}
@@ -70,14 +68,17 @@ class FormComponents extends Component {
             <Text style={styles.inputTextLabel}>You have typed:</Text>
             <Text
               style={styles.inputText}
-              {...testProperties('input-text-result')}
-            >{this.state.inputText}</Text>
+              {...testProperties('input-text-result')}>
+              {this.state.inputText}
+            </Text>
           </View>
           <Text style={styles.labelText}>Switch</Text>
           <View style={styles.switchContainer}>
             <Switch
               value={this.state.isSwitchActive}
-              onValueChange={() => this.setState({ isSwitchActive: !isSwitchActive })}
+              onValueChange={() =>
+                this.setState({isSwitchActive: !isSwitchActive})
+              }
               style={styles.switch}
               tintColor={'#FF5C06'}
               onTintColor={'#FF5C06'}
@@ -85,31 +86,33 @@ class FormComponents extends Component {
               {...testProperties('switch')}
             />
             <Text {...testProperties('switch-text')}>
-              {`Click to turn the switch ${this.state.isSwitchActive ? 'OFF' : 'ON'}`}
+              {`Click to turn the switch ${
+                this.state.isSwitchActive ? 'OFF' : 'ON'
+              }`}
             </Text>
           </View>
           <SelectInput
-            label='Dropdown'
-            placeholder='Select a value here'
+            label="Dropdown"
+            placeholder="Select a value here"
             options={options}
             containerStyle={styles.selectInput}
             labelStyle={styles.selectInputLabel}
             innerContainerStyle={styles.selectInputInnerContainer}
-            testProperty='Dropdown'
+            testProperty="Dropdown"
           />
           <View>
             <Text style={styles.labelText}>Buttons</Text>
             <View style={styles.buttonContainer}>
               <Button
                 containerStyle={styles.button}
-                text='Active'
+                text="Active"
                 onPress={this.showAlert}
                 textStyle={styles.buttonText}
                 disabled={false}
               />
               <Button
-                containerStyle={[styles.button, { marginLeft: 10 }]}
-                text='Inactive'
+                containerStyle={[styles.button, styles.buttonLeft]}
+                text="Inactive"
                 textStyle={styles.buttonText}
                 disabled={true}
               />
@@ -150,12 +153,14 @@ const styles = StyleSheet.create({
   },
   inputContainerStyle: {
     padding: 10,
-    width: WINDOW_WIDTH - 40
+    width: WINDOW_WIDTH - 40,
   },
   inputInnerContainerStyle: {
     borderColor: '#ea5906',
   },
   inputStyle: {
+    paddingLeft: 10,
+    paddingRight: 10,
     fontSize: 14,
     color: '#545454',
   },
@@ -170,7 +175,7 @@ const styles = StyleSheet.create({
     height: 35,
     borderWidth: 1,
     borderColor: '#e3e3e3',
-    margin: 20
+    margin: 20,
   },
   switchContainer: {
     flex: 1,
@@ -212,6 +217,9 @@ const styles = StyleSheet.create({
     borderColor: '#ea5906',
     borderWidth: 5,
     marginTop: 20,
+  },
+  buttonLeft: {
+    marginLeft: 10,
   },
   buttonText: {
     fontSize: 16,

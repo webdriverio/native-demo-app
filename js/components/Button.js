@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ViewPropTypes
+  ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { testProperties } from '../config/TestProperties';
+import {testProperties} from '../config/TestProperties';
 
 class Button extends Component {
   static propTypes = {
@@ -34,9 +34,11 @@ class Button extends Component {
   };
 
   onButtonPress = () => {
-    const { disabled, onDisabledPress, onPress, loading } = this.props;
+    const {disabled, onDisabledPress, onPress, loading} = this.props;
 
-    if (loading) return;
+    if (loading) {
+      return;
+    }
 
     if (disabled) {
       return onDisabledPress();
@@ -46,7 +48,7 @@ class Button extends Component {
   };
 
   get textStyle() {
-    const { icon, loading, textStyle, disabled } = this.props;
+    const {icon, loading, textStyle, disabled} = this.props;
     const style = [styles.text];
 
     if (icon || loading) {
@@ -63,7 +65,7 @@ class Button extends Component {
   }
 
   renderText = () => {
-    const { text } = this.props;
+    const {text} = this.props;
 
     if (this.props.loading) {
       return null;
@@ -78,7 +80,7 @@ class Button extends Component {
 
   renderIcon = () => {
     if (this.props.loading) {
-      return <ActivityIndicator size="small"/>;
+      return <ActivityIndicator size="small" />;
     }
 
     return this.props.icon;
@@ -98,9 +100,12 @@ class Button extends Component {
         style={[styles.container, containerStyle]}
         onPress={this.onButtonPress}
         activeOpacity={disabled ? 1 : undefined}
-        {...testProperties(`button-${testID || text}`, true)}
-      >
-        <View style={[styles.content, disabled ? styles.disabledContent : { backgroundColor }]}>
+        {...testProperties(`button-${testID || text}`, true)}>
+        <View
+          style={[
+            styles.content,
+            disabled ? styles.disabledContent : {backgroundColor},
+          ]}>
           {this.renderIcon()}
           {this.renderText()}
         </View>

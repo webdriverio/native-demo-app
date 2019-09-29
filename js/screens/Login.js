@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import React, {Component} from 'react';
+import {ScrollView, StyleSheet} from 'react-native';
 import LoginForm from '../components/LoginForm';
-import { STATUS_BAR_HEIGHT } from '../components/StatusBar';
-import { testProperties } from '../config/TestProperties';
+import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
+import {testProperties} from '../config/TestProperties';
 
 class LoginScreen extends Component {
-
   render() {
     return (
       <ScrollView
         style={styles.container}
         {...testProperties('Login-screen')}
-        keyboardShouldPersistTaps="handled"
-      >
-        <LoginForm/>
+        keyboardShouldPersistTaps="handled">
+        <LoginForm />
       </ScrollView>
     );
   }

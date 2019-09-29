@@ -1,19 +1,16 @@
-import React, { PureComponent } from 'react';
-import { Text, StyleSheet, Platform } from 'react-native';
+import React, {PureComponent} from 'react';
+import {Text, StyleSheet, Platform} from 'react-native';
 import PropTypes from 'prop-types';
 
 class BorderText extends PureComponent {
-
   static propTypes = {
     text: PropTypes.string.isRequired,
   };
 
   render() {
-    const { text } = this.props;
+    const {text} = this.props;
     return (
-      <Text
-        style={[styles.headerBorder, styles.header]}
-      >
+      <Text style={[styles.headerBorder, styles.header]}>
         {text.toUpperCase()}
       </Text>
     );
@@ -36,7 +33,7 @@ const styles = StyleSheet.create({
     paddingLeft: 13,
     paddingRight: 13,
     paddingTop: 9,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   header: {
     color: '#ea5906',

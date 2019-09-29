@@ -7,16 +7,16 @@
  *
  * @return {object}
  */
-import { IS_IOS } from './Constants';
+import {IS_IOS} from './Constants';
 
 function testProperties(id, disableAccessible = false) {
-  const disableAccessibility = disableAccessible ? { accessible: false } : {};
+  const disableAccessibility = disableAccessible ? {accessible: false} : {};
 
   if (IS_IOS) {
-    return { ...disableAccessibility, testID: id };
+    return {...disableAccessibility, testID: id};
   }
 
-  return { ...disableAccessibility, accessibilityLabel: id };
+  return {...disableAccessibility, accessibilityLabel: id};
 }
 
-export { testProperties };
+export {testProperties};

@@ -4,14 +4,14 @@
  *
  * Credits to the Archriss who build the react-native-snap-carousel!
  */
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { STATUS_BAR_HEIGHT } from '../components/StatusBar';
+import React, {Component} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 import TitleDivider from '../components/TitleDivider';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import SliderEntry, { SLIDE_WIDTH } from '../components/SliderEntry';
-import { WINDOW_WIDTH } from '../config/Constants';
-import { testProperties } from '../config/TestProperties';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+import SliderEntry, {SLIDE_WIDTH} from '../components/SliderEntry';
+import {WINDOW_WIDTH} from '../config/Constants';
+import {testProperties} from '../config/TestProperties';
 
 const ENTRIES1 = [
   {
@@ -28,25 +28,29 @@ const ENTRIES1 = [
   },
   {
     title: 'JS.Foundation',
-    subtitle: 'The JS Foundation is host to projects that span the entire JavaScript ecosystem.',
+    subtitle:
+      'The JS Foundation is host to projects that span the entire JavaScript ecosystem.',
     icon: 'language-javascript',
     link: 'https://js.foundation/community/projects',
   },
   {
     title: 'Support Videos',
-    subtitle: 'The community around WebdriverIO is actively speaking on various user groups or conferences about specific topics around automated testing with WebdriverIO.',
+    subtitle:
+      'The community around WebdriverIO is actively speaking on various user groups or conferences about specific topics around automated testing with WebdriverIO.',
     icon: 'youtube',
     link: 'https://www.youtube.com/user/medigerati/videos',
   },
   {
     title: 'Extendable',
-    subtitle: 'Adding helper functions, or more complicated sets and combinations of existing commands is simple and really useful',
+    subtitle:
+      'Adding helper functions, or more complicated sets and combinations of existing commands is simple and really useful',
     icon: 'engine-outline',
     link: 'http://webdriver.io/guide/services/sauce.html',
   },
   {
     title: 'Compatible',
-    subtitle: 'WebdriverIO works in combination with most of the TDD and BDD test frameworks in the JavaScript world',
+    subtitle:
+      'WebdriverIO works in combination with most of the TDD and BDD test frameworks in the JavaScript world',
     icon: 'arrow-decision-outline',
     link: 'http://webdriver.io/guide/testrunner/frameworks.html',
   },
@@ -56,30 +60,23 @@ class SwipeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      slider1ActiveSlide: 0
+      slider1ActiveSlide: 0,
     };
   }
 
-  renderItem({ item }) {
-    return (
-      <SliderEntry
-        data={item}
-      />
-    );
+  renderItem({item}) {
+    return <SliderEntry data={item} />;
   }
 
   render() {
-    const { slider1ActiveSlide } = this.state;
+    const {slider1ActiveSlide} = this.state;
 
     return (
-      <View
-        style={styles.container}
-        {...testProperties('Swipe-screen')}
-      >
-        <TitleDivider text='Swipe horizontal'/>
+      <View style={styles.container} {...testProperties('Swipe-screen')}>
+        <TitleDivider text="Swipe horizontal" />
         <View {...testProperties('Carousel')}>
           <Carousel
-            ref={c => this._slider1Ref = c}
+            ref={c => (this._slider1Ref = c)}
             data={ENTRIES1}
             renderItem={this.renderItem}
             sliderWidth={WINDOW_WIDTH}
@@ -88,7 +85,7 @@ class SwipeScreen extends Component {
             inactiveSlideOpacity={0.7}
             containerCustomStyle={styles.sliderContainer}
             contentContainerCustomStyle={styles.sliderContentContainer}
-            onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index })}
+            onSnapToItem={index => this.setState({slider1ActiveSlide: index})}
           />
           <Pagination
             dotsLength={ENTRIES1.length}
@@ -104,7 +101,7 @@ class SwipeScreen extends Component {
           />
         </View>
       </View>
-    )
+    );
   }
 }
 
@@ -116,20 +113,20 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   sliderContainer: {
-    overflow: 'visible' // for custom animations
+    overflow: 'visible', // for custom animations
   },
   sliderContentContainer: {
-    paddingVertical: 10 // for custom animation
+    paddingVertical: 10, // for custom animation
   },
   paginationContainer: {
-    paddingVertical: 8
+    paddingVertical: 8,
   },
   paginationDot: {
     width: 10,
     height: 10,
     borderRadius: 4,
-    marginHorizontal: 8
-  }
+    marginHorizontal: 8,
+  },
 });
 
 export default SwipeScreen;

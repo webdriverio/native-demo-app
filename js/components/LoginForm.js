@@ -4,7 +4,7 @@
  *
  * Credits to the React Native Elements team!
  */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,20 +13,21 @@ import {
   KeyboardAvoidingView,
   Alert,
 } from 'react-native';
-import { Input } from 'react-native-elements'
+import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { WINDOW_WIDTH } from '../config/Constants';
-import { testProperties } from '../config/TestProperties';
+import {WINDOW_WIDTH} from '../config/Constants';
+import {testProperties} from '../config/TestProperties';
 import Button from './Button';
 import TitleDivider from './TitleDivider';
 
 // Enable LayoutAnimation on Android
-UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
-const TabSelector = ({ selected }) => {
+const TabSelector = ({selected}) => {
   return (
     <View style={styles.selectorContainer}>
-      <View style={selected && styles.selected}/>
+      <View style={selected && styles.selected} />
     </View>
   );
 };
@@ -38,6 +39,7 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
+      passwordConfirmation: '',
       selectedCategory: 0,
       isLoading: false,
       isEmailValid: true,
@@ -65,8 +67,8 @@ class LoginForm extends Component {
   }
 
   login() {
-    const { email, password, } = this.state;
-    this.setState({ isLoading: true });
+    const {email, password} = this.state;
+    this.setState({isLoading: true});
     // Simulate an API call
     setTimeout(() => {
       LayoutAnimation.easeInEaseOut();
@@ -76,19 +78,16 @@ class LoginForm extends Component {
         isPasswordValid: password.length >= 8 || this.passwordInput.shake(),
       });
       if (this.state.isEmailValid && this.state.isPasswordValid) {
-        Alert.alert(
-          'Success',
-          'You are logged in!',
-          [{ text: 'OK' }],
-          { cancelable: false }
-        );
+        Alert.alert('Success', 'You are logged in!', [{text: 'OK'}], {
+          cancelable: false,
+        });
       }
     }, 1500);
   }
 
   signUp() {
-    const { email, password, passwordConfirmation, } = this.state;
-    this.setState({ isLoading: true });
+    const {email, password, passwordConfirmation} = this.state;
+    this.setState({isLoading: true});
     // Simulate an API call
     setTimeout(() => {
       LayoutAnimation.easeInEaseOut();
@@ -96,21 +95,26 @@ class LoginForm extends Component {
         isLoading: false,
         isEmailValid: this.validateEmail(email) || this.emailInput.shake(),
         isPasswordValid: password.length >= 8 || this.passwordInput.shake(),
-        isConfirmationValid: password == passwordConfirmation || this.confirmationInput.shake(),
+        isConfirmationValid:
+          password === passwordConfirmation || this.confirmationInput.shake(),
       });
-      if (!this.state.isEmailValid || !this.state.isPasswordValid || !this.state.isConfirmationValid) {
+      if (
+        !this.state.isEmailValid ||
+        !this.state.isPasswordValid ||
+        !this.state.isConfirmationValid
+      ) {
         Alert.alert(
           'Failure',
           'Some fields are not valid!',
-          [{ text: 'Try again' }],
-          { cancelable: false }
+          [{text: 'Try again'}],
+          {cancelable: false},
         );
       } else {
         Alert.alert(
           'Signed Up!',
           'You successfully signed up!',
-          [{ text: 'OK' }],
-          { cancelable: false }
+          [{text: 'OK'}],
+          {cancelable: false},
         );
       }
     }, 1500);
@@ -132,108 +136,108 @@ class LoginForm extends Component {
 
     return (
       <View style={styles.contentContainer}>
-        <KeyboardAvoidingView contentContainerStyle={styles.loginContainer} behavior='position'>
-          <TitleDivider text='Login / Sign up Form'/>
+        <KeyboardAvoidingView
+          contentContainerStyle={styles.loginContainer}
+          behavior="position">
+          <TitleDivider text="Login / Sign up Form" />
           <View style={styles.categoryContainer}>
             <Button
               onPress={() => this.selectCategory(0)}
-              containerStyle={{ flex: 1 }}
-              textStyle={[styles.categoryText, isLoginPage && styles.selectedCategoryText]}
+              textStyle={[
+                styles.categoryText,
+                isLoginPage && styles.selectedCategoryText,
+              ]}
               text={'Login'}
               testID={'login-container'}
             />
             <Button
               onPress={() => this.selectCategory(1)}
-              containerStyle={{ flex: 1 }}
-              textStyle={[styles.categoryText, isSignUpPage && styles.selectedCategoryText]}
+              textStyle={[
+                styles.categoryText,
+                isSignUpPage && styles.selectedCategoryText,
+              ]}
               text={'Sign up'}
               testID={'sign-up-container'}
             />
           </View>
           <View style={styles.rowSelector}>
-            <TabSelector selected={isLoginPage}/>
-            <TabSelector selected={isSignUpPage}/>
+            <TabSelector selected={isLoginPage} />
+            <TabSelector selected={isSignUpPage} />
           </View>
           <View style={styles.formContainer}>
             <Input
-              leftIcon={
-                <Icon
-                  name='email-outline'
-                  color='#ea5906'
-                  size={25}
-                  style={{ backgroundColor: 'transparent' }}
-                />
-              }
+              leftIcon={<Icon name="email-outline" style={styles.iconStyle} />}
               value={email}
-              keyboardAppearance='light'
+              keyboardAppearance="light"
               autoFocus={false}
-              autoCapitalize='none'
+              autoCapitalize="none"
               autoCorrect={false}
-              keyboardType='email-address'
-              returnKeyType='next'
-              inputStyle={{ marginLeft: 10 }}
+              keyboardType="email-address"
+              returnKeyType="next"
+              inputStyle={styles.inputStyle}
               placeholder={'Email'}
-              inputContainerStyle={{ borderBottomColor: '#ea5906' }}
-              ref={input => this.emailInput = input}
+              inputContainerStyle={styles.inputContainerStyle}
+              ref={input => (this.emailInput = input)}
               onSubmitEditing={() => this.passwordInput.focus()}
-              onChangeText={email => this.setState({ email })}
-              errorMessage={isEmailValid ? null : 'Please enter a valid email address'}
+              onChangeText={emailText => this.setState({email: emailText})}
+              errorMessage={
+                isEmailValid ? null : 'Please enter a valid email address'
+              }
               {...testProperties('input-email')}
             />
             <Input
-              leftIcon={
-                <Icon
-                  name='lock-outline'
-                  color='#ea5906'
-                  size={25}
-                  style={{ backgroundColor: 'transparent' }}
-                />
-              }
+              leftIcon={<Icon name="lock-outline" style={styles.iconStyle} />}
               value={password}
-              keyboardAppearance='light'
-              autoCapitalize='none'
+              keyboardAppearance="light"
+              autoCapitalize="none"
               autoCorrect={false}
               secureTextEntry={true}
               returnKeyType={isSignUpPage ? 'next' : 'done'}
               blurOnSubmit={true}
-              containerStyle={{ marginTop: 16 }}
-              inputContainerStyle={{ borderBottomColor: '#ea5906' }}
-              inputStyle={{ marginLeft: 10 }}
+              containerStyle={styles.containerStyle}
+              inputContainerStyle={styles.inputContainerStyle}
+              inputStyle={styles.inputStyle}
               placeholder={'Password'}
-              ref={input => this.passwordInput = input}
-              onSubmitEditing={() => isSignUpPage ? this.confirmationInput.focus() : this.login()}
-              onChangeText={(password) => this.setState({ password })}
-              errorMessage={isPasswordValid ? null : 'Please enter at least 8 characters'}
+              ref={input => (this.passwordInput = input)}
+              onSubmitEditing={() =>
+                isSignUpPage ? this.confirmationInput.focus() : this.login()
+              }
+              onChangeText={passwordText =>
+                this.setState({password: passwordText})
+              }
+              errorMessage={
+                isPasswordValid ? null : 'Please enter at least 8 characters'
+              }
               {...testProperties('input-password')}
             />
-            {isSignUpPage &&
-            <Input
-              leftIcon={
-                <Icon
-                  name='lock-outline'
-                  color='#ea5906'
-                  size={25}
-                  style={{ backgroundColor: 'transparent' }}
-                />
-              }
-              value={passwordConfirmation}
-              secureTextEntry={true}
-              keyboardAppearance='light'
-              autoCapitalize='none'
-              autoCorrect={false}
-              keyboardType='default'
-              returnKeyType={'done'}
-              blurOnSubmit={true}
-              containerStyle={{ marginTop: 16 }}
-              inputContainerStyle={{ borderBottomColor: '#ea5906' }}
-              inputStyle={{ marginLeft: 10 }}
-              placeholder={'Confirm password'}
-              ref={input => this.confirmationInput = input}
-              onSubmitEditing={this.signUp}
-              onChangeText={passwordConfirmation => this.setState({ passwordConfirmation })}
-              errorMessage={isConfirmationValid ? null : 'Please enter the same password'}
-              {...testProperties('input-repeat-password')}
-            />}
+            {isSignUpPage && (
+              <Input
+                leftIcon={<Icon name="lock-outline" style={styles.iconStyle} />}
+                value={passwordConfirmation}
+                secureTextEntry={true}
+                keyboardAppearance="light"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="default"
+                returnKeyType={'done'}
+                blurOnSubmit={true}
+                containerStyle={styles.containerStyle}
+                inputContainerStyle={styles.inputContainerStyle}
+                inputStyle={styles.inputStyle}
+                placeholder={'Confirm password'}
+                ref={input => (this.confirmationInput = input)}
+                onSubmitEditing={this.signUp}
+                onChangeText={passwordConfirmationText =>
+                  this.setState({
+                    passwordConfirmation: passwordConfirmationText,
+                  })
+                }
+                errorMessage={
+                  isConfirmationValid ? null : 'Please enter the same password'
+                }
+                {...testProperties('input-repeat-password')}
+              />
+            )}
             <Button
               containerStyle={styles.button}
               onPress={isLoginPage ? this.login : this.signUp}
@@ -265,7 +269,7 @@ const styles = StyleSheet.create({
     fontWeight: '100',
   },
   categoryContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   categoryText: {
     textAlign: 'center',
@@ -326,7 +330,21 @@ const styles = StyleSheet.create({
     borderColor: '#ea5906',
     borderWidth: 5,
     marginTop: 32,
-    flex: 0
+    flex: 0,
+  },
+  iconStyle: {
+    fontSize: 25,
+    color: '#ea5906',
+    backgroundColor: 'transparent',
+  },
+  containerStyle: {
+    marginTop: 16,
+  },
+  inputContainerStyle: {
+    borderBottomColor: '#ea5906',
+  },
+  inputStyle: {
+    marginLeft: 10,
   },
 });
 

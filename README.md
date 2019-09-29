@@ -1,6 +1,20 @@
 # WebdriverIO Demo App for iOS and Android
 
-This app is build with React Native and will be used for test automation purposes for the [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate) (_Will follow asap_)
+This app is build with React Native and will be used for test automation purposes for the [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate).
+
+> **NOTE<br>**
+> Make sure to use yarn instead of NPM. NPM gives a lot of problems currently with React Native[^1]. How to setup yarn can be found [here](https://yarnpkg.com/lang/en/docs/install/#mac-stable)
+
+[^1] NPM gives a lot of problems currently with React Native, only from what I've seen with the migration.
+     
+     - React Natve 0.60.x now uses Pods for linking dependencies, from what I've seen with NPM is that is messes up this linking 9 out of 10 times
+     - Installing other dependencies are mostly recommended to install with yarn (not only for React Native but also with ReactJS)
+     - It costed me around a day to get everything working with NPM, but with yarn I didn't had any problems migrating to RN 0.60
+     - yarn is faster
+     - and I can go on
+     
+     This is also the reason that the `package-lock.json` has been removed.
+     
 
 ![webdriverio-demo-app-ios.ios](./docs/assets/webdriver.io.demo.gif)
 
@@ -27,7 +41,7 @@ The app holds the following screens:
 - **Swipe:** This screen will hold a carousel so swiping can be tested
 
 ## Contributing
-If you'd like to contribute feel free to create a PR, please also look at the [contributing](./docs/CONTRIBUTING.md)-docs.
+If you'd like to contribute feel free to create a PR, please also look at the [building](./docs/BUILDING.md) and [versioning](./docs/VERSIONING.md)-docs.
 
 ## Credits
 - [Lucas Bento](https://github.com/lucasbento) for helping me out with some React Native questions
