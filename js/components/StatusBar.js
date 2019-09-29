@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {View, StyleSheet, StatusBar} from 'react-native';
 import PropTypes from 'prop-types';
-import {IS_IPHONEX, IS_IOS} from '../config/Constants';
+import {HAS_IOS_NOTCH, IS_IOS} from '../config/Constants';
 
 const STATUS_BAR_HEIGHT = IS_IOS
-  ? IS_IPHONEX
+  ? HAS_IOS_NOTCH
     ? 44
     : 20
   : StatusBar.currentHeight || 0;
