@@ -9,5 +9,7 @@ export const HAS_IOS_NOTCH =
   !Platform.isPad &&
   !Platform.isTVOS &&
   // Check if it's an iPhone X(S|R) Max || 11(Pro) max in portrait or landscape mode
-  ((WINDOW_WIDTH === 812 || WINDOW_HEIGHT === 812) || (WINDOW_WIDTH === 896 || WINDOW_HEIGHT === 896));
+  (WINDOW_WIDTH === 812 ||
+    WINDOW_HEIGHT === 812 ||
+    (WINDOW_WIDTH === 896 || WINDOW_HEIGHT === 896));
 export const PIXEL_RATIO = PixelRatio.get();
