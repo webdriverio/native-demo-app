@@ -34,7 +34,9 @@ class SliderEntry extends Component {
         <View style={styles.slideIconContainer}>
           <Icon name={icon} size={150} style={styles.slideIcon} />
         </View>
-        <View style={styles.slideTextContainer} {...testProperties('slideTextContainer', true)}>
+        <View
+          style={styles.slideTextContainer}
+          {...testProperties('slideTextContainer', true)}>
           <Text style={styles.slideTitle} numberOfLines={2}>
             {title.toUpperCase()}
           </Text>
