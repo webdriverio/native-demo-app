@@ -19,7 +19,7 @@
     "i18n-js": "^3.3.0",
     "react": "16.8.6",
     "react-native": "0.60.5",
-    "react-native-elements": "^1.2.0",
+    "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-localize": "^1.2.0",
     "react-native-reanimated": "^1.2.0",
