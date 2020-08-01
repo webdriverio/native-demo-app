@@ -1021,10 +1021,10 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.2.tgz#0e58ae66773d7fd7c372a493aff740878ec9ceaa"
   integrity sha512-f8JzJNWVhKtc9dg/dyDNfliTKNOJSLa7Oht/ElZdF/UbMUmAH3rLmAk3ODNjw0mZajDEgatA03tRjB4+Dp/tzA==
 
-"@types/react-native-vector-icons@^6.4.1":
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.2.tgz#e50eb062ebac4a293b1efe0343b5748f8ff82b51"
-  integrity sha512-UljqnOw2gqbiT6sBWKQYjYWPfx5hgqmQOCSuus9IIF5ykPc15E66jLQ4pYgu3psc2Ik82G/ngpgo55cBa144Jg==
+"@types/react-native-vector-icons@^6.4.4":
+  version "6.4.5"
+  resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.5.tgz#74cbfc564bd8435e43ad6728572a0e5b49c335d1"
+  integrity sha512-JBpcjWQE4n0GlE0p6HpDDclT+uXpFC453T5k4h+B38q0utlGJhvgNr8899BoJGc1xOktA2cgqFKmFMJd0h7YaA==
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
@@ -5403,18 +5403,18 @@ react-native-clean-project@^3.2.4:
   resolved "https://registry.yarnpkg.com/react-native-clean-project/-/react-native-clean-project-3.2.4.tgz#55a71006eb4336dff91d0ca5ab3564d8f0db45cc"
   integrity sha512-VF5angZrFIxFILH4NxFsJk5QCjGdPam/Ti4ht2Wd25RbwAyDMPjVNLD2NYf3jZPUCbVtl3TR+uN9uAt1RBnb8g==
 
-react-native-elements@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.2.0.tgz#37f2562ca227d79dcb97ce0d869600f371041318"
-  integrity sha512-D6El6WXtKRGavHPgqJAk1UPMeDqxxfPDDjcuZ7S62uSg6CmyfXrPJLfQuSmJDC85Pm++oBq0Z5GRyymvvQObig==
+react-native-elements@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-2.0.0.tgz#eebe36c3250808ebd4a7e9dcf97a666fb7a20930"
+  integrity sha512-xViTU/JlabYX94fDL2iu17gvMtgEOq2lFAToYlU3RBkwb/J13cdwSr8Ti9z6v6Iui4f8S3FjkpRJnFaOsZrK7w==
   dependencies:
-    "@types/react-native-vector-icons" "^6.4.1"
+    "@types/react-native-vector-icons" "^6.4.4"
     color "^3.1.0"
     deepmerge "^3.1.0"
     hoist-non-react-statics "^3.1.0"
     opencollective-postinstall "^2.0.0"
     prop-types "^15.7.2"
-    react-native-ratings "^6.3.0"
+    react-native-ratings "^6.5.0"
     react-native-status-bar-height "^2.2.0"
 
 react-native-gesture-handler@^1.4.1:
@@ -5432,7 +5432,7 @@ react-native-localize@^1.2.0:
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-1.2.0.tgz#40bd5390a1b2ca7e200086901d937a47e4bb602b"
   integrity sha512-V/OhS3LFpx7lqqIIFTwEStlsQF4jod5DCpE1GVvpnIHnPwZ+R1w2q4NzEfkWX6t5h9cy7/XG9OWMRD6rCuv0ww==
 
-react-native-ratings@^6.3.0:
+react-native-ratings@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-6.5.0.tgz#a1606ccba3c5b54eec8e6cfa4765a45cf0e4ab8d"
   integrity sha512-YMcfQ7UQCmXGEc/WPlukHSHs5yvckTwjq5fTRk1FG8gaO7fZCNygEUGPuw4Dbvvp3IlsCUn0bOQd63RYsb7NDQ==
