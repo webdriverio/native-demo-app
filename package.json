@@ -1,54 +1,63 @@
 {
   "name": "wdio-native-demo-app",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
+    "android.clean": "cd android && ./gradlew clean && cd .. ",
+    "android.dev": "yarn android.clean && react-native run-android",
+    "android.release": "cd android && ./gradlew clean && ./gradlew assembleRelease",
+    "ios.dev": "yarn ios.pods && react-native run-ios",
+    "ios.pods": "cd ios && pod install && cd ..",
+    "ios.release.sim.build": "yarn ios.pods && react-native run-ios --configuration Release",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "start": "react-native start",
-    "lint": "eslint .",
-    "clean": "react-native-clean-project",
-    "prepush": "npm run lint",
-    "clear.cache": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro* && rm -rf $TMPDIR/haste-*",
-    "android.clear.build": "yarn clear.cache && rm -rf ./android/app/build",
-    "android.release": "yarn android.clear.build && cd android && ./gradlew assembleRelease",
-    "ios.clear.build": "yarn clear.cache && rm -rf ./ios/build/wdioDemoApp/Build/Products/Release-iphonesimulator",
-    "ios.sim.release": "yarn ios.clear.build && react-native run-ios --configuration Release",
-    "postinstall": "npx jetify"
+    "test": "jest"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.11",
+    "@react-navigation/bottom-tabs": "^5.11.10",
+    "@react-navigation/native": "^5.9.4",
     "@tele2/react-native-select-input": "^1.1.0",
-    "i18n-js": "^3.3.0",
-    "react": "16.8.6",
-    "react-native": "0.60.5",
-    "react-native-elements": "^1.2.0",
-    "react-native-gesture-handler": "^1.4.1",
-    "react-native-localize": "^1.2.0",
-    "react-native-reanimated": "^1.2.0",
-    "react-native-screens": "^2.0.0-alpha.3",
-    "react-native-snap-carousel": "^3.8.0",
-    "react-native-vector-icons": "^6.6.0",
-    "react-native-webview": "^7.0.5",
-    "react-navigation": "^4.0.5",
-    "react-navigation-tabs": "^2.5.2"
+    "react": "17.0.1",
+    "react-native": "0.64.0",
+    "react-native-elements": "^3.4.1",
+    "react-native-gesture-handler": "^1.10.3",
+    "react-native-reanimated": "^2.1.0",
+    "react-native-safe-area-context": "^3.2.0",
+    "react-native-screens": "^3.1.1",
+    "react-native-snap-carousel": "^3.9.1",
+    "react-native-splash-screen": "^3.2.0",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-webview": "^11.4.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.0",
-    "@babel/runtime": "^7.6.0",
-    "@react-native-community/eslint-config": "^0.0.5",
-    "babel-jest": "^24.9.0",
-    "eslint": "^6.4.0",
-    "husky": "^3.0.5",
-    "jest": "^24.9.0",
-    "jetifier": "^1.6.4",
-    "metro-react-native-babel-preset": "^0.56.0",
-    "react-native-clean-project": "^3.2.4",
-    "react-test-renderer": "16.8.6"
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/jest": "^26.0.20",
+    "@types/react-native": "^0.64.0",
+    "@types/react-native-snap-carousel": "^3.8.2",
+    "@types/react-native-vector-icons": "^6.4.6",
+    "@types/react-test-renderer": "^16.9.2",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.64.0",
+    "react-test-renderer": "17.0.1",
+    "typescript": "^3.8.3"
+  },
+  "resolutions": {
+    "@types/react": "^17"
   },
   "jest": {
-    "preset": "react-native"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "yarn lint"
-    }
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
