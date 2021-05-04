@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 // @ts-ignore
-import SelectInput from '@tele2/react-native-select-input/src/SelectInput';
+import {Picker} from '@react-native-picker/picker';
 import {Input} from 'react-native-elements';
 import {WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
@@ -35,6 +35,7 @@ const FormComponents = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [isSwitchActive, setIsSwitchActive] = useState(false);
   const [inputText, setInputText] = useState('');
+  const [pickerValue, setPickerValue] = useState('');
 
   const showAlert = () => {
     Alert.alert(
@@ -53,7 +54,12 @@ const FormComponents = () => {
       ]}>
       <TitleDivider text="Form components" />
       <View style={styles.formComponentsContainer}>
-        <View>
+        <View
+          style={[
+            styles.borderContainer,
+            styles.formGroup,
+            styles.inputContainer,
+          ]}>
           <Input
             keyboardAppearance="light"
             autoFocus={false}
@@ -61,7 +67,7 @@ const FormComponents = () => {
             autoCorrect={false}
             placeholder={'Type something'}
             onChangeText={text => setInputText(text)}
-            label="Input field"
+            label="Input field:"
             labelStyle={[
               styles.inputLabelStyle,
               {color: isDarkMode ? Colors.white : Colors.black},
@@ -92,14 +98,19 @@ const FormComponents = () => {
             {inputText}
           </Text>
         </View>
-        <Text
+        <View
           style={[
-            styles.labelText,
-            {color: isDarkMode ? Colors.white : Colors.black},
+            styles.borderContainer,
+            styles.formGroup,
+            styles.switchContainer,
           ]}>
-          Switch
-        </Text>
-        <View style={styles.switchContainer}>
+          <Text
+            style={[
+              styles.labelText,
+              {color: isDarkMode ? Colors.white : Colors.black},
+            ]}>
+            Switch:
+          </Text>
           <Switch
             value={isSwitchActive}
             onValueChange={() => setIsSwitchActive(!isSwitchActive)}
@@ -115,19 +126,25 @@ const FormComponents = () => {
             {`Click to turn the switch ${isSwitchActive ? 'OFF' : 'ON'}`}
           </Text>
         </View>
-        <SelectInput
-          label="Dropdown"
-          placeholder="Select a value here"
-          options={options}
-          containerStyle={styles.selectInput}
-          labelStyle={[
-            styles.selectInputLabel,
-            {color: isDarkMode ? Colors.white : Colors.black},
-          ]}
-          innerContainerStyle={styles.selectInputInnerContainer}
-          testProperty="Dropdown"
-        />
-        <View>
+        <View style={[styles.borderContainer, styles.formGroup]}>
+          <Text
+            style={[
+              styles.labelText,
+              {color: isDarkMode ? Colors.white : Colors.black},
+            ]}>
+            Dropdown:
+          </Text>
+          <Picker
+            selectedValue={pickerValue}
+            onValueChange={(itemValue: string) => setPickerValue(itemValue)}
+            style={[{color: isDarkMode ? Colors.white : Colors.black}]}
+            dropdownIconColor={isDarkMode ? Colors.white : Colors.black}>
+            {options.map(({label, value}) => (
+              <Picker.Item label={label} value={value} key={value} />
+            ))}
+          </Picker>
+        </View>
+        <View style={styles.formGroup}>
           <Text
             style={[
               styles.labelText,
@@ -170,32 +187,40 @@ const styles = StyleSheet.create({
     borderColor: Colors.orange,
     borderWidth: 5,
   },
+  formGroup: {
+    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    marginBottom: 10,
+  },
+  borderContainer: {
+    borderBottomColor: Colors.orange,
+    borderBottomWidth: 1,
+  },
+  inputContainer: {
+    marginHorizontal: 20,
+    paddingHorizontal: 0,
+  },
   labelText: {
     fontSize: 16,
-    marginLeft: 20,
-  },
-  input: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    fontWeight: 'bold',
   },
   inputLabelStyle: {
-    fontWeight: 'normal',
-    paddingLeft: 10,
+    fontWeight: 'bold',
   },
   inputContainerStyle: {
-    padding: 10,
-    width: WINDOW_WIDTH - 40,
+    width: WINDOW_WIDTH - 80,
   },
   inputInnerContainerStyle: {
     borderColor: Colors.orange,
   },
   inputStyle: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingHorizontal: 10,
     fontSize: 14,
   },
   inputTextLabel: {
-    paddingLeft: 20,
+    paddingLeft: 10,
+    fontStyle: 'italic',
   },
   inputText: {
     fontSize: 12,
@@ -204,39 +229,21 @@ const styles = StyleSheet.create({
     height: 35,
     borderWidth: 1,
     borderColor: Colors.lighter,
-    margin: 20,
+    marginHorizontal: 10,
+    marginVertical: 10,
   },
   switchContainer: {
     flex: 1,
-    paddingLeft: 10,
-    borderBottomColor: Colors.orange,
-    borderBottomWidth: 1,
-    marginLeft: 10,
-    marginRight: 10,
-    paddingBottom: 10,
     alignItems: 'flex-start',
+    paddingLeft: 10,
   },
   switch: {
     marginTop: 10,
     marginBottom: 10,
   },
-  selectInput: {
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  selectInputLabel: {
-    fontSize: 16,
-  },
-  selectInputInnerContainer: {
-    borderBottomColor: Colors.orange,
-    borderBottomWidth: 1,
-    paddingLeft: 10,
-  },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginLeft: 10,
-    marginRight: 10,
   },
   button: {
     borderRadius: 5,

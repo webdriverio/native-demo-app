@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.11",
+    "@react-native-picker/picker": "^1.15.0",
     "@react-navigation/bottom-tabs": "^5.11.10",
     "@react-navigation/native": "^5.9.4",
-    "@tele2/react-native-select-input": "^1.1.0",
     "react": "17.0.1",
     "react-native": "0.64.0",
     "react-native-biometrics": "^2.1.4",
