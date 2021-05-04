@@ -147,8 +147,8 @@ const LoginForm = () => {
       ? Alert.alert('Success', 'You are logged in!', [{text: 'OK'}], {
           cancelable: false,
         })
-      // Only let it fail/retry once
-      : retry < 1
+      : // Only let it fail/retry once
+      retry < 1
       ? await handleBiometryLogin(1)
       : undefined;
   };
