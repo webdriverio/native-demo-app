@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {Text} from 'react-native';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -12,8 +13,19 @@ import SwipeScreen from './screens/Swipe';
 import FormsScreen from './screens/Forms';
 import WdioStatusBar from './components/StatusBar';
 import Colors from './config/Colors';
-
 const Tab = createBottomTabNavigator();
+const linking = {
+  prefixes: ['wdio://'],
+  config: {
+    screens: {
+      Home: 'home',
+      Webview: 'webview',
+      Login: 'login',
+      Forms: 'forms',
+      Swipe: 'swipe',
+    },
+  },
+};
 const App = () => {
   useEffect(() => {
     SplashScreen.hide();
@@ -22,7 +34,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <WdioStatusBar />
-      <NavigationContainer>
+      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
         <Tab.Navigator
           tabBarOptions={{
             activeTintColor: Colors.orange,
