@@ -4,7 +4,7 @@
  *
  * Credits to the React Native Elements team!
  */
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -14,9 +14,11 @@ import {
   Alert,
   TextInput,
   useColorScheme,
+  Text,
 } from 'react-native';
 import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Biometrics, {BiometryType} from 'react-native-biometrics';
 import {WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
 import Button from './Button';
@@ -37,6 +39,20 @@ const LoginForm = () => {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isConfirmationValid, setIsConfirmationValid] = useState(true);
+  const [isBiometricAvailable, setIsBiometricAvailable] = useState(false);
+  const [biometricsType, setBiometricsType] = useState<
+    BiometryType | undefined
+  >(undefined);
+
+  // Check if the biometric sensor is available
+  useEffect(() => {
+    const isSensorAvailable = async () => {
+      const {available, biometryType} = await Biometrics.isSensorAvailable();
+      setIsBiometricAvailable(available);
+      setBiometricsType(biometryType);
+    };
+    isSensorAvailable().catch();
+  }, []);
 
   // Component
   const TabSelector: React.FC<{selected: boolean}> = ({selected}) => {
@@ -51,6 +67,8 @@ const LoginForm = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const isLoginPage = selectedCategory === 0;
   const isSignUpPage = selectedCategory === 1;
+  const biometricName =
+    biometricsType === Biometrics.FaceID ? 'face-recognition' : 'fingerprint';
 
   // Element Refs
   interface RNInput extends TextInput {
@@ -117,6 +135,22 @@ const LoginForm = () => {
         }
       }
     }, 1500);
+  };
+  const handleBiometryLogin = async (retry = 0): Promise<void> => {
+    // Using object destructuring here will automatically call the `handleBiometryLogin`
+    const loginResult = await Biometrics.simplePrompt({
+      promptMessage: 'Please log in',
+      cancelButtonText: 'Cancel',
+    });
+
+    return loginResult.success
+      ? Alert.alert('Success', 'You are logged in!', [{text: 'OK'}], {
+          cancelable: false,
+        })
+      // Only let it fail/retry once
+      : retry < 1
+      ? await handleBiometryLogin(1)
+      : undefined;
   };
 
   return (
@@ -242,14 +276,42 @@ const LoginForm = () => {
               {...testProperties('input-repeat-password')}
             />
           )}
-          <Button
-            containerStyle={styles.button}
-            onPress={validateForm}
-            text={isLoginPage ? 'LOGIN' : 'SIGN UP'}
-            textStyle={styles.buttonText}
-            loading={isLoading}
-            disabled={isLoading}
-          />
+          {isLoginPage && (
+            <Text
+              style={[
+                styles.biometricsText,
+                {color: isDarkMode ? Colors.white : Colors.black},
+              ]}>
+              When the device has Touch/FaceID (iOS) or FingerPrint enabled a
+              biometrics button will be shown to use and test the login.
+            </Text>
+          )}
+          <View style={styles.buttonRow}>
+            {isBiometricAvailable && isLoginPage && (
+              <Button
+                containerStyle={[styles.button, styles.biometricButton]}
+                onPress={handleBiometryLogin}
+                childComponent={
+                  <Icon name={biometricName} style={styles.biometricIcon} />
+                }
+                textStyle={styles.buttonText}
+                loading={isLoading}
+                disabled={isLoading}
+                testID="biometric"
+              />
+            )}
+            <Button
+              containerStyle={[
+                styles.button,
+                isBiometricAvailable && isLoginPage ? styles.buttonSmaller : {},
+              ]}
+              onPress={validateForm}
+              text={isLoginPage ? 'LOGIN' : 'SIGN UP'}
+              textStyle={styles.buttonText}
+              loading={isLoading}
+              disabled={isLoading}
+            />
+          </View>
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -311,6 +373,21 @@ const styles = StyleSheet.create({
     borderColor: Colors.orange,
     borderWidth: 5,
   },
+  buttonRow: {
+    flexDirection: 'row',
+  },
+  biometricButton: {
+    width: 65,
+    marginRight: 15,
+  },
+  biometricIcon: {
+    color: Colors.white,
+    fontSize: 26,
+  },
+  biometricsText: {
+    paddingHorizontal: 10,
+    fontStyle: 'italic',
+  },
   buttonText: {
     fontSize: 16,
     color: Colors.white,
@@ -324,6 +401,9 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     marginTop: 32,
     flex: 0,
+  },
+  buttonSmaller: {
+    width: 150,
   },
   iconStyle: {
     fontSize: 25,

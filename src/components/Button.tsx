@@ -13,15 +13,17 @@ const Button: React.FC<{
   backgroundColor?: string;
   containerStyle?: object;
   disabled?: boolean;
+  childComponent?: React.ReactNode;
   loading?: boolean;
   onPress?: () => void;
   testID?: string;
-  text: string;
+  text?: string;
   textStyle?: object;
 }> = ({
   backgroundColor = 'transparent',
   containerStyle = {},
   disabled = false,
+  childComponent,
   loading = false,
   onPress = () => {},
   testID,
@@ -50,7 +52,7 @@ const Button: React.FC<{
         {loading ? (
           <ActivityIndicator size="small" color="#ea5906" />
         ) : (
-          <Text style={buttonTextStyle}>{text}</Text>
+          childComponent || <Text style={buttonTextStyle}>{text}</Text>
         )}
       </View>
     </TouchableOpacity>

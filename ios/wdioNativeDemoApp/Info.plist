@@ -37,6 +37,8 @@
 				</dict>
 			</dict>
 		</dict>
+    <key>NSFaceIDUsageDescription</key>
+    <string>$(PRODUCT_NAME) requires FaceID access to allows you quick and secure access.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string/>
 		<key>UILaunchStoryboardName</key>
