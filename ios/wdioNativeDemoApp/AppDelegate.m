@@ -34,7 +34,7 @@ static void InitializeFlipper(UIApplication *application) {
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge
-                                                   moduleName:@"wdioNativeDemoApp"
+                                                   moduleName:@"wdioDemoApp"
                                             initialProperties:nil];
 
   if (@available(iOS 13.0, *)) {
@@ -61,7 +61,7 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 }
 
-# For deep linking for iOS https://reactnavigation.org/docs/deep-linking/#ios
+//For deep linking for iOS https://reactnavigation.org/docs/deep-linking/#ios
 - (BOOL)application:(UIApplication *)application
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options

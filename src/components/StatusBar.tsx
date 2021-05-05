@@ -11,7 +11,7 @@ const STATUS_BAR_HEIGHT = IS_IOS
 const WdioStatusBar = () => {
   return (
     <View style={styles.statusBar}>
-      <StatusBar translucent backgroundColor="#000" />
+      <StatusBar translucent barStyle="light-content" />
     </View>
   );
 };

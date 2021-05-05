@@ -17,7 +17,7 @@ import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 import TitleDivider from '../components/TitleDivider';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import SliderEntry, {SLIDE_WIDTH} from '../components/SliderEntry';
-import {WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
+import {HAS_IOS_NOTCH, WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
 import Colors from '../config/Colors';
 
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   horizontalContainer: {
-    height: WINDOW_HEIGHT - 90,
+    height: WINDOW_HEIGHT - (HAS_IOS_NOTCH ? 140 : 90),
   },
   subText: {
     marginTop: -50,

@@ -1,19 +1,19 @@
-name: Android WebdriverIO Native Demo App
+name: iOS WebdriverIO Native Demo App
 
 on:
   push:
     branches:
       - main
     paths-ignore:
-      - 'ios/**'
+      - 'android/**'
       - '**.md'
-      - '**/ios.yml'
+      - '**/android.yml'
 defaults:
   run:
-    working-directory: android
+    working-directory: ios
 jobs:
-  ReleaseBuild:
-    runs-on: ubuntu-20.04
+  SimulatorRelease:
+    runs-on: macos-latest
     strategy:
       matrix:
         node-version: [14.x]
@@ -25,11 +25,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install
-      - name: Build Android Release
-        run: yarn android.release
-      - name: Archive Apps
+        run: |
+          yarn install
+      - name: Build iOS Sim Build
+        run: yarn ios.release.sim.build
+      - name: Archive App
         uses: actions/upload-artifact@v2
         with:
-          name: Android WebdriverIO Native Demo App Release
-          path: '**/app/build/outputs/apk/release/**/*.apk'
+          name: iOS SauceLabs Sample App Sim Build
+          path: '**/Build/Products/Release-iphonesimulator/wdioNativeDemoApp.app'
