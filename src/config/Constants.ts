@@ -16,5 +16,4 @@ export const HAS_IOS_NOTCH =
     WINDOW_HEIGHT === 896 ||
     WINDOW_WIDTH === 896 ||
     WINDOW_HEIGHT === 926 ||
-    WINDOW_WIDTH === 926)
-;
+    WINDOW_WIDTH === 926);
