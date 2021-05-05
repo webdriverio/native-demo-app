@@ -138,7 +138,8 @@ const FormComponents = () => {
             selectedValue={pickerValue}
             onValueChange={(itemValue: string) => setPickerValue(itemValue)}
             style={[{color: isDarkMode ? Colors.white : Colors.black}]}
-            dropdownIconColor={isDarkMode ? Colors.white : Colors.black}>
+            dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
+            {...testProperties('Dropdown')}>
             {options.map(({label, value}) => (
               <Picker.Item label={label} value={value} key={value} />
             ))}

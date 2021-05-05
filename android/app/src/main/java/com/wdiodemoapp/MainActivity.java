@@ -1,4 +1,4 @@
-package com.wdionativedemoapp;
+package com.wdiodemoapp;
 
 // Needed for the splashscreen
 import org.devio.rn.splashscreen.SplashScreen;
@@ -34,6 +34,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "wdioNativeDemoApp";
+    return "wdioDemoApp";
   }
 }

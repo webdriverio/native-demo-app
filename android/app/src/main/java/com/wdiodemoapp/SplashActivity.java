@@ -1,4 +1,4 @@
-package com.wdionativedemoapp;
+package com.wdiodemoapp;
 
 import android.content.Intent;
 import android.os.Bundle;
