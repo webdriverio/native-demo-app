@@ -13,6 +13,7 @@ import SwipeScreen from './screens/Swipe';
 import FormsScreen from './screens/Forms';
 import WdioStatusBar from './components/StatusBar';
 import Colors from './config/Colors';
+import {HAS_IOS_NOTCH} from "./config/Constants";
 const Tab = createBottomTabNavigator();
 const linking = {
   prefixes: ['wdio://'],
@@ -43,13 +44,14 @@ const App = () => {
             labelStyle: {
               fontSize: 14,
               fontWeight: '100',
+              paddingBottom: 5,
             },
             style: {
               backgroundColor: Colors.black,
               borderTopWidth: 5,
               borderTopColor: Colors.orange,
               paddingTop: 5,
-              height: 60,
+              height: HAS_IOS_NOTCH ? 90: 60,
             },
             tabStyle: {
               width: 100,
