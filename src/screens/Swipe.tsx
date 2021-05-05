@@ -5,12 +5,19 @@
  * Credits to the Archriss who build the react-native-snap-carousel!
  */
 import React, {useRef, useState} from 'react';
-import {StyleSheet, useColorScheme, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 import TitleDivider from '../components/TitleDivider';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import SliderEntry, {SLIDE_WIDTH} from '../components/SliderEntry';
-import {WINDOW_WIDTH} from '../config/Constants';
+import {WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
 import Colors from '../config/Colors';
 
@@ -73,41 +80,64 @@ const SwipeScreen = () => {
   };
 
   return (
-    <View
+    <ScrollView
       style={[
         styles.container,
         {backgroundColor: isDarkMode ? Colors.dark : Colors.white},
       ]}
       {...testProperties('Swipe-screen')}>
-      <TitleDivider text="Swipe horizontal" />
-      <View {...testProperties('Carousel')}>
-        <Carousel
-          ref={sliderEl}
-          data={ENTRIES1}
-          renderItem={Item}
-          sliderWidth={WINDOW_WIDTH}
-          itemWidth={SLIDE_WIDTH}
-          inactiveSlideScale={0.9}
-          inactiveSlideOpacity={0.7}
-          containerCustomStyle={styles.sliderContainer}
-          contentContainerCustomStyle={styles.sliderContentContainer}
-          onSnapToItem={(index: number) => setActiveSlide(index)}
-        />
-        <Pagination
-          dotsLength={ENTRIES1.length}
-          activeDotIndex={activeSlide}
-          containerStyle={styles.paginationContainer}
-          dotColor={Colors.orange}
-          dotStyle={styles.paginationDot}
-          inactiveDotColor={Colors.orange}
-          inactiveDotOpacity={0.4}
-          inactiveDotScale={0.6}
-          // @ts-ignore
-          carouselRef={sliderEl}
-          tappableDots={!!sliderEl}
-        />
+      <View style={styles.horizontalContainer}>
+        <TitleDivider text="Swipe horizontal" />
+        <Text
+          style={[
+            styles.subText,
+            {color: isDarkMode ? Colors.white : Colors.black},
+          ]}>
+          Or swipe vertical to find what I'm hiding.
+        </Text>
+        <View {...testProperties('Carousel')}>
+          <Carousel
+            ref={sliderEl}
+            data={ENTRIES1}
+            renderItem={Item}
+            sliderWidth={WINDOW_WIDTH}
+            itemWidth={SLIDE_WIDTH}
+            inactiveSlideScale={0.9}
+            inactiveSlideOpacity={0.7}
+            containerCustomStyle={styles.sliderContainer}
+            contentContainerCustomStyle={styles.sliderContentContainer}
+            onSnapToItem={(index: number) => setActiveSlide(index)}
+          />
+          <Pagination
+            dotsLength={ENTRIES1.length}
+            activeDotIndex={activeSlide}
+            containerStyle={styles.paginationContainer}
+            dotColor={Colors.orange}
+            dotStyle={styles.paginationDot}
+            inactiveDotColor={Colors.orange}
+            inactiveDotOpacity={0.4}
+            inactiveDotScale={0.6}
+            // @ts-ignore
+            carouselRef={sliderEl}
+            tappableDots={!!sliderEl}
+          />
+        </View>
       </View>
-    </View>
+      <View style={styles.logoContainer}>
+        <Image
+          style={styles.logo}
+          source={require('../assets/webdriverio.png')}
+          {...testProperties('WebdriverIO logo')}
+        />
+        <Text
+          style={[
+            styles.logoText,
+            {color: isDarkMode ? Colors.white : Colors.black},
+          ]}>
+          You found me!!!
+        </Text>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -116,6 +146,14 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: STATUS_BAR_HEIGHT,
     paddingBottom: 40,
+  },
+  horizontalContainer: {
+    height: WINDOW_HEIGHT - 90,
+  },
+  subText: {
+    marginTop: -50,
+    marginBottom: 50,
+    textAlign: 'center',
   },
   sliderContainer: {
     overflow: 'visible', // for custom animations
@@ -131,6 +169,20 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 4,
     marginHorizontal: 8,
+  },
+  logoContainer: {
+    alignSelf: 'center',
+    marginBottom: 20,
+    paddingTop: 500,
+  },
+  logoText: {
+    fontStyle: 'italic',
+    textAlign: 'center',
+  },
+  logo: {
+    marginTop: 100,
+    height: 250,
+    width: 250,
   },
 });
 
