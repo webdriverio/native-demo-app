@@ -134,38 +134,31 @@ const FormComponents = () => {
             ]}>
             Dropdown:
           </Text>
-          {/*<Picker*/}
-          {/*  selectedValue={pickerValue}*/}
-          {/*  onValueChange={(itemValue: string) => setPickerValue(itemValue)}*/}
-          {/*  style={[{color: isDarkMode ? Colors.white : Colors.black}]}*/}
-          {/*  dropdownIconColor={isDarkMode ? Colors.white : Colors.black}*/}
-          {/*  {...testProperties('Dropdown')}>*/}
-          {/*  {options.map(({label, value}) => (*/}
-          {/*    <Picker.Item label={label} value={value} key={value} />*/}
-          {/*  ))}*/}
-          {/*</Picker>*/}
           <RNPickerSelect
+            value={pickerValue}
             useNativeAndroidPickerStyle={false}
             onValueChange={(itemValue: string) => setPickerValue(itemValue)}
             items={options}
             style={{
-              inputAndroid:{
+              ...pickerSelectStyles,
+              inputAndroid: {
                 color: isDarkMode ? Colors.white : Colors.black,
-                paddingRight: 30,
               },
-              inputIOS:{
+              inputIOS: {
                 color: isDarkMode ? Colors.white : Colors.black,
-                paddingRight: 30,
                 marginVertical: 10,
               },
-              iconContainer: {
-                top: 10,
-                right: 12,
-              },
             }}
-            {...testProperties('Dropdown')}
+            pickerProps={{...testProperties('Dropdown picker')}}
+            touchableWrapperProps={{...testProperties('Dropdown')}}
             Icon={() => {
-              return <Icon name="chevron-down" size={24} color={isDarkMode ? Colors.white : Colors.black} />;
+              return (
+                <Icon
+                  name="chevron-down"
+                  size={24}
+                  color={isDarkMode ? Colors.white : Colors.black}
+                />
+              );
             }}
           />
         </View>
@@ -288,5 +281,16 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
 });
-
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  iconContainer: {
+    top: 10,
+    right: 12,
+  },
+});
 export default FormComponents;
