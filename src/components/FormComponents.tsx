@@ -7,8 +7,8 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-// @ts-ignore
-import {Picker} from '@react-native-picker/picker';
+import RNPickerSelect from 'react-native-picker-select';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Input} from 'react-native-elements';
 import {WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
@@ -134,16 +134,40 @@ const FormComponents = () => {
             ]}>
             Dropdown:
           </Text>
-          <Picker
-            selectedValue={pickerValue}
+          {/*<Picker*/}
+          {/*  selectedValue={pickerValue}*/}
+          {/*  onValueChange={(itemValue: string) => setPickerValue(itemValue)}*/}
+          {/*  style={[{color: isDarkMode ? Colors.white : Colors.black}]}*/}
+          {/*  dropdownIconColor={isDarkMode ? Colors.white : Colors.black}*/}
+          {/*  {...testProperties('Dropdown')}>*/}
+          {/*  {options.map(({label, value}) => (*/}
+          {/*    <Picker.Item label={label} value={value} key={value} />*/}
+          {/*  ))}*/}
+          {/*</Picker>*/}
+          <RNPickerSelect
+            useNativeAndroidPickerStyle={false}
             onValueChange={(itemValue: string) => setPickerValue(itemValue)}
-            style={[{color: isDarkMode ? Colors.white : Colors.black}]}
-            dropdownIconColor={isDarkMode ? Colors.white : Colors.black}
-            {...testProperties('Dropdown')}>
-            {options.map(({label, value}) => (
-              <Picker.Item label={label} value={value} key={value} />
-            ))}
-          </Picker>
+            items={options}
+            style={{
+              inputAndroid:{
+                color: isDarkMode ? Colors.white : Colors.black,
+                paddingRight: 30,
+              },
+              inputIOS:{
+                color: isDarkMode ? Colors.white : Colors.black,
+                paddingRight: 30,
+                marginVertical: 10,
+              },
+              iconContainer: {
+                top: 10,
+                right: 12,
+              },
+            }}
+            {...testProperties('Dropdown')}
+            Icon={() => {
+              return <Icon name="chevron-down" size={24} color={isDarkMode ? Colors.white : Colors.black} />;
+            }}
+          />
         </View>
         <View style={styles.formGroup}>
           <Text
