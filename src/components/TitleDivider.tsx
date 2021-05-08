@@ -20,7 +20,6 @@ const TitleDivider: React.FC<{text: string}> = ({text}) => {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flex: 1,
     height: 150,
     backgroundColor: 'transparent',
     justifyContent: 'center',

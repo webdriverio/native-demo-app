@@ -148,11 +148,11 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   horizontalContainer: {
-    height: WINDOW_HEIGHT - (HAS_IOS_NOTCH ? 140 : 90),
+    height: WINDOW_HEIGHT - (HAS_IOS_NOTCH ? 100 : 55),
+    flexDirection: 'column',
+    justifyContent: 'space-around',
   },
   subText: {
-    marginTop: -50,
-    marginBottom: 50,
     textAlign: 'center',
   },
   sliderContainer: {
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   logoContainer: {
+    flex: 1,
     alignSelf: 'center',
     marginBottom: 20,
     paddingTop: 500,

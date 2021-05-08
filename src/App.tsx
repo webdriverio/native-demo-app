@@ -14,6 +14,7 @@ import FormsScreen from './screens/Forms';
 import WdioStatusBar from './components/StatusBar';
 import Colors from './config/Colors';
 import {HAS_IOS_NOTCH} from './config/Constants';
+import DragScreen from './screens/Drag';
 const Tab = createBottomTabNavigator();
 const linking = {
   prefixes: ['wdio://'],
@@ -109,6 +110,17 @@ const App = () => {
               tabBarAccessibilityLabel: 'Swipe',
               tabBarIcon: ({color}) => (
                 <Icon color={color} name={'arrow-split-vertical'} size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Drag"
+            component={DragScreen}
+            options={{
+              tabBarLabel: 'Drag',
+              tabBarAccessibilityLabel: 'Drag',
+              tabBarIcon: ({color}) => (
+                <Icon color={color} name={'drag'} size={26} />
               ),
             }}
           />
