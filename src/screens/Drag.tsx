@@ -1,27 +1,49 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   ImageBackground,
   PanResponderGestureState,
   StyleSheet,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {testProperties} from '../config/TestProperties';
 import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 import Colors from '../config/Colors';
 import TitleDivider from '../components/TitleDivider';
 import Draggable from '../components/Draggable';
-import Button from '../components/Button';
 
 const DragScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [resetOpacity, setResetOpacity] = useState(false);
+  const dropZoneL1 = useRef<View | null>(null);
+  const dropZoneL2 = useRef<View | null>(null);
+  const dropZoneL3 = useRef<View | null>(null);
+  const dropZoneC1 = useRef<View | null>(null);
+  const dropZoneC2 = useRef<View | null>(null);
+  const dropZoneC3 = useRef<View | null>(null);
+  const dropZoneR1 = useRef<View | null>(null);
+  const dropZoneR2 = useRef<View | null>(null);
+  const dropZoneR3 = useRef<View | null>(null);
+  const dropZones = [
+    dropZoneL1,
+    dropZoneL2,
+    dropZoneL3,
+    dropZoneC1,
+    dropZoneC2,
+    dropZoneC3,
+    dropZoneR1,
+    dropZoneR2,
+    dropZoneR3,
+  ];
   const dropZoneValues = useRef<{
     top: number;
     bottom: number;
     left: number;
     right: number;
   }>();
-  const isDropZone = useCallback((gesture: PanResponderGestureState) => {
+  const isDropZoneStatus = useCallback((gesture: PanResponderGestureState) => {
     const dz = dropZoneValues.current;
 
     if (dz) {
@@ -35,87 +57,86 @@ const DragScreen = () => {
 
     return false;
   }, []);
-  // const dropZone = useRef<View | null>(null);
-  const dropZoneL1 = useRef<View | null>(null);
-  const dropZoneL2 = useRef<View | null>(null);
-  const dropZoneL3 = useRef<View | null>(null);
-  const dropZoneC1 = useRef<View | null>(null);
-  const dropZoneC2 = useRef<View | null>(null);
-  const dropZoneC3 = useRef<View | null>(null);
-  const dropZoneR1 = useRef<View | null>(null);
-  const dropZoneR2 = useRef<View | null>(null);
-  const dropZoneR3 = useRef<View | null>(null);
-  const setDropZoneValues = (dropZone: any) => {
-    dropZone.current?.measure((fx, fy, width, height, px, py) => {
-      dropZoneValues.current = {
-        bottom: py + height,
-        left: px,
-        right: px + width,
-        top: py,
-      };
-    });
+  const setDropZoneRectangles = (dropZone: any) => {
+    dropZone.current?.measure(
+      (
+        fx: number,
+        fy: number,
+        width: number,
+        height: number,
+        px: number,
+        py: number,
+      ) => {
+        dropZoneValues.current = {
+          bottom: py + height,
+          left: px,
+          right: px + width,
+          top: py,
+        };
+      },
+    );
   };
-  const data = [
+  const puzzlePieces = [
     {
       dropZone: dropZoneL1,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-l1.png'),
       testID: 'drag-l1',
     },
     {
       dropZone: dropZoneC1,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-c1.png'),
       testID: 'drag-c1',
     },
     {
       dropZone: dropZoneR1,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-r1.png'),
       testID: 'drag-r1',
     },
     {
       dropZone: dropZoneL2,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-l2.png'),
       testID: 'drag-l2',
     },
     {
       dropZone: dropZoneC2,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-c2.png'),
       testID: 'drag-c2',
     },
     {
       dropZone: dropZoneR2,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-r2.png'),
       testID: 'drag-r2',
     },
     {
       dropZone: dropZoneL3,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-l3.png'),
       testID: 'drag-l3',
     },
     {
       dropZone: dropZoneC3,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-c3.png'),
       testID: 'drag-c3',
     },
     {
       dropZone: dropZoneR3,
-      isDropZone: isDropZone,
-      setDropZoneValues,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
       src: require('../assets/images/wdio-r3.png'),
       testID: 'drag-r3',
     },
@@ -179,9 +200,25 @@ const DragScreen = () => {
             <View style={styles.disabledDropZone} />
           </View>
         </ImageBackground>
-        {/*<Button onPress={() => {}} text="Reset" />*/}
+        <TouchableOpacity
+          onPress={() => {
+            setResetOpacity(true);
+            dropZones.forEach(dropZone =>
+              dropZone.current?.setNativeProps({style: {opacity: 1}}),
+            );
+            setTimeout(() => setResetOpacity(false), 1);
+          }}
+          style={styles.renewIcon}
+          {...testProperties('renew')}>
+          <Icon
+            name="autorenew"
+            size={26}
+            style={{color: isDarkMode ? Colors.white : Colors.black}}
+          />
+        </TouchableOpacity>
         <View style={styles.dragZone}>
-          {data
+          {puzzlePieces
+            // Put them in random order
             .sort(() => 0.5 - Math.random())
             .map(
               (
@@ -189,12 +226,13 @@ const DragScreen = () => {
                 index,
               ) => (
                 <Draggable
-                  isDropZone={isDropZone}
+                  resetOpacity={resetOpacity}
                   dropZone={dropZone}
-                  setDropZoneValues={setDropZoneValues}
-                  testID={testID}
-                  src={src}
+                  isDropZone={isDropZone}
                   key={index}
+                  setDropZoneValues={setDropZoneValues}
+                  src={src}
+                  testID={testID}
                 />
               ),
             )}
@@ -247,15 +285,12 @@ const styles = StyleSheet.create({
     height: 83,
   },
   dropZone: {
-    // borderColor: Colors.orange,
-    // borderWidth: 2,
     height: 250,
     width: '100%',
     alignItems: 'center',
     opacity: 0.2,
   },
   logo: {
-    // marginTop: 100,
     height: 250,
     width: 250,
   },
@@ -271,12 +306,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignContent: 'center',
   },
-  regularFont: {
-    fontWeight: '100',
-    fontSize: 16,
-  },
-  orangeColor: {
-    color: Colors.orange,
+  renewIcon: {
+    marginTop: 15,
   },
 });
 

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {MutableRefObject, useMemo, useRef} from 'react';
 import {
   Animated,
   Image,
@@ -12,21 +12,26 @@ import {testProperties} from '../config/TestProperties';
 import Colors from '../config/Colors';
 
 const Draggable = ({
+  resetOpacity,
   dropZone,
   isDropZone,
   setDropZoneValues,
   testID,
   src,
 }: {
+  resetOpacity: boolean;
   dropZone: any;
   isDropZone: (arg: PanResponderGestureState) => boolean;
-  setDropZoneValues: (arg) => void;
+  setDropZoneValues: (arg: MutableRefObject<View | null>) => void;
   testID: string;
   src: number;
 }) => {
   const pan = useRef(new Animated.ValueXY());
-  const [opacity, setOpacity] = useState(1);
-  const panResponder = React.useMemo(
+  const animatedView = useRef<View | null>(null);
+  let opacity = 1;
+  const setOpacity = (elementOpacity: number) =>
+    animatedView.current?.setNativeProps({style: {opacity: elementOpacity}});
+  const panResponder = useMemo(
     () =>
       PanResponder.create({
         onStartShouldSetPanResponder: () => true,
@@ -42,8 +47,10 @@ const Draggable = ({
         onPanResponderRelease: (e, gesture) => {
           pan.current.flattenOffset();
           if (isDropZone(gesture)) {
+            // Set opacity to 0 for all matching elements and put element back
             setOpacity(0);
-            dropZone.current.setNativeProps({style: {opacity}});
+            pan.current.setValue({x: 0, y: 0});
+            dropZone.current.setNativeProps({style: {opacity: 0}});
           } else {
             Animated.spring(pan.current, {
               toValue: {x: 0, y: 0},
@@ -52,12 +59,17 @@ const Draggable = ({
           }
         },
       }),
-    [dropZone, isDropZone, opacity, setDropZoneValues],
+    [dropZone, isDropZone, setDropZoneValues],
   );
+
+  if (resetOpacity) {
+    setOpacity(1);
+  }
 
   return (
     <View>
       <Animated.View
+        ref={animatedView}
         {...panResponder.panHandlers}
         style={[pan.current.getLayout(), {opacity}]}
         {...testProperties(testID)}>
