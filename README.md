@@ -32,7 +32,8 @@ The app holds the following screens:
 - **:pinching_hand:	Drag:** This screen holds a simple puzzle. The puzzle can be solved by dragging the pieces into the main image.
 
 ## Contributing
-Please read [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for details on our process for submitting pull requests to us
+Please read [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for details on our process for submitting pull requests to us or
+building an app release for Android Emulators/Real devices or an iOS Simulator.
 
 ## Versioning
 We use [SemVer](https://semver.org/) for versioning, see [VERSIONING.md](./docs/VERSIONING.md) for more information.
