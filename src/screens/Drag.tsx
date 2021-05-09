@@ -3,20 +3,25 @@ import {
   ImageBackground,
   PanResponderGestureState,
   StyleSheet,
+  Text,
   TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import ConfettiCannon from 'react-native-confetti-cannon';
 import {testProperties} from '../config/TestProperties';
 import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 import Colors from '../config/Colors';
 import TitleDivider from '../components/TitleDivider';
 import Draggable from '../components/Draggable';
+import {HAS_IOS_NOTCH, WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
+import Button from '../components/Button';
 
 const DragScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [resetOpacity, setResetOpacity] = useState(false);
+  const [counter, setCounter] = useState(0);
   const dropZoneL1 = useRef<View | null>(null);
   const dropZoneL2 = useRef<View | null>(null);
   const dropZoneL3 = useRef<View | null>(null);
@@ -78,18 +83,18 @@ const DragScreen = () => {
   };
   const puzzlePieces = [
     {
-      dropZone: dropZoneL1,
+      dropZone: dropZoneL2,
       isDropZone: isDropZoneStatus,
       setDropZoneValues: setDropZoneRectangles,
-      src: require('../assets/images/wdio-l1.png'),
-      testID: 'drag-l1',
+      src: require('../assets/images/wdio-l2.png'),
+      testID: 'drag-l2',
     },
     {
-      dropZone: dropZoneC1,
+      dropZone: dropZoneR3,
       isDropZone: isDropZoneStatus,
       setDropZoneValues: setDropZoneRectangles,
-      src: require('../assets/images/wdio-c1.png'),
-      testID: 'drag-c1',
+      src: require('../assets/images/wdio-r3.png'),
+      testID: 'drag-r3',
     },
     {
       dropZone: dropZoneR1,
@@ -99,32 +104,11 @@ const DragScreen = () => {
       testID: 'drag-r1',
     },
     {
-      dropZone: dropZoneL2,
+      dropZone: dropZoneC1,
       isDropZone: isDropZoneStatus,
       setDropZoneValues: setDropZoneRectangles,
-      src: require('../assets/images/wdio-l2.png'),
-      testID: 'drag-l2',
-    },
-    {
-      dropZone: dropZoneC2,
-      isDropZone: isDropZoneStatus,
-      setDropZoneValues: setDropZoneRectangles,
-      src: require('../assets/images/wdio-c2.png'),
-      testID: 'drag-c2',
-    },
-    {
-      dropZone: dropZoneR2,
-      isDropZone: isDropZoneStatus,
-      setDropZoneValues: setDropZoneRectangles,
-      src: require('../assets/images/wdio-r2.png'),
-      testID: 'drag-r2',
-    },
-    {
-      dropZone: dropZoneL3,
-      isDropZone: isDropZoneStatus,
-      setDropZoneValues: setDropZoneRectangles,
-      src: require('../assets/images/wdio-l3.png'),
-      testID: 'drag-l3',
+      src: require('../assets/images/wdio-c1.png'),
+      testID: 'drag-c1',
     },
     {
       dropZone: dropZoneC3,
@@ -134,13 +118,43 @@ const DragScreen = () => {
       testID: 'drag-c3',
     },
     {
-      dropZone: dropZoneR3,
+      dropZone: dropZoneR2,
       isDropZone: isDropZoneStatus,
       setDropZoneValues: setDropZoneRectangles,
-      src: require('../assets/images/wdio-r3.png'),
-      testID: 'drag-r3',
+      src: require('../assets/images/wdio-r2.png'),
+      testID: 'drag-r2',
+    },
+    {
+      dropZone: dropZoneC2,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
+      src: require('../assets/images/wdio-c2.png'),
+      testID: 'drag-c2',
+    },
+    {
+      dropZone: dropZoneL1,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
+      src: require('../assets/images/wdio-l1.png'),
+      testID: 'drag-l1',
+    },
+    {
+      dropZone: dropZoneL3,
+      isDropZone: isDropZoneStatus,
+      setDropZoneValues: setDropZoneRectangles,
+      src: require('../assets/images/wdio-l3.png'),
+      testID: 'drag-l3',
     },
   ];
+  const updateCounter = () => setCounter(counter + 1);
+  const resetPuzzle = () => {
+    setResetOpacity(true);
+    dropZones.forEach(dropZone =>
+      dropZone.current?.setNativeProps({style: {opacity: 1}}),
+    );
+    setCounter(0);
+    setTimeout(() => setResetOpacity(false), 1);
+  };
 
   return (
     <View
@@ -149,6 +163,31 @@ const DragScreen = () => {
         {backgroundColor: isDarkMode ? Colors.dark : Colors.white},
       ]}
       {...testProperties('Drag-drop-screen')}>
+      {counter === 9 && (
+        <View style={styles.successContainer}>
+          <ConfettiCannon
+            colors={['#ea5906', '#ec691e', '#ee7a37', '#f08a50', '#f29b69']}
+            count={200}
+            fadeOut
+            fallSpeed={3000}
+            origin={{x: -10, y: 0}}
+          />
+          <TitleDivider text="Congratulations" />
+          <Text style={{color: isDarkMode ? Colors.white : Colors.black}}>
+            You made it, click retry if you want to try it again.
+          </Text>
+          <Button
+            containerStyle={styles.button}
+            onPress={() => resetPuzzle()}
+            textStyle={[
+              {
+                color: isDarkMode ? Colors.white : Colors.black,
+              },
+            ]}
+            text="Retry"
+          />
+        </View>
+      )}
       <View style={styles.contentContainer}>
         <TitleDivider text="Drag and Drop" />
         <ImageBackground
@@ -201,13 +240,7 @@ const DragScreen = () => {
           </View>
         </ImageBackground>
         <TouchableOpacity
-          onPress={() => {
-            setResetOpacity(true);
-            dropZones.forEach(dropZone =>
-              dropZone.current?.setNativeProps({style: {opacity: 1}}),
-            );
-            setTimeout(() => setResetOpacity(false), 1);
-          }}
+          onPress={() => resetPuzzle()}
           style={styles.renewIcon}
           {...testProperties('renew')}>
           <Icon
@@ -217,25 +250,20 @@ const DragScreen = () => {
           />
         </TouchableOpacity>
         <View style={styles.dragZone}>
-          {puzzlePieces
-            // Put them in random order
-            .sort(() => 0.5 - Math.random())
-            .map(
-              (
-                {dropZone, isDropZone, setDropZoneValues, src, testID},
-                index,
-              ) => (
-                <Draggable
-                  resetOpacity={resetOpacity}
-                  dropZone={dropZone}
-                  isDropZone={isDropZone}
-                  key={index}
-                  setDropZoneValues={setDropZoneValues}
-                  src={src}
-                  testID={testID}
-                />
-              ),
-            )}
+          {puzzlePieces.map(
+            ({dropZone, isDropZone, setDropZoneValues, src, testID}, index) => (
+              <Draggable
+                dropZone={dropZone}
+                isDropZone={isDropZone}
+                key={index}
+                resetOpacity={resetOpacity}
+                updateCounter={updateCounter}
+                setDropZoneValues={setDropZoneValues}
+                src={src}
+                testID={testID}
+              />
+            ),
+          )}
         </View>
       </View>
     </View>
@@ -252,6 +280,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 10,
     alignItems: 'center',
+  },
+  successContainer: {
+    backgroundColor: Colors.dark,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: WINDOW_HEIGHT - (HAS_IOS_NOTCH ? 100 : 55),
+    width: WINDOW_WIDTH,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    zIndex: 10,
+  },
+  button: {
+    height: 50,
+    width: 200,
+    borderRadius: 5,
+    backgroundColor: Colors.orange,
+    borderColor: Colors.orange,
+    borderWidth: 5,
+    marginTop: 32,
+    flex: 0,
   },
   dropZoneContainer: {
     flexDirection: 'row',

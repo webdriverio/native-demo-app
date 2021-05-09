@@ -12,19 +12,21 @@ import {testProperties} from '../config/TestProperties';
 import Colors from '../config/Colors';
 
 const Draggable = ({
-  resetOpacity,
   dropZone,
   isDropZone,
+  resetOpacity,
+  updateCounter,
   setDropZoneValues,
-  testID,
   src,
+  testID,
 }: {
-  resetOpacity: boolean;
   dropZone: any;
   isDropZone: (arg: PanResponderGestureState) => boolean;
+  resetOpacity: boolean;
+  updateCounter: () => void;
   setDropZoneValues: (arg: MutableRefObject<View | null>) => void;
-  testID: string;
   src: number;
+  testID: string;
 }) => {
   const pan = useRef(new Animated.ValueXY());
   const animatedView = useRef<View | null>(null);
@@ -51,6 +53,7 @@ const Draggable = ({
             setOpacity(0);
             pan.current.setValue({x: 0, y: 0});
             dropZone.current.setNativeProps({style: {opacity: 0}});
+            updateCounter();
           } else {
             Animated.spring(pan.current, {
               toValue: {x: 0, y: 0},
@@ -59,7 +62,7 @@ const Draggable = ({
           }
         },
       }),
-    [dropZone, isDropZone, setDropZoneValues],
+    [dropZone, isDropZone, updateCounter, setDropZoneValues],
   );
 
   if (resetOpacity) {
