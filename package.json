@@ -1,6 +1,6 @@
 {
   "name": "wdio-native-demo-app",
-  "version": "0.4.0",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "android.clean": "cd android && ./gradlew clean && cd .. ",
@@ -11,6 +11,7 @@
     "ios.pods": "cd ios && pod install && cd ..",
     "ios.release.sim.build": "yarn ios.pods && react-native run-ios --configuration Release",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "release": "np",
     "start": "react-native start",
     "test": "jest"
   },
@@ -47,7 +48,9 @@
     "eslint": "^7.14.0",
     "jest": "^26.6.3",
     "metro-react-native-babel-preset": "^0.64.0",
+    "np": "^7.5.0",
     "react-native-clean-project": "^3.6.3",
+    "react-native-versioning": "^1.0.4",
     "react-test-renderer": "17.0.1",
     "typescript": "^3.8.3"
   },

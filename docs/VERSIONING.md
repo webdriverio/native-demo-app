@@ -2,61 +2,48 @@
 
 Versioning the app needs to be a manual step. Follow the instructions below to update the versions 
 
-## Table of contents
-1. [Versioning project](#versioning-project)
-1. [Versioning iOS](#versioning-ios)
-1. [Versioning Android](#versioning-android)
-1. [When done](#when-done)
+## Step 1: Determine build and version number
+Determine the **CURRENT** build and the version number of the app. You can find the current build number for:
+- **Android:** Search in the file [android/app/build.gradle](../android/app/build.gradle), look for the 
+  `defaultConfig` and then `versionCode`
+- **iOS:** Search in the file 
+  [ios/wdioNativeDemoApp.xcodeproj/project.pbxproj](../ios/wdioNativeDemoApp.xcodeproj/project.pbxproj) and look for 
+  `CURRENT_PROJECT_VERSION`
+  
+The version number can be found in the [`package.json`](../package.json)-file.
 
-## Versioning project
-Open the `package.json` and update  the version to the version you need, try to use [SEMVER](https://nodesource.com/blog/semver-a-primer/), meaning using this 
+## Step 2: Run React Native Versioning
+> **NOTE:** This step will only increase the build/version numbers in the app, **NOT** the version number of the 
+> project, see [step 4](#step-4-create-a-new-release) for that.
 
-    x.y.z
+We use `react-native-versioning` to update the build and version number in the app. Use the build and version from 
+[step 1](#step-1-determine-build-and-version-number) and increase the buildnumber with 1, and the version number 
+according to [SemVer](https://semver.org/).  
 
-- `x`: This is a `MAJOR` release, there are for example breaking changes
-- `y`: This is a `MINOR` release and can hold for example new features
-- `z`: This is a `PATCH` release which holds fixes
+### Usage
+    npx react-native-versioning \
+    -t --target <versionCode> \
+    -b --build <buildNumber> \
+    --android-only \
+    --ios-only
 
+### Example
+    npx react-native-versioning --target=2.1.1
+    npx react-native-versioning --build=17
+    npx react-native-versioning --build=18 --ios-only
+    npx react-native-versioning --target=2.3 --build=16 --android-only
 
-## Versioning iOS
-Open the following file [`ios/wdioDemoApp/Info.plist`](../ios/wdioDemoApp/Info.plist) and change this code
+## Step 3: Create a PR
+Create a version bump PR with the adjusted versions as explained above
 
-```
-<key>CFBundleShortVersionString</key>
-<string>1.0.0</string>
-<key>CFBundleSignature</key>
-<string>????</string>
-<key>CFBundleVersion</key>
-<string>1</string>
-```
+> **NOTE:** The version in the package.json and the actual release will be explained in 
+> [step 4](#step-4-create-a-new-release).
 
-To this
+## Step 4: Create a new release
+When step 1 till 3 are executed we need to create a new release. Make sure that you are on the `main`-branch and all
+changes have been committed/pushed. Then run the following command
 
-```
-<key>CFBundleShortVersionString</key>
-<string>x.y.z</string>
-<key>CFBundleSignature</key>
-<string>????</string>
-<key>CFBundleVersion</key>
-<string>{current value + 1}</string>
-```
+    yarn release
 
-Open the following file [`ios/wdioDemoApp.xcodeproj/project.pbxproj`](../ios/wdioDemoApp.xcodeproj/project.pbxproj) and change all `CURRENT_PROJECT_VERSION = 1;` to `CURRENT_PROJECT_VERSION = {current value + 1};`
-
-## Versioning Android
-Open the following file [`android/app/build.gradle`](../android/app/build.gradle) and change this code
-
-```
-versionCode 1
-versionName "1.0.0"
-```
-
-to
-
-```
-versionCode {current value + 1}
-versionName "x.y.z"
-```
-
-## When done
-When all changes are executed create a feature branch and a PR
+This will show an interactive UI to make a new release. See [np](https://github.com/sindresorhus/np#readme) for more
+information. Make sure you follow [SemVer](https://semver.org/) to target the release properly. 

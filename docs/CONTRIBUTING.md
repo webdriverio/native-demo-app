@@ -153,7 +153,14 @@ PhaseScriptExecution [CP-User]\ Generate\ Specs /Users/wswebcreation/Library/Dev
 
 then please check [this thread here](https://github.com/react-native-community/upgrade-support/issues/138).
 
-## Building iOS
+## Building a release build
+The development build for Android and iOS needs the [Metro bundler](#step-1-start-metro), but a release for on an 
+emulator/simulator/real Android device is not connected to the Metro bundler. This means we need to create a release
+build. Follow the steps below to generate one and also where to find the output.
+
+When a PR is merged to master the release build can be found in the GitHub-action assets.
+
+### Building iOS
 > **NOTE:** This step can only build an iOS-`.app` file that can only be used on a simulator!
 
 Making an iOS build can be done by running the following command `yarn ios.release.sim.build`. The output will look
@@ -181,7 +188,7 @@ success Successfully launched the app on the simulator
 
 You can also find the location of the app in the logs. The app will automatically be installed on your Simulator.
 
-## Building Android
+### Building Android
 > The [keystore](../android/app/debug.keystore) is saved in this project. This is normally not a good advice, but this
 > project isn't publishing to the Play Store so all data is filled with dummy data.
 > This allows us to make a signed build.
