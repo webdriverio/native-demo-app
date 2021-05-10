@@ -47,3 +47,19 @@ changes have been committed/pushed. Then run the following command
 
 This will show an interactive UI to make a new release. See [np](https://github.com/sindresorhus/np#readme) for more
 information. Make sure you follow [SemVer](https://semver.org/) to target the release properly. 
+
+`yarn release` will also automatically open GutHub on the releases page with a draft. Add the things there that are new.
+Before you upload the assets you need to adjust the app names. The Appname for Android will automatically be created 
+when you build a new release, it will look like this
+
+    Android-NativeDemoApp-{x.y.z}.apk
+
+For iOS you first need to zip the file and then change the name from 
+
+    wdioNativeDemoApp.app
+
+to
+
+    iOS-Simulator-NativeDemoApp-{x.y.z}.app.zip
+    
+You can then upload the assets and release a new version.
