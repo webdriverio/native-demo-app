@@ -150,7 +150,7 @@ const FormComponents = () => {
               },
             }}
             pickerProps={{...testProperties('Dropdown picker')}}
-            touchableWrapperProps={{...testProperties('Dropdown')}}
+            touchableWrapperProps={{...testProperties('Dropdown', true)}}
             Icon={() => {
               return (
                 <Icon

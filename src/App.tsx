@@ -25,6 +25,7 @@ const linking = {
       Login: 'login',
       Forms: 'forms',
       Swipe: 'swipe',
+      Drag: 'drag',
     },
   },
 };
