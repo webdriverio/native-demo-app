@@ -164,7 +164,11 @@ const DragScreen = () => {
       ]}
       {...testProperties('Drag-drop-screen')}>
       {counter === 9 && (
-        <View style={styles.successContainer}>
+        <View
+          style={[
+            styles.successContainer,
+            {backgroundColor: isDarkMode ? Colors.dark : Colors.white},
+          ]}>
           <ConfettiCannon
             colors={['#ea5906', '#ec691e', '#ee7a37', '#f08a50', '#f29b69']}
             count={200}
@@ -195,47 +199,56 @@ const DragScreen = () => {
           style={styles.dropZoneContainer}>
           <View
             style={[styles.orangeBorder, styles.dropZone83x83]}
-            ref={dropZoneL1}>
+            ref={dropZoneL1}
+            {...testProperties('drop-l1')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone84x83]}
-            ref={dropZoneC1}>
+            ref={dropZoneC1}
+            {...testProperties('drop-c1')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone83x83]}
-            ref={dropZoneR1}>
+            ref={dropZoneR1}
+            {...testProperties('drop-r1')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone83x84]}
-            ref={dropZoneL2}>
+            ref={dropZoneL2}
+            {...testProperties('drop-l2')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone84x84]}
-            ref={dropZoneC2}>
+            ref={dropZoneC2}
+            {...testProperties('drop-c2')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone83x84]}
-            ref={dropZoneR2}>
+            ref={dropZoneR2}
+            {...testProperties('drop-r2')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone83x83]}
-            ref={dropZoneL3}>
+            ref={dropZoneL3}
+            {...testProperties('drop-l3')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone84x83]}
-            ref={dropZoneC3}>
+            ref={dropZoneC3}
+            {...testProperties('drop-c3')}>
             <View style={styles.disabledDropZone} />
           </View>
           <View
             style={[styles.orangeBorder, styles.dropZone83x83]}
-            ref={dropZoneR3}>
+            ref={dropZoneR3}
+            {...testProperties('drop-r3')}>
             <View style={styles.disabledDropZone} />
           </View>
         </ImageBackground>
@@ -282,7 +295,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   successContainer: {
-    backgroundColor: Colors.dark,
+    // backgroundColor: Colors.dark,
     alignItems: 'center',
     justifyContent: 'center',
     height: WINDOW_HEIGHT - (HAS_IOS_NOTCH ? 100 : 55),

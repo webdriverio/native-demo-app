@@ -91,40 +91,44 @@ const LoginForm = () => {
     return re.test(text);
   };
   const validateForm = () => {
-    setIsLoading(true);
+    // Check email
+    const validEmail = validateEmail(email);
+    setIsEmailValid(validEmail);
+    if (!validEmail) {
+      emailEl?.current?.shake();
+    }
 
-    // Simulate an API call
-    setTimeout(() => {
-      LayoutAnimation.easeInEaseOut();
-      setIsLoading(false);
-      setIsEmailValid(validateEmail(email));
-      setIsPasswordValid(password.length >= 8);
+    // Check password
+    const validPassword = password.length >= 8;
+    setIsPasswordValid(validPassword);
+    if (!validPassword) {
+      passwordEl?.current?.shake();
+    }
 
-      if (!isEmailValid) {
-        emailEl?.current?.shake();
+    // Check password confirmation
+    let validPasswordConfirmation: boolean;
+    if (isSignUpPage) {
+      validPasswordConfirmation =
+        password === passwordConfirmation && passwordConfirmation.length >= 8;
+      setIsConfirmationValid(validPasswordConfirmation);
+      if (validPasswordConfirmation) {
+        passwordConfirmationEl?.current?.shake();
       }
-      if (!isPasswordValid) {
-        passwordEl?.current?.shake();
-      }
-      if (isLoginPage) {
-        if (isEmailValid && isPasswordValid) {
+    }
+
+    if (
+      (isLoginPage && validEmail && validPassword) ||
+      (isSignUpPage && validEmail && validPassword && validPasswordConfirmation)
+    ) {
+      setIsLoading(true);
+      // Simulate an API call
+      setTimeout(() => {
+        LayoutAnimation.easeInEaseOut();
+        setIsLoading(false);
+        if (isLoginPage) {
           Alert.alert('Success', 'You are logged in!', [{text: 'OK'}], {
             cancelable: false,
           });
-        }
-      } else {
-        setIsConfirmationValid(password === passwordConfirmation);
-
-        if (!isConfirmationValid) {
-          passwordConfirmationEl?.current?.shake();
-        }
-        if (!isEmailValid || !isPasswordValid || !isConfirmationValid) {
-          Alert.alert(
-            'Failure',
-            'Some fields are not valid!',
-            [{text: 'Try again'}],
-            {cancelable: false},
-          );
         } else {
           Alert.alert(
             'Signed Up!',
@@ -133,8 +137,8 @@ const LoginForm = () => {
             {cancelable: false},
           );
         }
-      }
-    }, 1500);
+      }, 1500);
+    }
   };
   const handleBiometryLogin = async (retry = 0): Promise<void> => {
     // Using object destructuring here will automatically call the `handleBiometryLogin`

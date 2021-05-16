@@ -35,7 +35,7 @@ const ENTRIES1: SliderEntries[] = [
     link: 'https://github.com/webdriverio/webdriverio/',
   },
   {
-    title: 'Creat community',
+    title: 'Great community',
     subtitle: 'WebdriverIO has a great community that supports all members.',
     icon: 'wechat',
     link: 'https://gitter.im/webdriverio/webdriverio',
