@@ -3,6 +3,8 @@
 This app is build with React Native and will be used for test automation purposes for the 
 [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate).
 
+https://user-images.githubusercontent.com/11979740/118520294-3fb8e480-b73a-11eb-9100-dccecbb683cc.mov
+
 ## Downloads
 Different releases of the iOS and Android app can be downloaded [here](https://github.com/webdriverio/native-demo-app/releases)
 
