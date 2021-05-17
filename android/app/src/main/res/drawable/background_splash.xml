@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:drawable="@color/background"/>
 
-    <item>
-        <bitmap
-                android:gravity="fill"
-                android:src="@drawable/screen"/>
-    </item>
+  <item
+    android:drawable="@mipmap/webdriverio"
+    android:height="200dp"
+    android:width="200dp"
+    android:gravity="center"
+  />
 
-</selector>
+</layer-list>

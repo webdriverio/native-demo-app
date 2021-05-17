@@ -1,0 +1,36 @@
+name: iOS WebdriverIO Native Demo App
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'android/**'
+      - '**.md'
+      - '**/android.yml'
+defaults:
+  run:
+    working-directory: ios
+jobs:
+  SimulatorRelease:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: |
+          yarn install
+      - name: Build iOS Sim Build
+        run: yarn ios.release.sim.build
+      - name: Archive App
+        uses: actions/upload-artifact@v2
+        with:
+          name: iOS SauceLabs Sample App Sim Build
+          path: '**/Build/Products/Release-iphonesimulator/wdioNativeDemoApp.app'
