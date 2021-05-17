@@ -359,7 +359,6 @@ const styles = StyleSheet.create({
   dragZone: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    height: 200,
     position: 'absolute',
     bottom: 10,
     left: 10,

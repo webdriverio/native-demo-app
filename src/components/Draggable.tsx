@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.orange,
     borderRadius: 1,
-    height: 70,
+    height: 60,
     margin: 2,
-    width: 70,
+    width: 60,
   },
   icon: {
     position: 'absolute',
