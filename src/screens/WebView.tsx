@@ -26,6 +26,7 @@ const WebviewScreen = () => {
       startInLoadingState
       originWhitelist={['*']}
       style={{marginTop: STATUS_BAR_HEIGHT}}
+      webviewDebuggingEnabled
     />
   );
 };

@@ -29,6 +29,13 @@ import Colors from '../config/Colors';
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
+const TabSelector: React.FC<{selected: boolean}> = ({selected}) => {
+  return (
+    <View style={styles.selectorContainer}>
+      <View style={selected && styles.selected} />
+    </View>
+  );
+};
 const LoginForm = () => {
   // States
   const [email, setEmail] = useState('');
@@ -54,15 +61,6 @@ const LoginForm = () => {
     isSensorAvailable().catch();
   }, []);
 
-  // Component
-  const TabSelector: React.FC<{selected: boolean}> = ({selected}) => {
-    return (
-      <View style={styles.selectorContainer}>
-        <View style={selected && styles.selected} />
-      </View>
-    );
-  };
-
   // Constants
   const isDarkMode = useColorScheme() === 'dark';
   const isLoginPage = selectedCategory === 0;
@@ -86,7 +84,8 @@ const LoginForm = () => {
     setIsLoading(false);
   };
   const validateEmail = (text: string) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     return re.test(text);
   };

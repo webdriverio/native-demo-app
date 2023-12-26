@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="background">#1c1e21</color>
-  <color name="primary_dark">#000</color>
+    <color name="bootsplash_background">#1c1d20</color>
 </resources>

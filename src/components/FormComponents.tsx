@@ -30,7 +30,16 @@ const options = [
     label: 'This app is awesome',
   },
 ];
-
+const Chevron: React.FC = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+  return (
+    <Icon
+      name="chevron-down"
+      size={24}
+      color={isDarkMode ? Colors.white : Colors.black}
+    />
+  );
+};
 const FormComponents = () => {
   const isDarkMode = useColorScheme() === 'dark';
   const [isSwitchActive, setIsSwitchActive] = useState(false);
@@ -151,15 +160,8 @@ const FormComponents = () => {
             }}
             pickerProps={{...testProperties('Dropdown picker')}}
             touchableWrapperProps={{...testProperties('Dropdown', true)}}
-            Icon={() => {
-              return (
-                <Icon
-                  name="chevron-down"
-                  size={24}
-                  color={isDarkMode ? Colors.white : Colors.black}
-                />
-              );
-            }}
+            // @ts-ignore
+            Icon={Chevron}
           />
         </View>
         <View style={styles.formGroup}>

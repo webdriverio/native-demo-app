@@ -1,20 +1,21 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, {useEffect} from 'react';
 import {Text} from 'react-native';
-import 'react-native-gesture-handler';
+// import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import SplashScreen from 'react-native-splash-screen';
+import RNBootSplash from 'react-native-bootsplash';
+import WdioStatusBar from './components/StatusBar';
+import DragScreen from './screens/Drag';
+import FormsScreen from './screens/Forms';
 import HomeScreen from './screens/Home';
-import WebviewScreen from './screens/WebView';
 import LoginScreen from './screens/Login';
 import SwipeScreen from './screens/Swipe';
-import FormsScreen from './screens/Forms';
-import WdioStatusBar from './components/StatusBar';
+import WebviewScreen from './screens/WebView';
 import Colors from './config/Colors';
 import {HAS_IOS_NOTCH} from './config/Constants';
-import DragScreen from './screens/Drag';
 const Tab = createBottomTabNavigator();
 const linking = {
   prefixes: ['wdio://'],
@@ -29,33 +30,34 @@ const linking = {
     },
   },
 };
+type Color = {color: string};
 const App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
   return (
     <SafeAreaProvider>
       <WdioStatusBar />
-      <NavigationContainer linking={linking} fallback={<Text>Loading...</Text>}>
+      <NavigationContainer
+        linking={linking}
+        fallback={<Text>Loading...</Text>}
+        onReady={() => RNBootSplash.hide({fade: true})}>
         <Tab.Navigator
-          tabBarOptions={{
-            activeTintColor: Colors.orange,
-            inactiveTintColor: Colors.white,
-            keyboardHidesTabBar: true,
-            labelStyle: {
+          screenOptions={{
+            headerShown: false,
+            tabBarActiveTintColor: Colors.orange,
+            tabBarInactiveTintColor: Colors.white,
+            tabBarHideOnKeyboard: true,
+            tabBarLabelStyle: {
               fontSize: 14,
               fontWeight: '100',
               paddingBottom: 5,
             },
-            style: {
+            tabBarStyle: {
               backgroundColor: Colors.black,
               borderTopWidth: 5,
               borderTopColor: Colors.orange,
               paddingTop: 5,
               height: HAS_IOS_NOTCH ? 90 : 60,
             },
-            tabStyle: {
+            tabBarItemStyle: {
               width: 100,
             },
           }}>
@@ -65,7 +67,7 @@ const App = () => {
             options={{
               tabBarLabel: 'Home',
               tabBarAccessibilityLabel: 'Home',
-              tabBarIcon: ({color}) => (
+              tabBarIcon: ({color}: Color) => (
                 <Icon color={color} name={'home-outline'} size={26} />
               ),
             }}
@@ -76,7 +78,7 @@ const App = () => {
             options={{
               tabBarLabel: 'Webview',
               tabBarAccessibilityLabel: 'Webview',
-              tabBarIcon: ({color}) => (
+              tabBarIcon: ({color}: Color) => (
                 <Icon color={color} name={'web'} size={26} />
               ),
             }}
@@ -87,7 +89,7 @@ const App = () => {
             options={{
               tabBarLabel: 'Login',
               tabBarAccessibilityLabel: 'Login',
-              tabBarIcon: ({color}) => (
+              tabBarIcon: ({color}: Color) => (
                 <Icon color={color} name={'login'} size={26} />
               ),
             }}
@@ -98,7 +100,7 @@ const App = () => {
             options={{
               tabBarLabel: 'Forms',
               tabBarAccessibilityLabel: 'Forms',
-              tabBarIcon: ({color}) => (
+              tabBarIcon: ({color}: Color) => (
                 <Icon color={color} name={'pencil'} size={26} />
               ),
             }}
