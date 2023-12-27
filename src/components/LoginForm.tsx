@@ -4,7 +4,7 @@
  *
  * Credits to the React Native Elements team!
  */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -18,8 +18,8 @@ import {
 } from 'react-native';
 import {Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Biometrics, {BiometryType} from 'react-native-biometrics';
-import {WINDOW_WIDTH} from '../config/Constants';
+import * as LocalAuthentication from 'expo-local-authentication';
+import {IS_IOS, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
 import Button from './Button';
 import TitleDivider from './TitleDivider';
@@ -29,6 +29,17 @@ import Colors from '../config/Colors';
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
+type BiometryType =
+  | 'BIOMETRICS'
+  | 'FINGERPRINT'
+  | 'FACIAL_RECOGNITION'
+  | 'IRIS';
+const BIOMETRICS_TYPE: {[key: string]: BiometryType} = {
+  FINGERPRINT: 'FINGERPRINT',
+  FACIAL_RECOGNITION: 'FACIAL_RECOGNITION',
+  IRIS: 'IRIS',
+  BIOMETRICS: 'BIOMETRICS',
+};
 const TabSelector: React.FC<{selected: boolean}> = ({selected}) => {
   return (
     <View style={styles.selectorContainer}>
@@ -47,26 +58,18 @@ const LoginForm = () => {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isConfirmationValid, setIsConfirmationValid] = useState(true);
   const [isBiometricAvailable, setIsBiometricAvailable] = useState(false);
-  const [biometricsType, setBiometricsType] = useState<
-    BiometryType | undefined
-  >(undefined);
-
-  // Check if the biometric sensor is available
-  useEffect(() => {
-    const isSensorAvailable = async () => {
-      const {available, biometryType} = await Biometrics.isSensorAvailable();
-      setIsBiometricAvailable(available);
-      setBiometricsType(biometryType);
-    };
-    isSensorAvailable().catch();
-  }, []);
+  const [biometricsType, setBiometricsType] = useState<BiometryType | null>(
+    null,
+  );
 
   // Constants
   const isDarkMode = useColorScheme() === 'dark';
   const isLoginPage = selectedCategory === 0;
   const isSignUpPage = selectedCategory === 1;
   const biometricName =
-    biometricsType === Biometrics.FaceID ? 'face-recognition' : 'fingerprint';
+    biometricsType === BIOMETRICS_TYPE.FINGERPRINT
+      ? 'fingerprint'
+      : 'face-recognition';
 
   // Element Refs
   interface RNInput extends TextInput {
@@ -105,7 +108,7 @@ const LoginForm = () => {
     }
 
     // Check password confirmation
-    let validPasswordConfirmation: boolean;
+    let validPasswordConfirmation: boolean = false;
     if (isSignUpPage) {
       validPasswordConfirmation =
         password === passwordConfirmation && passwordConfirmation.length >= 8;
@@ -139,22 +142,65 @@ const LoginForm = () => {
       }, 1500);
     }
   };
-  const handleBiometryLogin = async (retry = 0): Promise<void> => {
-    // Using object destructuring here will automatically call the `handleBiometryLogin`
-    const loginResult = await Biometrics.simplePrompt({
-      promptMessage: 'Please log in',
-      cancelButtonText: 'Cancel',
-    });
-
-    return loginResult.success
-      ? Alert.alert('Success', 'You are logged in!', [{text: 'OK'}], {
-          cancelable: false,
-        })
-      : // Only let it fail/retry once
-      retry < 1
-      ? await handleBiometryLogin(1)
-      : undefined;
+  const handleBiometryLogin = useCallback(async () => {
+    try {
+      setIsEmailValid(true);
+      setIsPasswordValid(true);
+      const sensorType =
+        IS_IOS && biometricsType === BIOMETRICS_TYPE.FINGERPRINT
+          ? 'TouchID'
+          : IS_IOS
+          ? 'FaceID'
+          : biometricsType === BIOMETRICS_TYPE.IRIS
+          ? 'Iris'
+          : biometricsType === BIOMETRICS_TYPE.FINGERPRINT
+          ? 'Fingerprint'
+          : 'Biometrics';
+      const {success} = await LocalAuthentication.authenticateAsync({
+        promptMessage: `Login with ${sensorType}`,
+        disableDeviceFallback: true,
+        cancelLabel: 'Cancel',
+      });
+      if (success) {
+        Alert.alert(
+          'Success',
+          `You are logged in through ${sensorType}!`,
+          [{text: 'OK'}],
+          {
+            cancelable: false,
+          },
+        );
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [biometricsType]);
+  const getBiometricsType = (types: number[]) => {
+    let type: BiometryType;
+    switch (types[0]) {
+      case 1:
+        type = BIOMETRICS_TYPE.FINGERPRINT;
+        break;
+      case 2:
+        type = BIOMETRICS_TYPE.FACIAL_RECOGNITION;
+        break;
+      case 3:
+        type = BIOMETRICS_TYPE.IRIS;
+        break;
+      default:
+        type = BIOMETRICS_TYPE.BIOMETRICS;
+    }
+    setBiometricsType(type);
   };
+
+  useEffect(() => {
+    (async () => {
+      setIsBiometricAvailable(await LocalAuthentication.isEnrolledAsync());
+      getBiometricsType(
+        await LocalAuthentication.supportedAuthenticationTypesAsync(),
+      );
+    })();
+  });
 
   return (
     <View style={styles.contentContainer}>

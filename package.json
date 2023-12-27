@@ -14,6 +14,8 @@
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/material-bottom-tabs": "^6.2.19",
     "@react-navigation/native": "^6.1.9",
+    "expo": ">=50.0.0-0 <51.0.0",
+    "expo-local-authentication": "^13.6.0",
     "react": "18.2.0",
     "react-native": "0.73.1",
     "react-native-biometrics": "^3.0.1",
