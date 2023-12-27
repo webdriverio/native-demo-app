@@ -3,6 +3,9 @@
 
 #import <React/RCTBundleURLProvider.h>
 
+// For Deep Linking
+#import <React/RCTLinkingManager.h>
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -39,6 +42,13 @@
   [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
 
   return rootView;
+}
+// For Deep Linking
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 @end
