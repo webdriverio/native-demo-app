@@ -1,18 +1,5 @@
-/**
- * Basics used from:
- * https://github.com/archriss/react-native-snap-carousel/blob/master/example/src/index.js
- *
- * Credits to the Archriss who build the react-native-snap-carousel!
- */
 import React from 'react';
-import {
-  Linking,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  useColorScheme,
-} from 'react-native';
+import {View, Text, StyleSheet, useColorScheme} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {IS_IOS, WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
@@ -26,15 +13,15 @@ const SliderEntry: React.FC<{
   icon: string;
   title: string;
   subtitle: string;
-  link: string;
-}> = ({icon, title, subtitle, link}) => {
+}> = ({icon, title, subtitle}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      style={styles.slideInnerContainer}
-      onPress={() => Linking.openURL(link)}
+    <View
+      style={[
+        styles.slideInnerContainer,
+        {backgroundColor: isDarkMode ? Colors.dark : Colors.white},
+      ]}
       {...testProperties('card', true)}>
       <View style={styles.slideIconContainer}>
         <Icon name={icon} size={150} style={styles.slideIcon} />
@@ -59,7 +46,7 @@ const SliderEntry: React.FC<{
           {subtitle}
         </Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
