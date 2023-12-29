@@ -33,6 +33,7 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+!wdio-native-app-upload-key.keystore
 
 # node.js
 #

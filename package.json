@@ -1,10 +1,14 @@
 {
   "name": "wdiodemoapp",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android.clean": "cd android && ./gradlew clean && cd .. ",
+    "android.dev": "npm run android.clean && react-native run-android",
+    "android.release": "cd android && ./gradlew clean && ./gradlew assembleRelease",
+    "ios.dev": "npm run ios.pods && react-native run-ios",
+    "ios.pods": "cd ios && pod install && cd ..",
+    "ios.release.sim.build": "npm run ios.pods && react-native run-ios -- --configuration Release",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"
