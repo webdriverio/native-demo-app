@@ -79,7 +79,7 @@ android {
         applicationId "com.wdiodemoapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 4
         versionName "1.0"
     }
     signingConfigs {
