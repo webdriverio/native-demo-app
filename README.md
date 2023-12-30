@@ -1,17 +1,14 @@
 # WebdriverIO Demo App for iOS and Android
 
-This app is build with React Native and will be used for test automation purposes for the 
-[appium-boilerplate](https://github.com/webdriverio/appium-boilerplate).
+This app is built with React Native and will be used for test automation purposes for the [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate).
 
 https://user-images.githubusercontent.com/11979740/118520294-3fb8e480-b73a-11eb-9100-dccecbb683cc.mov
 
 ## Downloads
 Different releases of the iOS and Android app can be downloaded [here](https://github.com/webdriverio/native-demo-app/releases)
 
-> **NOTE:**
-> The Android app can be installed on Android emulators and physical devices.
-> The iOS app can **ONLY** be installed on iOS simulators. There is no build available for physical iOS devices due to 
-> not being able to install this app on physical iPhones. This is a (security) limitation from Apple.
+> [!NOTE]
+> The Android app can be installed on Android emulators and physical devices. The iOS app can **ONLY** be installed on iOS simulators. There is no build available for physical iOS devices due to not being able to install this app on physical iPhones. This is a (security) limitation from Apple.
 
 ## Features
 This app can/will be used for the [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate) so (new) users 
