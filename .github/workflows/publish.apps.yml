@@ -89,6 +89,11 @@ jobs:
         with:
           ref: pre-release
 
+      - name: 🛠️ Xcode Select Version
+        uses: mobiledevops/xcode-select-version-action@v1
+        with:
+          xcode-select-version: 14.2
+
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -127,6 +132,20 @@ jobs:
           name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
           path: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
 
+  cleanup:
+    runs-on: ubuntu-latest
+    if: failure()
+    needs: [prepare_release, android_build, ios_build]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: 🔥 Delete Pre-Release Branch
+        run: |
+          git push origin --delete pre-release
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            
   finalize:
     needs: [android_build, ios_build]
     runs-on: ubuntu-latest
