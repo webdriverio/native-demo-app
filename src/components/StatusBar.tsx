@@ -1,12 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, StatusBar} from 'react-native';
-import {HAS_IOS_NOTCH, IS_IOS} from '../config/Constants';
 
-const STATUS_BAR_HEIGHT = IS_IOS
-  ? HAS_IOS_NOTCH
-    ? 44
-    : 20
-  : StatusBar.currentHeight || 0;
+const STATUS_BAR_HEIGHT = StatusBar.currentHeight || 0;
 
 const WdioStatusBar = () => {
   return (
