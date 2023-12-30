@@ -4,15 +4,16 @@
   "private": true,
   "scripts": {
     "android.clean": "cd android && ./gradlew clean && cd .. ",
-    "android.dev": "npm run android.clean && npm run version.app -- -b -L && npm react-native run-android",
+    "android.dev": "npm run android.clean && npm run build.version.android && react-native run-android",
     "android.release": "cd android && ./gradlew clean && ./gradlew assembleRelease",
-    "ios.dev": "npm run ios.pods && react-native run-ios",
+    "ios.dev": "npm run ios.pods && npm run build.version.ios && react-native run-ios",
     "ios.pods": "cd ios && pod install && cd ..",
-    "ios.release.sim.build": "npm run ios.pods && react-native run-ios -- --configuration Release",
+    "ios.release.sim.build": "npm run ios.pods && react-native run-ios --mode=Release",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "version.app": "react-native-version"
+    "build.version.android": "react-native-version -A -b --target android",
+    "build.version.ios": "react-native-version -A -b -L --target ios"
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.6.1",

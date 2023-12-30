@@ -75,7 +75,7 @@ The output will look something like this:
 
 ```log
 > wdiodemoapp@1.0.0 android.release
-> cd android && ./gradlew clean && ./gradlew assembleRelease
+> cd android && ./gradlew clean && npm run build.version.android && ./gradlew assembleRelease
 
 
 > Configure project :expo
@@ -109,6 +109,13 @@ Clean expo-modules-core-x86_64
 
 BUILD SUCCESSFUL in 4s
 30 actionable tasks: 25 executed, 5 up-to-date
+
+> wdiodemoapp@1.0.0 build.version.android
+> react-native-version -A -b --target android
+
+[RNV] Versioning Android...
+[RNV] Android updated
+[RNV] Done
 
 > Configure project :expo
 
@@ -273,6 +280,19 @@ package="com.swmansion.rnscreens" found in source AndroidManifest.xml: /Users/wi
 Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
 Recommendation: remove package="com.swmansion.rnscreens" from the source AndroidManifest.xml: /Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-screens/android/src/main/AndroidManifest.xml.
 
+> Task :react-native-safe-area-context:compileReleaseKotlin
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextModule.kt:7:46 'ReactModule' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextModule.kt:9:2 'ReactModule' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:6:46 'ReactModule' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:26:51 'ReactModule' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:28:11 'constructor ReactModuleInfo(String!, String!, Boolean, Boolean, Boolean, Boolean, Boolean)' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:34:27 'hasConstants: Boolean' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaProviderManager.kt:4:46 'ReactModule' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaProviderManager.kt:11:2 'ReactModule' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaView.kt:59:23 'getter for uiImplementation: UIImplementation!' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaViewManager.kt:4:46 'ReactModule' is deprecated. Deprecated in Java
+w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaViewManager.kt:14:2 'ReactModule' is deprecated. Deprecated in Java
+
 > Task :react-native-webview:compileReleaseKotlin
 w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewManagerImpl.kt:40:71 Parameter 'webView' is never used, could be renamed to _
 w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewManagerImpl.kt:81:18 'setter for allowFileAccessFromFileURLs: Boolean' is deprecated. Deprecated in Java
@@ -331,19 +351,6 @@ w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-we
 w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/events/TopShouldStartLoadWithRequestEvent.kt:10:89 'constructor Event<T : Event<(raw) Event<*>>!>(Int)' is deprecated. Deprecated in Java
 w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/events/TopShouldStartLoadWithRequestEvent.kt:27:42 'RCTEventEmitter' is deprecated. Deprecated in Java
 w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-webview/android/src/main/java/com/reactnativecommunity/webview/events/TopShouldStartLoadWithRequestEvent.kt:28:21 'receiveEvent(Int, String!, WritableMap?): Unit' is deprecated. Deprecated in Java
-
-> Task :react-native-safe-area-context:compileReleaseKotlin
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextModule.kt:7:46 'ReactModule' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextModule.kt:9:2 'ReactModule' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:6:46 'ReactModule' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:26:51 'ReactModule' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:28:11 'constructor ReactModuleInfo(String!, String!, Boolean, Boolean, Boolean, Boolean, Boolean)' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaContextPackage.kt:34:27 'hasConstants: Boolean' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaProviderManager.kt:4:46 'ReactModule' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaProviderManager.kt:11:2 'ReactModule' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaView.kt:59:23 'getter for uiImplementation: UIImplementation!' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaViewManager.kt:4:46 'ReactModule' is deprecated. Deprecated in Java
-w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-safe-area-context/android/src/main/java/com/th3rdwave/safeareacontext/SafeAreaViewManager.kt:14:2 'ReactModule' is deprecated. Deprecated in Java
 
 > Task :react-native-screens:compileReleaseKotlin
 w: file:///Users/wimselles/Git/wdio/native-demo-app/node_modules/react-native-screens/android/src/main/java/com/swmansion/rnscreens/ScreenContainerViewManager.kt:5:46 'ReactModule' is deprecated. Deprecated in Java
@@ -564,7 +571,7 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 1m 3s
+BUILD SUCCESSFUL in 57s
 673 actionable tasks: 585 executed, 88 up-to-date
 ```
 
@@ -591,7 +598,7 @@ The output will look something like this
 
 ```log
 > wdiodemoapp@1.0.0 ios.release.sim.build
-> npm run ios.pods && react-native run-ios -- --configuration Release
+> npm run ios.pods && npm run build.version.ios && react-native run-ios --mode=Release
 
 
 > wdiodemoapp@1.0.0 ios.pods
@@ -611,17 +618,24 @@ Generating Pods project
 Setting USE_HERMES build settings
 Setting REACT_NATIVE build settings
 Setting CLANG_CXX_LANGUAGE_STANDARD to c++20 on /Users/wimselles/Git/wdio/native-demo-app/ios/wdiodemoapp.xcodeproj
-Pod install took 8 [s] to run
+Pod install took 9 [s] to run
 Integrating client project
-expo_patch_react_imports! took 0.1125 seconds to transform files.
+expo_patch_react_imports! took 0.1642 seconds to transform files.
 Pod installation complete! There are 89 dependencies from the Podfile and 77 total pods installed.
+
+> wdiodemoapp@1.0.0 build.version.ios
+> react-native-version -A -b -L --target ios
+
+[RNV] Versioning iOS...
+[RNV] iOS updated
+[RNV] Done
 info A dev server is already running for this project on port 8081.
 info Found Xcode workspace "wdiodemoapp.xcworkspace"
 info Found booted iPhone 15
-info Building (using "xcodebuild -workspace wdiodemoapp.xcworkspace -configuration Debug -scheme wdiodemoapp -destination id=937B028C-B107-4B94-B4D5-1297A1FEDC34")
+info Building (using "xcodebuild -workspace wdiodemoapp.xcworkspace -configuration Release -scheme wdiodemoapp -destination id=937B028C-B107-4B94-B4D5-1297A1FEDC34")
 success Successfully built the app
-2023-12-29 08:16:40.010 xcodebuild[57387:4449392] Requested but did not find extension point with identifier Xcode.InterfaceBuilderBuildSupport.PlatformDefinition
-info Installing "/Users/wimselles/Library/Developer/Xcode/DerivedData/wdiodemoapp-dsosmcwovazosxetsdjzqnhzervv/Build/Products/Debug-iphonesimulator/wdiodemoapp.app on iPhone 15"
+2023-12-29 16:47:35.305 xcodebuild[85874:4718737] Requested but did not find extension point with identifier Xcode.InterfaceBuilderBuildSupport.PlatformDefinition
+info Installing "/Users/wimselles/Library/Developer/Xcode/DerivedData/wdiodemoapp-dsosmcwovazosxetsdjzqnhzervv/Build/Products/Release-iphonesimulator/wdiodemoapp.app on iPhone 15"
 info Launching "org.reactjs.native.example.wdiodemoapp"
 success Successfully launched the app on the simulator
 ```
