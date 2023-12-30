@@ -7,10 +7,6 @@ on:
         description: 'Release type - major, minor or patch'
         required: true
         default: 'patch'
-
-defaults:
-  run:
-    working-directory: android
     
 jobs:
   ReleaseBuild:
