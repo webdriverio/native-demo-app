@@ -82,17 +82,18 @@ jobs:
 
   ios_build:
     needs: prepare_release
-    runs-on: macos-latest
+    # for https://github.com/facebook/react-native/issues/38294
+    runs-on: macos-13
     steps:
       - name: ⬇️ Checkout Pre-Release Branch
         uses: actions/checkout@v3
         with:
           ref: pre-release
 
-      - name: 🛠️ Xcode Select Version
-        uses: mobiledevops/xcode-select-version-action@v1
-        with:
-          xcode-select-version: 14.2
+    #   - name: 🛠️ Xcode Select Version
+    #     uses: mobiledevops/xcode-select-version-action@v1
+    #     with:
+    #       xcode-select-version: 14.2
 
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
