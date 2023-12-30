@@ -7,109 +7,167 @@ on:
         description: 'Release type - major, minor or patch'
         required: true
         default: 'patch'
-    
-jobs:
-  ReleaseBuild:
-    runs-on: macos-latest
-    
-    strategy:
-      fail-fast: true
-      matrix:
-        node-version: [20.x]
-        java-version: [17.x]
-        java-distribution: [zulu]
-    
-    steps:
 
+jobs:
+  prepare_release:
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.set_new_version.outputs.new_version }}
+    steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 🌲 Setup Git
-        run: |
-          git config --global user.email "bot@webdriver.io"
-          git config --global user.name "WebdriverIO Release Bot"
-      
-      - name: ☕ Setup Java
-        uses: actions/setup-java@v4
-        with:
-            distribution: ${{ matrix.java-distribution }}
-            java-version: ${{ matrix.java-version }}
-      
-      - name: 🤖 Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+      - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: 🔍 Get current version from package.json
-        run: echo "CURRENT_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
-      
-      - name: 🧮 Calculate new version
-        run: |
-          IFS='.' read -ra VER <<< "$CURRENT_VERSION"
-          if [ "${{ github.event.inputs.releaseType }}" == "major" ]; then
-            let VER[0]=$((VER[0]+1))
-            VER[1]=0
-            VER[2]=0
-          elif [ "${{ github.event.inputs.releaseType }}" == "minor" ]; then
-            let VER[1]=$((VER[1]+1))
-            VER[2]=0
-          elif [ "${{ github.event.inputs.releaseType }}" == "patch" ]; then
-            let VER[2]=$((VER[2]+1))
-          fi
-          NEW_VERSION="${VER[0]}.${VER[1]}.${VER[2]}"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          node-version: '20.x'
 
       - name: 🧩 Install Dependencies
         run: npm ci
 
-      - name: 🔄 Increase Version and Build Number
+      - name: 🔄 Increment Version and Build Number
+        id: set_new_version
         run: |
-            npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version
-            npm run build.versions
+          NEW_VERSION=$(npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version)
+          echo "New version: $NEW_VERSION"
+          echo "::set-output name=new_version::$NEW_VERSION"
+          npm run build.versions
 
-      - name: 🏗️ Build 🤖 Android Release
+      - name: 🌿 Create Pre-Release Branch
+        run: |
+          git checkout -b pre-release
+          git add .
+          git commit -m "chore: Preparing for release $NEW_VERSION"
+          git push origin pre-release
+
+  android_build:
+    needs: prepare_release
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Pre-Release Branch
+        uses: actions/checkout@v3
+        with:
+          ref: pre-release
+
+      - name: ☕ Setup Java and Android SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17.x'
+
+      - name: 🌲 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: 🧩 Install Dependencies
+        run: npm ci
+
+      - name: 🔢 Set Version and Build Number
+        run: |
+          npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version
+          npm run build.versions
+
+      - name: 🏗️ Build Android Release
         run: npm run android.release
 
       - name: 📦 Move 🤖 Android Build
-        run: mv **/app/build/outputs/apk/release/**/*.apk android.wdio.native.app.${{ env.NEW_VERSION }}.apk
+        run: mv android/app/build/outputs/apk/release/app-release.apk android.wdio.native.app.${{ env.NEW_VERSION }}.apk
 
-      - name: 🏗️ Build 🍏 iOS Release
+      - name: 📤 Upload Android App
+        uses: actions/upload-artifact@v3
+        with:
+          name: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
+          path: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
+
+  ios_build:
+    needs: prepare_release
+    runs-on: macos-latest
+    steps:
+      - name: ⬇️ Checkout Pre-Release Branch
+        uses: actions/checkout@v3
+        with:
+          ref: pre-release
+
+      - name: 🌲 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+
+      - name: 🧩 Install Dependencies
+        run: npm ci
+
+      - name: 🔢 Set Version and Build Number
+        run: |
+          npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version
+          npm run build.versions
+
+      - name: 🏗️ Build iOS Release
         run: npm run ios.release.sim.build
 
-      - name: 📦 Zip and move 🍏 iOS Simulator Build
+      - name: 📦 Zip and move iOS Simulator Build
         run: |
           mkdir Payload
           cp -R **/Build/Products/Release-iphonesimulator/**/*.app Payload
-          zip -9 -r ios.simulator.wdio.native.app.${{env.NEW_VERSION}}.zip Payload
+          zip -9 -r ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip Payload
           rm -rf Payload
 
-      - name: 📤 Upload 🤖 Android App
+      - name: 📤 Upload iOS App
         uses: actions/upload-artifact@v3
         with:
-            name: android.wdio.native.app.${{ env.NEW_VERSION }}.apk
-            path: android.wdio.native.app.${{ env.NEW_VERSION }}.apk
-        
-      - name: 📤 Upload 🍏 iOS App
-        uses: actions/upload-artifact@v3
-        with:
-            name: ios.simulator.wdio.native.app.${{env.NEW_VERSION}}.zip
-            path: ios.simulator.wdio.native.app.${{env.NEW_VERSION}}.zip
+          name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
+          path: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
 
-      - name: 📝 Git Commit and Push Changes
+  finalize:
+    needs: [android_build, ios_build]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: ⬇️ Checkout Pre-Release Branch
+        uses: actions/checkout@v3
+        with:
+          ref: pre-release
+
+      - name: 🔖 Tag New Release
         run: |
-            git add .
-            git diff --quiet && git diff --staged --quiet || (git commit -m "chore: bump version to ${{ env.NEW_VERSION }}" && git push origin HEAD:${{ github.head_ref }})
+          git tag -a "v${{ needs.prepare_release.outputs.new_version }}" -m "Release v${{ needs.prepare_release.outputs.new_version }}"
+          git push origin "v${{ needs.prepare_release.outputs.new_version }}"
 
-      - name: 🚀 Create Release
+      - name: 🔀 Merge Pre-Release to Main
+        run: |
+          git fetch
+          git checkout main
+          git merge --no-ff pre-release -m "Merging pre-release to main: Release v${{ needs.prepare_release.outputs.new_version }}"
+          git push origin main
+
+      - name: 🚀 Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-            tag_name: ${{ env.NEW_VERSION }}
-            release_name: Release ${{ env.NEW_VERSION }}
-            draft: true
-            prerelease: false
+          tag_name: v${{ needs.prepare_release.outputs.new_version }}
+          release_name: Release v${{ needs.prepare_release.outputs.new_version }}
+          draft: false
+          prerelease: false
+
+      - name: 📤 Upload Artifacts to Release
+        run: |
+          ASSET_URL=${{ steps.create_release.outputs.upload_url }}
+          echo "Uploading Android App..."
+          curl \
+            -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: $(file -b --mime-type ./android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk)" \
+            --data-binary @./android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk \
+            "$ASSET_URL?name=android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk"
+            
+          echo "Uploading iOS App..."
+          curl \
+            -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: $(file -b --mime-type ./ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip)" \
+            --data-binary @./ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip \
+            "$ASSET_URL?name=ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
