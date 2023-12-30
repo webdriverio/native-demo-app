@@ -13,7 +13,8 @@
     "start": "react-native start",
     "test": "jest",
     "build.version.android": "react-native-version -A -b --target android",
-    "build.version.ios": "react-native-version -A -b -L --target ios"
+    "build.version.ios": "react-native-version -A -b -L --target ios",
+    "build.versions": "react-native-version -A -L"
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.6.1",

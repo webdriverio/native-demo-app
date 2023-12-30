@@ -24,49 +24,92 @@ jobs:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
 
-    #   - name: 🌲 Setup Git
-    #     run: |
-    #       git config --global user.email "bot@webdriver.io"
-    #       git config --global user.name "WebdriverIO Release Bot"
+      - name: 🌲 Setup Git
+        run: |
+          git config --global user.email "bot@webdriver.io"
+          git config --global user.name "WebdriverIO Release Bot"
       
-    #   - name: ☕ Setup Java
-    #     uses: actions/setup-java@v4
-    #     with:
-    #         distribution: ${{ matrix.java-distribution }}
-    #         java-version: ${{ matrix.java-version }}
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+            distribution: ${{ matrix.java-distribution }}
+            java-version: ${{ matrix.java-version }}
       
-    #   - name: 🤖 Setup Android SDK
-    #     uses: android-actions/setup-android@v3
+      - name: 🤖 Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-    #   - name: 🟢 Setup Node.js ${{ matrix.node-version }}
-    #     uses: actions/setup-node@v3
-    #     with:
-    #       node-version: ${{ matrix.node-version }}
-
-    #   - name: 🧩 Install Dependencies
-    #     run: npm ci
+      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: 🔍 Get current version from package.json
         run: echo "CURRENT_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
-    
-      - name: Debugging variables
-        run: |
-          echo "Current version: $CURRENT_VERSION"
-          IFS='.' read -ra VER <<< "$CURRENT_VERSION"
-          echo "Parsed version array: ${VER[*]}"
       
-      - name: Calculate new version
+      - name: 🧮 Calculate new version
         run: |
           IFS='.' read -ra VER <<< "$CURRENT_VERSION"
           if [ "${{ github.event.inputs.releaseType }}" == "major" ]; then
-            let VER[0]++
+            let VER[0]=$((VER[0]+1))
             VER[1]=0
             VER[2]=0
           elif [ "${{ github.event.inputs.releaseType }}" == "minor" ]; then
-            let VER[1]++
+            let VER[1]=$((VER[1]+1))
             VER[2]=0
           elif [ "${{ github.event.inputs.releaseType }}" == "patch" ]; then
-            let VER[2]++
+            let VER[2]=$((VER[2]+1))
           fi
           NEW_VERSION="${VER[0]}.${VER[1]}.${VER[2]}"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: 🧩 Install Dependencies
+        run: npm ci
+
+      - name: 🔄 Increase Version and Build Number
+        run: |
+            npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version
+            npm run build.versions
+
+      - name: 🏗️ Build 🤖 Android Release
+        run: npm run android.release
+
+      - name: 📦 Move 🤖 Android Build
+        run: mv **/app/build/outputs/apk/release/**/*.apk android.wdio.native.app.${{ env.NEW_VERSION }}.apk
+
+      - name: 🏗️ Build 🍏 iOS Release
+        run: npm run ios.release.sim.build
+
+      - name: 📦 Zip and move 🍏 iOS Simulator Build
+        run: |
+          mkdir Payload
+          cp -R **/Build/Products/Release-iphonesimulator/**/*.app Payload
+          zip -9 -r ios.simulator.wdio.native.app.${{env.NEW_VERSION}}.zip Payload
+          rm -rf Payload
+
+      - name: 📤 Upload 🤖 Android App
+        uses: actions/upload-artifact@v3
+        with:
+            name: android.wdio.native.app.${{ env.NEW_VERSION }}.apk
+            path: android.wdio.native.app.${{ env.NEW_VERSION }}.apk
+        
+      - name: 📤 Upload 🍏 iOS App
+        uses: actions/upload-artifact@v3
+        with:
+            name: ios.simulator.wdio.native.app.${{env.NEW_VERSION}}.zip
+            path: ios.simulator.wdio.native.app.${{env.NEW_VERSION}}.zip
+
+      - name: 📝 Git Commit and Push Changes
+        run: |
+            git add .
+            git diff --quiet && git diff --staged --quiet || (git commit -m "chore: bump version to ${{ env.NEW_VERSION }}" && git push origin HEAD:${{ github.head_ref }})
+
+      - name: 🚀 Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+            tag_name: ${{ env.NEW_VERSION }}
+            release_name: Release ${{ env.NEW_VERSION }}
+            draft: true
+            prerelease: false
