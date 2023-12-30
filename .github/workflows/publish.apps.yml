@@ -10,7 +10,7 @@ on:
 
 jobs:
   prepare_release:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     outputs:
       new_version: ${{ steps.set_new_version.outputs.new_version }}
     steps:
