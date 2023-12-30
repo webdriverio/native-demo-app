@@ -72,7 +72,7 @@ jobs:
         run: npm run android.release
 
       - name: 📦 Move 🤖 Android Build
-        run: mv android/app/build/outputs/apk/release/app-release.apk android.wdio.native.app.${{ env.NEW_VERSION }}.apk
+        run: mv android/app/build/outputs/apk/release/app-release.apk android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
 
       - name: 📤 Upload Android App
         uses: actions/upload-artifact@v3
@@ -101,9 +101,18 @@ jobs:
         run: |
           npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version
           npm run build.version.ios
+      
+      # This is temp to fix the issue
+      # "error Cannot start server in new window because no terminal app was specified."
+      - name: 🚇 Start Metro Bundler
+        run: npm start -- --reset-cache &
 
       - name: 🏗️ Build iOS Release
         run: npm run ios.release.sim.build
+
+      - name: 🛑 Stop Metro Bundler
+        if: always()
+        run: kill $(jobs -p) || true
 
       - name: 📦 Zip and move iOS Simulator Build
         run: |
