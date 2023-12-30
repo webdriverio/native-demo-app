@@ -20,36 +20,40 @@ jobs:
         java-distribution: [zulu]
     
     steps:
-      - name: Check jq installation
-        run: jq --version
 
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
 
-      - name: 🌲 Setup Git
-        run: |
-          git config --global user.email "bot@webdriver.io"
-          git config --global user.name "WebdriverIO Release Bot"
+    #   - name: 🌲 Setup Git
+    #     run: |
+    #       git config --global user.email "bot@webdriver.io"
+    #       git config --global user.name "WebdriverIO Release Bot"
       
-      - name: ☕ Setup Java
-        uses: actions/setup-java@v4
-        with:
-            distribution: ${{ matrix.java-distribution }}
-            java-version: ${{ matrix.java-version }}
+    #   - name: ☕ Setup Java
+    #     uses: actions/setup-java@v4
+    #     with:
+    #         distribution: ${{ matrix.java-distribution }}
+    #         java-version: ${{ matrix.java-version }}
       
-      - name: 🤖 Setup Android SDK
-        uses: android-actions/setup-android@v3
+    #   - name: 🤖 Setup Android SDK
+    #     uses: android-actions/setup-android@v3
 
-      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+    #   - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+    #     uses: actions/setup-node@v3
+    #     with:
+    #       node-version: ${{ matrix.node-version }}
 
-      - name: 🧩 Install Dependencies
-        run: npm ci
+    #   - name: 🧩 Install Dependencies
+    #     run: npm ci
 
       - name: 🔍 Get current version from package.json
         run: echo "CURRENT_VERSION=$(cat package.json | jq -r '.version')" >> $GITHUB_ENV
+    
+      - name: Debugging variables
+        run: |
+          echo "Current version: $CURRENT_VERSION"
+          IFS='.' read -ra VER <<< "$CURRENT_VERSION"
+          echo "Parsed version array: ${VER[*]}"
       
       - name: Calculate new version
         run: |
