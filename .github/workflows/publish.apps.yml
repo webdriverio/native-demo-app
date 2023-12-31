@@ -211,6 +211,16 @@ jobs:
           release_name: Release ${{ needs.prepare_release.outputs.new_version }}
           draft: true
           prerelease: false
+    
+      - name: 📥 Download Android App Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
+  
+      - name: 📥 Download iOS App Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
 
       - name: 📤 Upload Artifacts to Release
         if: env.diffs_printed != 'true'
