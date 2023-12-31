@@ -198,6 +198,11 @@ jobs:
         with:
           ref: pre-release
 
+      - name: 🌲 Setup Git
+        run: |
+          git config --global user.email "bot@webdriver.io"
+          git config --global user.name "WebdriverIO Release Bot"  
+
       - name: 🔖 Tag New Release
         run: |
           git tag -a "v${{ needs.prepare_release.outputs.new_version }}" -m "Release v${{ needs.prepare_release.outputs.new_version }}"
