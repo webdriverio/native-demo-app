@@ -173,23 +173,9 @@ jobs:
         with:
           name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
           path: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
-
-  cleanup:
-    runs-on: ubuntu-latest
-    if: failure()
-    needs: [prepare_release, android_build, ios_build]
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        
-      - name: 🔥 Delete Pre-Release Branch
-        run: |
-          git push origin --delete pre-release
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
             
   finalize:
-    needs: [android_build, ios_build]
+    needs: [prepare_release, android_build, ios_build]
     runs-on: ubuntu-latest
     if: success()
     steps:
@@ -246,3 +232,17 @@ jobs:
             "$ASSET_URL?name=ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  cleanup:
+    runs-on: ubuntu-latest
+    if: ${{ failure() && (needs.prepare_release.result == 'failure' || needs.android_build.result == 'failure' || needs.ios_build.result == 'failure' || needs.finalize.result == 'failure') }}
+    needs: [prepare_release, android_build, ios_build, finalize]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+      - name: 🔥 Delete Pre-Release Branch
+        run: |
+          git push origin --delete pre-release
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
