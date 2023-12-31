@@ -48,6 +48,22 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: pre-release
+          
+      - name: 🧳 Cache Gradle Wrapper
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+        
+      - name: 🧳 Cache Gradle Dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('**/*.gradle*', '**/gradle.lockfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-cache-
 
       - name: ☕ Setup Java and Android SDK
         uses: actions/setup-java@v4
@@ -89,11 +105,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           ref: pre-release
-
-    #   - name: 🛠️ Xcode Select Version
-    #     uses: mobiledevops/xcode-select-version-action@v1
-    #     with:
-    #       xcode-select-version: 14.2
+      
+      - name: 🧳 Cache Cocoapods Pods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
@@ -113,8 +132,20 @@ jobs:
       - name: 🚇 Start Metro Bundler
         run: npm start -- --reset-cache &
 
+      # Using the 'verbose' xcodebuild command instead of the RN command
+      # to be able to alter the build path
       - name: 🏗️ Build iOS Release
-        run: npm run ios.release.sim.build
+        run: |
+          cd ios
+          xcodebuild \
+            -workspace wdiodemoapp.xcworkspace \
+            -configuration Release \
+            -scheme wdiodemoapp \
+            -sdk iphonesimulator \
+            -derivedDataPath ./build \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO 
+            CODE_SIGNING_ALLOWED=NO
 
       - name: 🛑 Stop Metro Bundler
         if: always()
@@ -123,7 +154,7 @@ jobs:
       - name: 📦 Zip and move iOS Simulator Build
         run: |
           mkdir Payload
-          cp -R **/Build/Products/Release-iphonesimulator/**/*.app Payload
+          cp -R ios/build/Build/Products/Release-iphonesimulator/wdiodemoapp.app Payload
           zip -9 -r ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip Payload
           rm -rf Payload
 
