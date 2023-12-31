@@ -8,6 +8,10 @@ on:
         required: true
         default: 'patch'
 
+concurrency: 
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true        
+
 jobs:
   prepare_release:
     runs-on: macos-latest
@@ -16,6 +20,11 @@ jobs:
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
+
+      - name: 🌲 Setup Git
+        run: |
+          git config --global user.email "bot@webdriver.io"
+          git config --global user.name "WebdriverIO Release Bot"        
 
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
