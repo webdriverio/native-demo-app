@@ -137,6 +137,7 @@ jobs:
       - name: 🏗️ Build iOS Release
         run: |
           cd ios
+          pod install
           xcodebuild \
             -workspace wdiodemoapp.xcworkspace \
             -configuration Release \
