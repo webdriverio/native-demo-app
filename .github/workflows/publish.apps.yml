@@ -115,13 +115,13 @@ jobs:
         with:
           ref: pre-release
       
-      - name: 🧳 Cache Cocoapods Pods
-        uses: actions/cache@v2
-        with:
-          path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}-20231231
-          restore-keys: |
-            ${{ runner.os }}-pods-
+    #   - name: 🧳 Cache Cocoapods Pods
+    #     uses: actions/cache@v2
+    #     with:
+    #       path: ios/Pods
+    #       key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}-20231231
+    #       restore-keys: |
+    #         ${{ runner.os }}-pods-
 
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
