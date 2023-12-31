@@ -119,7 +119,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}-20231231
           restore-keys: |
             ${{ runner.os }}-pods-
 
