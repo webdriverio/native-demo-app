@@ -198,7 +198,13 @@ jobs:
         run: |
           echo "Printing diffs between main and pre-release..."
           git diff main pre-release
-          echo "diffs_printed=true" >> $GITHUB_ENV        
+          echo "diffs_printed=true" >> $GITHUB_ENV
+      
+      - name: 🔥 Delete Pre-Release Branch
+        run: |
+          git push origin --delete pre-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🚀 Create GitHub Release
         id: create_release
@@ -225,7 +231,8 @@ jobs:
       - name: 📤 Upload Artifacts to Release
         if: env.diffs_printed != 'true'
         run: |
-          ASSET_URL=${{ steps.create_release.outputs.upload_url }}
+          ASSET_URL="${{ steps.create_release.outputs.upload_url }}"
+          ASSET_URL="${ASSET_URL%\{*}"
           echo "Uploading Android App..."
           curl \
             -X POST \
