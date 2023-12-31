@@ -14,7 +14,8 @@
     "test": "jest",
     "build.version.android": "react-native-version -A -b --target android",
     "build.version.ios": "react-native-version -A -b -L --target ios",
-    "build.versions": "react-native-version -A -L"
+    "build.versions": "react-native-version -A -L",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-picker/picker": "^2.6.1",
@@ -58,6 +59,8 @@
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "prettier": "2.8.8",
     "react-native-version": "^4.0.0",
     "react-test-renderer": "18.2.0",
