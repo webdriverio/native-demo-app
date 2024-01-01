@@ -1,6 +1,6 @@
 {
   "name": "wdiodemoapp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "android.clean": "cd android && ./gradlew clean && cd .. ",
