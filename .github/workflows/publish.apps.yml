@@ -37,8 +37,9 @@ jobs:
       - name: 🔄 Increment Version and Build Number
         id: set_new_version
         run: |
-          echo "new_version=$(npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version)" >> $GITHUB_ENV
-          echo "New version: $new_version"
+          NEW_VERSION=$(npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version)
+          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+          echo "New version: $NEW_VERSION"
           npm run build.versions
 
       - name: 🌿 Create Pre-Release Branch
