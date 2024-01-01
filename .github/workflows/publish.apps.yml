@@ -235,8 +235,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          chmod +x .github/scripts/upload_artifacts.sh "${{ env.ASSET_URL }}" ${{ needs.prepare_release.outputs.new_version }} ${{ secrets.GITHUB_TOKEN }}
-          .github/scripts/upload_artifacts.sh
+          chmod +x .github/scripts/upload_artifacts.sh
+          .github/scripts/upload_artifacts.sh "${{ env.ASSET_URL }}" ${{ needs.prepare_release.outputs.new_version }} ${{ secrets.GITHUB_TOKEN }}
 
   cleanup:
     runs-on: ubuntu-latest
