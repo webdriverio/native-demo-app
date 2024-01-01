@@ -39,6 +39,7 @@ jobs:
         run: |
           NEW_VERSION=$(npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version)
           echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "New version: $NEW_VERSION"
           npm run build.versions
 
@@ -92,13 +93,13 @@ jobs:
         run: npm run android.release
 
       - name: 📦 Move 🤖 Android Build
-        run: mv android/app/build/outputs/apk/release/app-release.apk android.wdio.native.app.${{ env.new_version }}.apk
+        run: mv android/app/build/outputs/apk/release/app-release.apk android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
 
       - name: 📤 Upload Android App
         uses: actions/upload-artifact@v3
         with:
-          name: android.wdio.native.app.${{ env.new_version }}.apk
-          path: android.wdio.native.app.${{ env.new_version }}.apk
+          name: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
+          path: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
 
   ios_build:
     needs: prepare_release
@@ -155,14 +156,14 @@ jobs:
         run: |
           mkdir Payload
           cp -R ios/build/Build/Products/Release-iphonesimulator/wdiodemoapp.app Payload
-          zip -9 -r ios.simulator.wdio.native.app.${{ env.new_version }}.zip Payload
+          zip -9 -r ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip Payload
           rm -rf Payload
 
       - name: 📤 Upload iOS App
         uses: actions/upload-artifact@v3
         with:
-          name: ios.simulator.wdio.native.app.${{ env.new_version }}.zip
-          path: ios.simulator.wdio.native.app.${{ env.new_version }}.zip
+          name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
+          path: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
             
   finalize:
     needs: [prepare_release, android_build, ios_build]
@@ -182,14 +183,14 @@ jobs:
 
       - name: 🔖 Tag New Release
         run: |
-          git tag -a "${{ env.new_version }}" -m "Release ${{ env.new_version }}"
-          git push origin "${{ env.new_version }}"
+          git tag -a "${{ needs.prepare_release.outputs.new_version }}" -m "Release ${{ needs.prepare_release.outputs.new_version }}"
+          git push origin "${{ needs.prepare_release.outputs.new_version }}"
 
       - name: 🔀 Merge Pre-Release to Main
         run: |
           git fetch
           git checkout main
-          git merge --no-ff pre-release -m "Merging pre-release to main: Release ${{ env.new_version }}" || echo "Merge failed, printing diffs next."
+          git merge --no-ff pre-release -m "Merging pre-release to main: Release ${{ needs.prepare_release.outputs.new_version }}" || echo "Merge failed, printing diffs next."
           git push origin main
         continue-on-error: true
 
@@ -211,8 +212,8 @@ jobs:
         if: env.DIFFS_PRINTED != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ env.new_version }}
-          RELEASE_NAME: "Release ${{ env.new_version }}"
+          TAG_NAME: ${{ needs.prepare_release.outputs.new_version }}
+          RELEASE_NAME: "Release ${{ needs.prepare_release.outputs.new_version }}"
           DRAFT: true
           PRE_RELEASE: false
         run: |
@@ -222,19 +223,19 @@ jobs:
       - name: 📥 Download Android App Artifact
         uses: actions/download-artifact@v3
         with:
-          name: android.wdio.native.app.${{ env.new_version }}.apk
+          name: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
   
       - name: 📥 Download iOS App Artifact
         uses: actions/download-artifact@v3
         with:
-          name: ios.simulator.wdio.native.app.${{ env.new_version }}.zip
+          name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
 
       - name: 📤 Upload Artifacts to Release
         if: env.DIFFS_PRINTED != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          chmod +x .github/scripts/upload_artifacts.sh "${{ steps.create_release.outputs.upload_url }}" ${{ env.new_version }} ${{ secrets.GITHUB_TOKEN }}
+          chmod +x .github/scripts/upload_artifacts.sh "${{ steps.create_release.outputs.upload_url }}" ${{ needs.prepare_release.outputs.new_version }} ${{ secrets.GITHUB_TOKEN }}
           .github/scripts/upload_artifacts.sh
 
   cleanup:
