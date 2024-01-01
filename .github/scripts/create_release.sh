@@ -34,6 +34,9 @@ RELEASE_ID=$(echo $RESPONSE | jq -r ".id")
 
 if [ "$RELEASE_ID" != "null" ]; then
   echo "Release created successfully! ID: $RELEASE_ID"
+  ASSET_URL=$(echo $RESPONSE | jq -r ".upload_url")
+  ASSET_URL="${ASSET_URL%\{*}"
+  echo "ASSET_URL=$ASSET_URL" >> $GITHUB_ENV
 else
   echo "Failed to create release"
   echo "Response:"

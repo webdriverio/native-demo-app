@@ -235,23 +235,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ASSET_URL="${{ steps.create_release.outputs.upload_url }}"
-          ASSET_URL="${ASSET_URL%\{*}"
-          echo "Uploading Android App..."
-          curl \
-            -X POST \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Type: $(file -b --mime-type ./android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk)" \
-            --data-binary @./android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk \
-            "$ASSET_URL?name=android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk"
-            
-          echo "Uploading iOS App..."
-          curl \
-            -X POST \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Type: $(file -b --mime-type ./ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip)" \
-            --data-binary @./ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip \
-            "$ASSET_URL?name=ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip"
+          chmod +x .github/scripts/upload_artifacts.sh "${{ env.ASSET_URL }}" ${{ needs.prepare_release.outputs.new_version }} ${{ secrets.GITHUB_TOKEN }}
+          .github/scripts/upload_artifacts.sh
 
   cleanup:
     runs-on: ubuntu-latest
