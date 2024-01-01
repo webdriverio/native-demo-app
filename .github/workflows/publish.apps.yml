@@ -37,9 +37,8 @@ jobs:
       - name: 🔄 Increment Version and Build Number
         id: set_new_version
         run: |
-          NEW_VERSION=$(npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version)
-          echo "New version: $NEW_VERSION"
-          echo "::set-output name=new_version::$NEW_VERSION"
+          echo "new_version=$(npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version)" >> $GITHUB_ENV
+          echo "New version: $new_version"
           npm run build.versions
 
       - name: 🌿 Create Pre-Release Branch
@@ -59,14 +58,14 @@ jobs:
           ref: pre-release
           
       - name: 🧳 Cache Gradle Wrapper
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
         
       - name: 🧳 Cache Gradle Dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -111,7 +110,7 @@ jobs:
           ref: pre-release
       
       - name: 🧳 Cache Cocoapods Pods
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}-20231231
@@ -198,7 +197,7 @@ jobs:
         run: |
           echo "Printing diffs between main and pre-release..."
           git diff main pre-release
-          echo "diffs_printed=true" >> $GITHUB_ENV
+          echo "DIFFS_PRINTED=true" >> $GITHUB_ENV
       
       - name: 🔥 Delete Pre-Release Branch
         run: |
@@ -208,15 +207,16 @@ jobs:
 
       - name: 🚀 Create GitHub Release
         id: create_release
-        if: env.diffs_printed != 'true'
-        uses: actions/create-release@v1
+        if: env.DIFFS_PRINTED != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ needs.prepare_release.outputs.new_version }}
-          release_name: Release ${{ needs.prepare_release.outputs.new_version }}
-          draft: true
-          prerelease: false
+          TAG_NAME: ${{ needs.prepare_release.outputs.new_version }}
+          RELEASE_NAME: Release ${{ needs.prepare_release.outputs.new_version }}
+          DRAFT: true
+          PRE_RELEASE: false
+        run: |
+          chmod +x .github/scripts/create_release.sh
+          .github/scripts/create_release.sh
     
       - name: 📥 Download Android App Artifact
         uses: actions/download-artifact@v3
@@ -229,27 +229,12 @@ jobs:
           name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
 
       - name: 📤 Upload Artifacts to Release
-        if: env.diffs_printed != 'true'
-        run: |
-          ASSET_URL="${{ steps.create_release.outputs.upload_url }}"
-          ASSET_URL="${ASSET_URL%\{*}"
-          echo "Uploading Android App..."
-          curl \
-            -X POST \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Type: $(file -b --mime-type ./android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk)" \
-            --data-binary @./android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk \
-            "$ASSET_URL?name=android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk"
-            
-          echo "Uploading iOS App..."
-          curl \
-            -X POST \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Type: $(file -b --mime-type ./ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip)" \
-            --data-binary @./ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip \
-            "$ASSET_URL?name=ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip"
+        if: env.DIFFS_PRINTED != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          chmod +x .github/scripts/upload_artifacts.sh "${{ steps.create_release.outputs.upload_url }}" ${{ needs.prepare_release.outputs.new_version }} ${{ secrets.GITHUB_TOKEN }}
+          .github/scripts/upload_artifacts.sh
 
   cleanup:
     runs-on: ubuntu-latest
