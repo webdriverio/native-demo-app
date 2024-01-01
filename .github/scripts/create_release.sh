@@ -19,8 +19,8 @@ API_URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases"
 DATA=$(jq -n --arg tag_name "$TAG_NAME" \
                --arg name "$RELEASE_NAME" \
                --arg body "$BODY" \
-               --arg draft "$DRAFT" \
-               --arg prerelease "$PRE_RELEASE" \
+               --argjson draft $(echo $DRAFT | tr '[:upper:]' '[:lower:]') \
+               --argjson prerelease $(echo $PRE_RELEASE | tr '[:upper:]' '[:lower:]') \
                '{tag_name: $tag_name, name: $name, body: $body, draft: $draft, prerelease: $prerelease}')
 
 # Make a POST request to create the release
