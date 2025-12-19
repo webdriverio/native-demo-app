@@ -30,7 +30,7 @@ const options = [
     label: 'This app is awesome',
   },
 ];
-const Chevron: React.FC = () => {
+const Chevron = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <Icon

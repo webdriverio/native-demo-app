@@ -7,3 +7,4 @@ export default {
   black: '#000',
   orange: '#ea5906',
 };
+

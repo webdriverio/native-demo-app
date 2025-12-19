@@ -40,7 +40,7 @@ const BIOMETRICS_TYPE: {[key: string]: BiometryType} = {
   IRIS: 'IRIS',
   BIOMETRICS: 'BIOMETRICS',
 };
-const TabSelector: React.FC<{selected: boolean}> = ({selected}) => {
+const TabSelector = ({selected}: {selected: boolean}) => {
   return (
     <View style={styles.selectorContainer}>
       <View style={selected && styles.selected} />

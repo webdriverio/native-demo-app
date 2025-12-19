@@ -1,8 +1,7 @@
-import React from 'react';
 import {Text, StyleSheet, Platform} from 'react-native';
 import Colors from '../config/Colors';
 
-const BorderText: React.FC<{text: string}> = ({text}) => {
+const BorderText = ({text}: {text: string}) => {
   return (
     <Text style={[styles.headerBorder, styles.header]}>
       {text.toUpperCase()}

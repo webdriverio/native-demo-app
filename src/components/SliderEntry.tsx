@@ -1,4 +1,4 @@
-import React from 'react';
+import {ComponentProps} from 'react';
 import {View, Text, StyleSheet, useColorScheme} from 'react-native';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {IS_IOS, WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
@@ -9,11 +9,15 @@ const itemHorizontalMargin = Math.round(WINDOW_WIDTH * 0.02);
 export const SLIDE_WIDTH =
   Math.round(WINDOW_WIDTH * 0.75) + itemHorizontalMargin * 2;
 
-const SliderEntry: React.FC<{
-  icon: string;
+const SliderEntry = ({
+  icon,
+  title,
+  subtitle,
+}: {
+  icon: ComponentProps<typeof Icon>['name'];
   title: string;
   subtitle: string;
-}> = ({icon, title, subtitle}) => {
+}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
