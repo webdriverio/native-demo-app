@@ -1,7 +1,12 @@
 # Contributing
 ## Setting up the development environment
 
-If you want to contribute to the project we advise you to first set up your machine as described in the React Native documentation which can be found [here](https://reactnative.dev/docs/environment-setup). Make sure you follow the *React Native CLI Quickstart* guide.
+If you want to contribute to the project we advise you to first set up your machine for Expo development. Follow the Expo documentation which can be found [here](https://docs.expo.dev/get-started/installation/). Make sure you have:
+
+- Node.js 18 or higher
+- npm or yarn
+- For iOS: Xcode and CocoaPods
+- For Android: Android Studio and Android SDK
 
 ## Setting up the project
 After setting up your machine you can:
@@ -18,40 +23,86 @@ After setting up your machine you can:
 
   `npm install`
 
-## Running our React Native application
+## Running our Expo application
 
-### Step 1: Start Metro
+### Step 1: Start Expo Development Server
 
-[**Metro**](https://metrobundler.dev/) is the JavaScript build tool for React Native. To start the Metro development server, run the following from your project folder:
+To start the Expo development server, run the following from your project folder:
 
 ```sh
 npm start
 ```
 
+This will start the Expo development server and open the Expo DevTools in your browser. You can also use:
+- `expo start` - Start the development server
+- `expo start --clear` - Start with cleared cache
+
 > [!NOTE]
-> If you're familiar with web development, Metro is similar to bundlers such as Vite and webpack, but is designed end-to-end for React Native. For instance, Metro uses [Babel](https://babel.dev/) to transform syntax such as JSX into executable JavaScript.
+> Expo uses [Metro](https://metrobundler.dev/) as the JavaScript bundler, which is similar to bundlers such as Vite and webpack, but designed for React Native. Metro uses [Babel](https://babel.dev/) to transform syntax such as JSX into executable JavaScript.
 
 ### Step 2: Start the application
-Let Metro Bundler run in its own terminal. Open a new terminal inside your React Native project folder. Run the following:
 
+You have several options to run the app:
+
+**Option A: Using Expo CLI (Recommended for development)**
 ```shell
 # For Android
-npm run android.dev
+npm run android
+# or
+expo run:android
 
 # For iOS
-npm run ios.dev
+npm run ios
+# or
+expo run:ios
 ```
 
-You should see your new app running in the Android Emulator or iOS Simulator shortly.
+**Option B: Using Expo Go app**
+1. Install [Expo Go](https://expo.dev/client) on your physical device
+2. Scan the QR code shown in the terminal or browser
+3. The app will load on your device
+
+> [!NOTE]
+> Some native modules may not work with Expo Go. For full functionality, use `expo run:android` or `expo run:ios` which creates a development build.
+
+You should see your app running in the Android Emulator, iOS Simulator, or on your physical device shortly.
 
 ## Step 3 Developing
 You can now start working on the code base. All code can be found in the [`src`](../src/) folder.
 
 ## Troubleshooting
-You can find more information about troubleshooting the installation process [here](https://reactnative.dev/docs/troubleshooting).
+
+### Prebuild
+If you need to regenerate the native iOS and Android projects (for example, after adding a new native module), run:
+
+```sh
+npm run prebuild
+# or
+expo prebuild
+```
+
+To clean and regenerate:
+```sh
+npm run prebuild:clean
+# or
+expo prebuild --clean
+```
+
+### iOS Pods
+If you encounter issues with iOS dependencies, try:
+
+```sh
+npm run ios:prebuild
+# or
+cd ios && pod install && cd ..
+```
+
+### General Troubleshooting
+- For Expo-specific issues, see the [Expo troubleshooting guide](https://docs.expo.dev/troubleshooting/clear-cache/)
+- For React Native issues, see the [React Native troubleshooting guide](https://reactnative.dev/docs/troubleshooting)
 
 ## Building a release build
-The development build for Android and iOS needs the [Metro bundler](#step-1-start-metro), but a **release** for an emulator/simulator/real device is not connected to the Metro bundler. This means we need to create a release build. Follow the steps below to generate one and also where to find the output.
+The development build for Android and iOS needs the [Expo development server](#step-1-start-expo-development-server), but a **release** for an emulator/simulator/real device is not connected to the development server. This means we need to create a release build. Follow the steps below to generate one and also where to find the output.
 
 When a PR is merged to the `main` branch the release build can be found in the GitHub-action assets.
 
@@ -60,42 +111,34 @@ When a PR is merged to the `main` branch the release build can be found in the G
 > [!IMPORTANT]
 > The [release keystore](../android/app/wdio-native-app-upload-key.keystore) is saved in this project. This is normally not a good advice, but this project isn't publishing to the Play Store so all data is filled with dummy data. This allows us to make a signed build.
 
+> [!NOTE]
+> Before building, make sure you have run `expo prebuild` at least once to generate the native Android project.
+
 Creating an Android build can be done by running the following command 
 
 ```sh
 npm run android.release
 ```
 
-It will take a few minutes to build a release.
+It will take a few minutes to build a release. The `apk`-file can be found in [`android/app/build/outputs/apk/release/`](../android/app/build/outputs/apk/release/).
 
-The output will look something like this:
+### Building iOS
 
-<details>
-  <summary>ExampleAndroid Build Logs</summary>
+> [!NOTE]
+> Release builds can only be used on the iOS Simulator by default. If you want to run the app on an actual physical iOS device, please follow the instructions [here](https://docs.expo.dev/build/building-on-ci/#ios)
 
-```log
-> wdiodemoapp@1.0.0 android.release
-> cd android && ./gradlew clean && npm run build.version.android && ./gradlew assembleRelease
+> [!NOTE]
+> Before building, make sure you have run `expo prebuild` at least once to generate the native iOS project, and run `pod install` in the `ios` directory.
 
+Making an iOS build can be done by running the following command 
 
-> Configure project :expo
+```sh
+npm run ios
+# Then select "Release" mode in Xcode, or use:
+expo run:ios --configuration Release
+```
 
-Using expo modules
-  - expo-constants (15.4.2)
-  - expo-file-system (16.0.2)
-  - expo-font (11.10.0)
-  - expo-keep-awake (12.8.0)
-  - expo-local-authentication (13.6.0)
-  - expo-modules-core (1.11.4)
-  - expo-modules-core$android-annotation (1.11.4)
-  - expo-modules-core$android-annotation-processor (1.11.4)
-
-
-> Configure project :react-native-reanimated
-Android gradle plugin: 8.1.1
-Gradle: 8.3
-
-> Task :expo-modules-core:externalNativeBuildCleanDebug
+The app will automatically be installed on your Simulator. You can find the location of the built app in the build output logs.
 Clean expo-modules-core-armeabi-v7a
 Clean expo-modules-core-arm64-v8a
 Clean expo-modules-core-x86
@@ -583,63 +626,17 @@ The `apk`-file can be found in [`android/app/build/outputs/apk/release/`](../and
 ### Building iOS
 
 > [!NOTE]
-> Release builds can only be used on the iOS Simulator by default. If you want to run the app on an actual physical iOS device, please follow the instructions [here](https://reactnative.dev/docs/running-on-device)
+> Release builds can only be used on the iOS Simulator by default. If you want to run the app on an actual physical iOS device, please follow the instructions [here](https://docs.expo.dev/build/building-on-ci/#ios)
+
+> [!NOTE]
+> Before building, make sure you have run `expo prebuild` at least once to generate the native iOS project, and run `pod install` in the `ios` directory.
 
 Making an iOS build can be done by running the following command 
 
 ```sh
-npm run ios.release.sim.build
+npm run ios
+# Then select "Release" mode in Xcode, or use:
+expo run:ios --configuration Release
 ```
 
-The output will look something like this
-
-<details>
-  <summary>Example iOS Simulator Build Logs</summary>
-
-```log
-> wdiodemoapp@1.0.0 ios.release.sim.build
-> npm run ios.pods && npm run build.version.ios && react-native run-ios --mode=Release
-
-
-> wdiodemoapp@1.0.0 ios.pods
-> cd ios && pod install && cd ..
-
-Using Expo modules
-[Expo] Enabling modular headers for pod ExpoModulesCore
-Auto-linking React Native modules for target `wdiodemoapp`: RNBootSplash, RNCPicker, RNDeviceInfo, RNGestureHandler, RNReanimated, RNScreens, react-native-biometrics, react-native-safe-area-context, and react-native-webview
-Framework build type is static library
-[Codegen] Generating ./build/generated/ios/React-Codegen.podspec.json
-[Codegen] generating an empty RCTThirdPartyFabricComponentsProvider
-Analyzing dependencies
-[Codegen] Found FBReactNativeSpec
-[Codegen] Found rncore
-Downloading dependencies
-Generating Pods project
-Setting USE_HERMES build settings
-Setting REACT_NATIVE build settings
-Setting CLANG_CXX_LANGUAGE_STANDARD to c++20 on /Users/wimselles/Git/wdio/native-demo-app/ios/wdiodemoapp.xcodeproj
-Pod install took 9 [s] to run
-Integrating client project
-expo_patch_react_imports! took 0.1642 seconds to transform files.
-Pod installation complete! There are 89 dependencies from the Podfile and 77 total pods installed.
-
-> wdiodemoapp@1.0.0 build.version.ios
-> react-native-version -A -b -L --target ios
-
-[RNV] Versioning iOS...
-[RNV] iOS updated
-[RNV] Done
-info A dev server is already running for this project on port 8081.
-info Found Xcode workspace "wdiodemoapp.xcworkspace"
-info Found booted iPhone 15
-info Building (using "xcodebuild -workspace wdiodemoapp.xcworkspace -configuration Release -scheme wdiodemoapp -destination id=937B028C-B107-4B94-B4D5-1297A1FEDC34")
-success Successfully built the app
-2023-12-29 16:47:35.305 xcodebuild[85874:4718737] Requested but did not find extension point with identifier Xcode.InterfaceBuilderBuildSupport.PlatformDefinition
-info Installing "/Users/wimselles/Library/Developer/Xcode/DerivedData/wdiodemoapp-dsosmcwovazosxetsdjzqnhzervv/Build/Products/Release-iphonesimulator/wdiodemoapp.app on iPhone 15"
-info Launching "org.reactjs.native.example.wdiodemoapp"
-success Successfully launched the app on the simulator
-```
-
-</details>
-
-You can also find the location of the app in the logs. The app will automatically be installed on your Simulator.
+The app will automatically be installed on your Simulator. You can find the location of the built app in the build output logs.

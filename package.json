@@ -1,6 +1,6 @@
 {
   "name": "wdiodemoapp",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "android": "expo run:android",
@@ -12,7 +12,11 @@
     "prebuild:clean": "expo prebuild --clean",
     "lint": "eslint .",
     "start": "expo start",
-    "test": "jest"
+    "test": "jest",
+    "version:patch": "node scripts/version.js patch",
+    "version:minor": "node scripts/version.js minor",
+    "version:major": "node scripts/version.js major",
+    "version:custom": "node scripts/version.js custom"
   },
   "dependencies": {
     "@expo/vector-icons": "~14.0.4",
