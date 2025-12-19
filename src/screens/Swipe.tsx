@@ -57,19 +57,27 @@ const ENTRIES1: SliderEntries[] = [
     icon: 'arrow-decision-outline',
   },
 ];
-const Item: React.FC<{item: SliderEntries}> = ({item}) => {
+const Item: React.FC<{item: SliderEntries}> = React.memo(({item}) => {
   return <SliderEntry {...item} />;
-};
+});
 
 const SwipeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const ref = React.useRef<ICarouselInstance>(null);
 
-  const baseOptions = {
-    vertical: false,
-    width: WINDOW_WIDTH * 0.85,
-  } as const;
+  const baseOptions = React.useMemo(
+    () => ({
+      vertical: false,
+      width: WINDOW_WIDTH * 0.85,
+    }),
+    [],
+  );
+
+  const renderItem = React.useCallback(
+    ({item}: {item: SliderEntries}) => <Item item={item} />,
+    [],
+  );
 
   return (
     <ScrollView
@@ -95,8 +103,7 @@ const SwipeScreen = () => {
             style={styles.sliderContainer}
             data={ENTRIES1}
             pagingEnabled
-            // @ts-ignore
-            renderItem={Item}
+            renderItem={renderItem}
             height={340}
           />
         </View>

@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {Input} from 'react-native-elements';
 import {WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';

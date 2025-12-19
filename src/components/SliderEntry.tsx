@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, useColorScheme} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {IS_IOS, WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
 import Colors from '../config/Colors';

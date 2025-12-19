@@ -17,7 +17,7 @@ import {
   Text,
 } from 'react-native';
 import {Input} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import * as LocalAuthentication from 'expo-local-authentication';
 import {IS_IOS, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';

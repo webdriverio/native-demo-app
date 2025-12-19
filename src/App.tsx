@@ -5,9 +5,13 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import RNBootSplash from 'react-native-bootsplash';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
+import * as SplashScreen from 'expo-splash-screen';
+import {useEffect} from 'react';
 import WdioStatusBar from './components/StatusBar';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 import DragScreen from './screens/Drag';
 import FormsScreen from './screens/Forms';
 import HomeScreen from './screens/Home';
@@ -32,14 +36,18 @@ const linking = {
 };
 type Color = {color: string};
 const App = () => {
+  useEffect(() => {
+    // Hide splash screen once app is ready
+    SplashScreen.hideAsync();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaProvider>
         <WdioStatusBar />
         <NavigationContainer
           linking={linking}
-          fallback={<Text>Loading...</Text>}
-          onReady={() => RNBootSplash.hide({fade: true})}>
+          fallback={<Text>Loading...</Text>}>
           <Tab.Navigator
             screenOptions={{
               headerShown: false,
