@@ -48,3 +48,6 @@ yarn-error.log*
 # Temporary files
 .metro-health-check*
 *.orig.*
+
+# Build outputs
+apps/

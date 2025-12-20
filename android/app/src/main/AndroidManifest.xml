@@ -28,6 +28,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="wdio"/>
         <data android:scheme="com.wdiodemoapp"/>
+        <data android:scheme="exp+wdiodemoapp"/>
       </intent-filter>
     </activity>
   </application>
