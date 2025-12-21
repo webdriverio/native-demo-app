@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		34A3E2726A77EB9F367B5C12 /* libPods-wdiodemoapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5688447D72EBCAD75EA9184C /* libPods-wdiodemoapp.a */; };
-		3C2A7F939088D19D04B23A2B /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFB737FD0E769EDB00AE63A /* ExpoModulesProvider.swift */; };
+		17A5383FF7DB462038CD9E12 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 3D0EA003628CF54D9F8E0EF7 /* PrivacyInfo.xcprivacy */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		B373D8BCBD0DD848A948FF6D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8CCFC982BCFEB2D7B9AA2EB3 /* PrivacyInfo.xcprivacy */; };
+		B64E7C5C162838B62EEB14BF /* libPods-wdiodemoapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34983B12A6A11B0A27E82CC9 /* libPods-wdiodemoapp.a */; };
+		B6990930137FB13C16A23DC4 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EE4A745B09466E1C3AAAA30 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -20,16 +20,16 @@
 		13B07F961A680F5B00A75B9A /* wdiodemoapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wdiodemoapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = wdiodemoapp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = wdiodemoapp/Info.plist; sourceTree = "<group>"; };
-		2BFB737FD0E769EDB00AE63A /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-wdiodemoapp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		5688447D72EBCAD75EA9184C /* libPods-wdiodemoapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wdiodemoapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		69CFE897377F675EB26DA231 /* Pods-wdiodemoapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wdiodemoapp.release.xcconfig"; path = "Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp.release.xcconfig"; sourceTree = "<group>"; };
-		8CCFC982BCFEB2D7B9AA2EB3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = wdiodemoapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		34983B12A6A11B0A27E82CC9 /* libPods-wdiodemoapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wdiodemoapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D0EA003628CF54D9F8E0EF7 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = wdiodemoapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3EE4A745B09466E1C3AAAA30 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-wdiodemoapp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = wdiodemoapp/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		CAE024E9125C75D539B363B3 /* Pods-wdiodemoapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wdiodemoapp.debug.xcconfig"; path = "Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp.debug.xcconfig"; sourceTree = "<group>"; };
+		E80EF7749DB1E4451DE8C840 /* Pods-wdiodemoapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wdiodemoapp.release.xcconfig"; path = "Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = wdiodemoapp/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* wdiodemoapp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "wdiodemoapp-Bridging-Header.h"; path = "wdiodemoapp/wdiodemoapp-Bridging-Header.h"; sourceTree = "<group>"; };
+		F874E00FB88608F561C50EAB /* Pods-wdiodemoapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wdiodemoapp.debug.xcconfig"; path = "Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34A3E2726A77EB9F367B5C12 /* libPods-wdiodemoapp.a in Frameworks */,
+				B64E7C5C162838B62EEB14BF /* libPods-wdiodemoapp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,26 +53,26 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				8CCFC982BCFEB2D7B9AA2EB3 /* PrivacyInfo.xcprivacy */,
+				3D0EA003628CF54D9F8E0EF7 /* PrivacyInfo.xcprivacy */,
 			);
 			name = wdiodemoapp;
+			sourceTree = "<group>";
+		};
+		2993C3A74B0940A768DB9D04 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				9457F187334B48620EA66619 /* wdiodemoapp */,
+			);
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5688447D72EBCAD75EA9184C /* libPods-wdiodemoapp.a */,
+				34983B12A6A11B0A27E82CC9 /* libPods-wdiodemoapp.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5F1CDF45D0D11AFE86DAB404 /* wdiodemoapp */ = {
-			isa = PBXGroup;
-			children = (
-				2BFB737FD0E769EDB00AE63A /* ExpoModulesProvider.swift */,
-			);
-			name = wdiodemoapp;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -89,8 +89,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				FE4965758405AD043992341E /* Pods */,
-				8E8C549B9C4FB863B933EAC8 /* ExpoModulesProviders */,
+				CB23CE87D233CF49BBC7CEAF /* Pods */,
+				2993C3A74B0940A768DB9D04 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -105,12 +105,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8E8C549B9C4FB863B933EAC8 /* ExpoModulesProviders */ = {
+		9457F187334B48620EA66619 /* wdiodemoapp */ = {
 			isa = PBXGroup;
 			children = (
-				5F1CDF45D0D11AFE86DAB404 /* wdiodemoapp */,
+				3EE4A745B09466E1C3AAAA30 /* ExpoModulesProvider.swift */,
 			);
-			name = ExpoModulesProviders;
+			name = wdiodemoapp;
 			sourceTree = "<group>";
 		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
@@ -122,11 +122,11 @@
 			path = wdiodemoapp/Supporting;
 			sourceTree = "<group>";
 		};
-		FE4965758405AD043992341E /* Pods */ = {
+		CB23CE87D233CF49BBC7CEAF /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				CAE024E9125C75D539B363B3 /* Pods-wdiodemoapp.debug.xcconfig */,
-				69CFE897377F675EB26DA231 /* Pods-wdiodemoapp.release.xcconfig */,
+				F874E00FB88608F561C50EAB /* Pods-wdiodemoapp.debug.xcconfig */,
+				E80EF7749DB1E4451DE8C840 /* Pods-wdiodemoapp.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "wdiodemoapp" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				FE1848F10405D490D06AEA20 /* [Expo] Configure project */,
+				37767A1DCFDD56493E15B596 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				CB29305259C574D732AD2FB3 /* [CP] Embed Pods Frameworks */,
+				4A22C1C8E14B65DB17AD21CD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				B373D8BCBD0DD848A948FF6D /* PrivacyInfo.xcprivacy in Resources */,
+				17A5383FF7DB462038CD9E12 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +240,52 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		37767A1DCFDD56493E15B596 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/wdiodemoapp/wdiodemoapp.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-wdiodemoapp/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-wdiodemoapp/ExpoModulesProvider.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-wdiodemoapp/expo-configure-project.sh\"\n";
+		};
+		4A22C1C8E14B65DB17AD21CD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
@@ -310,52 +356,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CB29305259C574D732AD2FB3 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wdiodemoapp/Pods-wdiodemoapp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FE1848F10405D490D06AEA20 /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/.xcode.env",
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/wdiodemoapp/wdiodemoapp.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-wdiodemoapp/expo-configure-project.sh",
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-wdiodemoapp/ExpoModulesProvider.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-wdiodemoapp/expo-configure-project.sh\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -364,7 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				3C2A7F939088D19D04B23A2B /* ExpoModulesProvider.swift in Sources */,
+				B6990930137FB13C16A23DC4 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +373,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CAE024E9125C75D539B363B3 /* Pods-wdiodemoapp.debug.xcconfig */;
+			baseConfigurationReference = F874E00FB88608F561C50EAB /* Pods-wdiodemoapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -409,7 +409,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69CFE897377F675EB26DA231 /* Pods-wdiodemoapp.release.xcconfig */;
+			baseConfigurationReference = E80EF7749DB1E4451DE8C840 /* Pods-wdiodemoapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

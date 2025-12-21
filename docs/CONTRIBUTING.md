@@ -34,7 +34,7 @@ npm start
 ```
 
 > [!NOTE]
-> Expo uses [Metro](https://metrobundler.dev/) as the JavaScript bundler, which is similar to bundlers such as Vite and webpack, but designed for React Native. Metro uses [Babel](https://babel.dev/) to transform syntax such as JSX into executable JavaScript.
+> Expo uses [Metro](https://metrobundler.dev/) as the JavaScript bundler, which is similar to bundlers such as Vite and webpack, but designed for React Native.
 
 > [!TIP]
 > With the development client enabled, the app will automatically reconnect to the development server when you reopen it, as long as the server is still running. This makes development much smoother!
