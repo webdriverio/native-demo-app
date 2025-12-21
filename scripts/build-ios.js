@@ -84,8 +84,8 @@ if (!isRelease && hasBootedSimulator()) {
   
   console.log('🚀 Launching app on simulator...');
   exec('xcrun simctl launch booted org.wdiodemoapp');
-    console.log('✅ App installed and launched on simulator');
-    console.log('ℹ️ When the app is launched for the first time, please select the localhost url in the app to start the app and connect to the development server.');
+  console.log('✅ App installed and launched on simulator');
+  console.log('ℹ️ When the app is launched for the first time, please select the localhost url in the app to start the app and connect to the development server.');
 } else if (!isRelease) {
   const absoluteAppDest = path.resolve('apps', outputDir, 'wdiodemoapp.app');
   console.log('⚠️  No booted simulator found. App built but not installed.');
