@@ -1,9 +1,24 @@
 import {Tabs} from 'expo-router';
 import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
+import {Platform} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Colors from '../../src/config/Colors';
 import {HAS_IOS_NOTCH} from '../../src/config/Constants';
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+  const isIOS = Platform.OS === 'ios';
+  
+  // Calculate tab bar height based on platform and safe area
+  const getTabBarHeight = () => {
+    if (isIOS && HAS_IOS_NOTCH) {
+      return 90;
+    }
+    // Android needs more height to show icons properly
+    return isIOS ? 60 : 70;
+  };
+
+
   return (
     <Tabs
       screenOptions={{
@@ -14,17 +29,19 @@ export default function TabsLayout() {
         tabBarLabelStyle: {
           fontSize: 14,
           fontWeight: '100',
-          paddingBottom: 5,
+          paddingBottom: isIOS ? 5 : 8,
+          marginTop: isIOS ? 0 : 4,
         },
         tabBarStyle: {
           backgroundColor: Colors.black,
           borderTopWidth: 5,
           borderTopColor: Colors.orange,
           paddingTop: 5,
-          height: HAS_IOS_NOTCH ? 90 : 60,
+          height: getTabBarHeight(),
+          paddingBottom: isIOS ? insets.bottom : 8,
         },
         tabBarItemStyle: {
-          width: 100,
+          paddingVertical: isIOS ? 0 : 4,
         },
       }}>
       <Tabs.Screen
@@ -96,4 +113,5 @@ export default function TabsLayout() {
     </Tabs>
   );
 }
+
 
