@@ -90,27 +90,36 @@ Create a version bump PR with the automatically adjusted versions. The script wi
 > **NOTE:** The version in the package.json and the actual release will be explained in 
 > [step 3](#step-3-create-a-new-release).
 
-## Step 3: Create a new release
-When step 1 till 3 are executed we need to create a new release. Make sure that you are on the `main`-branch and all
-changes have been committed/pushed. Then run the following command
+## Step 3: Merge to Main and Release
 
-    yarn release
+When your version bump PR is merged to the `main` branch, the GitHub Actions workflow will automatically detect the version change and create a release.
 
-This will show an interactive UI to make a new release. See [np](https://github.com/sindresorhus/np#readme) for more
-information. Make sure you follow [SemVer](https://semver.org/) to target the release properly. 
+### Automated Release Process
 
-`yarn release` will also automatically open GutHub on the releases page with a draft. Add the things there that are new.
-Before you upload the assets you need to adjust the app names. The Appname for Android will automatically be created 
-when you build a new release, it will look like this
+1. **Version detection**: The workflow automatically:
+   - Reads the current version from `package.json`
+   - Checks if a Git tag for this version already exists
+   - If the version is new (no tag exists), it proceeds with the release
+   - If the version already has a tag, the workflow skips release creation
 
-    Android-NativeDemoApp-{x.y.z}.apk
+2. **Build and publish** (only if version changed):
+   - Builds Android release APK using the build scripts
+   - Builds iOS Simulator release app using the build scripts
+   - Creates a Git tag for the version (e.g., `v2.0.1`)
+   - Creates a GitHub release with the tag
+   - Uploads the release artifacts to GitHub Releases
 
-For iOS you first need to zip the file and then change the name from 
+3. **Release artifacts**: The built apps are automatically uploaded with the following naming:
+   - **Android**: `android.wdio.native.app.v{x.y.z}.apk`
+   - **iOS**: `ios.simulator.wdio.native.app.v{x.y.z}.zip`
 
-    wdioNativeDemoApp.app
+4. **Finalize the release**: The release is created as a draft. You should:
+   - Add release notes describing what's new in this version
+   - Review the uploaded artifacts
+   - Publish the release when ready
 
-to
+> [!NOTE]
+> The workflow only creates a release if the version in `package.json` has changed. If you merge other changes without bumping the version, no release will be created. This ensures that releases only happen when you explicitly bump the version.
 
-    iOS-Simulator-NativeDemoApp-{x.y.z}.app.zip
-    
-You can then upload the assets and release a new version.
+> [!TIP]
+> You can also manually trigger the workflow from the [Actions](https://github.com/webdriverio/native-demo-app/actions) page if needed, but it will still check if the version has changed before creating a release.

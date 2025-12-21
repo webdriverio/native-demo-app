@@ -43,14 +43,22 @@ npm start
 
 You have several options to run the app:
 
-**Option A: Using Expo CLI (Recommended for development)**
+**Option A: Using Build Scripts (Recommended for development)**
 ```shell
-# For Android
+# For Android (works on Windows, Linux, and macOS)
 npm run android
 
-# For iOS
+# For iOS (macOS only)
 npm run ios
 ```
+
+These commands will:
+- Build a debug version of the app
+- Copy the build artifacts to `apps/debug/` directory
+- Automatically install and launch the app on a connected emulator/simulator (if available)
+
+> [!NOTE]
+> For Android, the debug APK will be saved to `apps/debug/app-debug.apk`. For iOS, the debug app will be saved to `apps/debug/wdiodemoapp.app`.
 
 **Option B: Using Expo Go app**
 1. Install [Expo Go](https://expo.dev/client) on your physical device
@@ -72,7 +80,10 @@ You can now start working on the code base. All code can be found in the [`src`]
 ## Building a release build
 The development build for Android and iOS needs the [Expo development server](#step-1-start-expo-development-server), but a **release** for an emulator/simulator/real device is not connected to the development server. This means we need to create a release build. Follow the steps below to generate one and also where to find the output.
 
-When a PR is merged to the `main` branch the release build can be found in the GitHub-action assets.
+> [!NOTE]
+> Release builds are automatically created and published to GitHub Releases when a PR is merged to the `main` branch via GitHub Actions. The release artifacts can be found in the [GitHub Releases](https://github.com/webdriverio/native-demo-app/releases) page.
+
+For local release builds, the artifacts will be stored in the `apps/release/` directory with versioned filenames.
 
 ### Building Android
 
@@ -86,10 +97,14 @@ npm run android:release
 ```
 
 This command will:
-1. Clean and regenerate the native Android project (using `prebuild:clean`)
-2. Build the release APK using Expo's build system
+1. Clean and regenerate the native Android project (using `expo prebuild --clean --platform android`)
+2. Build the release APK using Gradle
+3. Copy the APK to the `apps/release/` directory with a versioned filename
 
-It will take a few minutes to build a release. The `apk`-file can be found in [`android/app/build/outputs/apk/release/`](../android/app/build/outputs/apk/release/).
+It will take a few minutes to build a release. The `apk`-file can be found in [`apps/release/`](../apps/release/) with the name format `android.wdio.native.app.v{version}.apk` (e.g., `android.wdio.native.app.v2.0.0.apk`).
+
+> [!NOTE]
+> The version number is automatically extracted from `package.json`. Make sure your `package.json` has the correct version before building a release.
 
 ### Building iOS
 
@@ -97,15 +112,23 @@ It will take a few minutes to build a release. The `apk`-file can be found in [`
 > Release builds can only be used on the iOS Simulator by default. If you want to run the app on an actual physical iOS device, please follow the instructions [here](https://docs.expo.dev/build/building-on-ci/#ios)
 
 > [!NOTE]
-> Before building, make sure you have run `npm run prebuild` at least once to generate the native iOS project, and run `pod install` in the `ios` directory.
+> iOS builds can only be run on macOS.
 
-Making an iOS build can be done by running the following command 
+Making an iOS build can be done by running the following command:
 
 ```sh
 npm run ios:release
 ```
 
-The app will automatically be installed on your Simulator. You can find the location of the built app in the build output logs.
+This command will:
+1. Clean and regenerate the native iOS project (using `expo prebuild --clean --platform ios`)
+2. Build the release app using Xcode
+3. Copy and zip the app to the `apps/release/` directory with a versioned filename
+
+The release build will be found in [`apps/release/`](../apps/release/) as a zip file with the name format `ios.simulator.wdio.native.app.v{version}.zip` (e.g., `ios.simulator.wdio.native.app.v2.0.0.zip`).
+
+> [!NOTE]
+> The version number is automatically extracted from `package.json`. Make sure your `package.json` has the correct version before building a release.
 
 ## Troubleshooting
 

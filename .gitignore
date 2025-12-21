@@ -51,3 +51,7 @@ yarn-error.log*
 
 # Build outputs
 apps/
+
+# Android / Kotlin
+android/.kotlin/
+*.salive
