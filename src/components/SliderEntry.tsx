@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     alignItems: 'center',
     width: SLIDE_WIDTH,
-    height: Math.round(WINDOW_HEIGHT * 0.4),
+    height: Math.round(WINDOW_HEIGHT * 0.35),
     paddingHorizontal: itemHorizontalMargin,
     paddingTop: 18,
   },

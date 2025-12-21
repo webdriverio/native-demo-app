@@ -105,7 +105,7 @@ const SwipeScreen = () => {
             data={ENTRIES1}
             pagingEnabled
             renderItem={renderItem}
-            height={350}
+            height={Math.round(WINDOW_HEIGHT * 0.35)}
           />
         </View>
       </View>

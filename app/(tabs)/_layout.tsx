@@ -14,8 +14,9 @@ export default function TabsLayout() {
     if (isIOS && HAS_IOS_NOTCH) {
       return 90;
     }
-    // Android needs more height to show icons properly
-    return isIOS ? 60 : 70;
+    const baseHeight = isIOS ? 60 : 70;
+
+    return baseHeight + (isIOS ? 0 : insets.bottom);
   };
 
 
@@ -38,7 +39,7 @@ export default function TabsLayout() {
           borderTopColor: Colors.orange,
           paddingTop: 5,
           height: getTabBarHeight(),
-          paddingBottom: isIOS ? insets.bottom : 8,
+          paddingBottom: isIOS ? insets.bottom : insets.bottom || 8,
         },
         tabBarItemStyle: {
           paddingVertical: isIOS ? 0 : 4,
