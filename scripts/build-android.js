@@ -39,10 +39,13 @@ if (!['debug', 'release'].includes(buildType)) {
   process.exit(1);
 }
 
+const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+const version = packageJson.version;
 const isRelease = buildType === 'release';
 const buildVariant = isRelease ? 'Release' : 'Debug';
 const apkName = isRelease ? 'app-release.apk' : 'app-debug.apk';
 const outputDir = isRelease ? 'release' : 'debug';
+const finalApkName = isRelease ? `android.wdio.native.app.v${version}.apk` : apkName;
 
 
 console.log(`🔨 Building Android ${buildVariant} APK...`);
@@ -56,7 +59,7 @@ process.chdir('..');
 
 const appsDir = path.join('apps', outputDir);
 const apkSource = path.join('android', 'app', 'build', 'outputs', 'apk', buildType.toLowerCase(), apkName);
-const apkDest = path.join(appsDir, apkName);
+const apkDest = path.join(appsDir, finalApkName);
 
 if (!fs.existsSync(appsDir)) {
   fs.mkdirSync(appsDir, { recursive: true });

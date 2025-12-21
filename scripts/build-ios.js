@@ -52,6 +52,8 @@ if (process.platform !== 'darwin') {
   process.exit(1);
 }
 
+const packageJson = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8'));
+const version = packageJson.version;
 const isRelease = buildType === 'release';
 const buildConfiguration = isRelease ? 'Release' : 'Debug';
 const outputDir = isRelease ? 'release' : 'debug';
@@ -75,7 +77,17 @@ if (!fs.existsSync(appsDir)) {
 copyRecursive(appSource, appDest);
 process.chdir('..');
 
-console.log(`✅ iOS ${buildConfiguration} app built and copied to ${path.join('apps', outputDir, 'wdiodemoapp.app')}`);
+if (isRelease) {
+  const zipFileName = `ios.simulator.wdio.native.app.v${version}.zip`;
+  const zipDest = path.resolve('apps', outputDir, zipFileName);
+  const zipDir = path.resolve('apps', outputDir);
+  
+  console.log(`📦 Creating zip archive: ${zipFileName}...`);
+  exec(`cd "${zipDir}" && zip -9 -r "${zipFileName}" wdiodemoapp.app`);
+  console.log(`✅ iOS ${buildConfiguration} app built, copied, and zipped to ${zipDest}`);
+} else {
+  console.log(`✅ iOS ${buildConfiguration} app built and copied to ${path.join('apps', outputDir, 'wdiodemoapp.app')}`);
+}
 
 if (!isRelease && hasBootedSimulator()) {
   const absoluteAppDest = path.resolve('apps', outputDir, 'wdiodemoapp.app');
