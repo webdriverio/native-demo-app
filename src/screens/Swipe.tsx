@@ -96,18 +96,17 @@ const SwipeScreen = () => {
           ]}>
           Or swipe vertical to find what I'm hiding.
         </Text>
-        <View {...testProperties('Carousel')}>
-          <Carousel
-            {...baseOptions}
-            loop={false}
-            ref={ref}
-            style={styles.sliderContainer}
-            data={ENTRIES1}
-            pagingEnabled
-            renderItem={renderItem}
-            height={Math.round(WINDOW_HEIGHT * 0.35)}
-          />
-        </View>
+        <Carousel
+          {...baseOptions}
+          loop={false}
+          ref={ref}
+          style={styles.sliderContainer}
+          data={ENTRIES1}
+          pagingEnabled
+          renderItem={renderItem}
+          height={Math.round(WINDOW_HEIGHT * 0.35)}
+          testID="Carousel"
+        />
       </View>
       <View style={styles.logoContainer}>
         <Image
