@@ -37,6 +37,7 @@ const Chevron = () => {
       name="chevron-down"
       size={24}
       color={isDarkMode ? Colors.white : Colors.black}
+      testID="dropdown-chevron"
     />
   );
 };
@@ -162,6 +163,8 @@ const FormComponents = () => {
             touchableWrapperProps={{...testProperties('Dropdown', true)}}
             // @ts-ignore
             Icon={Chevron}
+            darkTheme={isDarkMode}
+            
           />
         </View>
         <View style={styles.formGroup}>
