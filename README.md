@@ -1,6 +1,6 @@
 # WebdriverIO Demo App for iOS and Android
 
-This app is built with React Native and will be used for test automation purposes for the [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate).
+This app is built with [Expo](https://expo.dev/) and React Native, and will be used for test automation purposes for the [appium-boilerplate](https://github.com/webdriverio/appium-boilerplate).
 
 https://user-images.githubusercontent.com/11979740/118520294-3fb8e480-b73a-11eb-9100-dccecbb683cc.mov
 
@@ -37,5 +37,7 @@ building an app release for Android Emulators/Real devices or an iOS Simulator.
 ## Versioning
 We use [SemVer](https://semver.org/) for versioning, see [VERSIONING.md](./docs/VERSIONING.md) for more information.
 
-## Build With
+## Built With
+- [Expo](https://expo.dev/)
 - [React Native](https://reactnative.dev/)
+- [Expo Router](https://docs.expo.dev/router/introduction/) for navigation

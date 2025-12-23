@@ -1,71 +1,82 @@
 name: Build and Publish WebdriverIO Native Demo Apps
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
-    inputs:
-      releaseType:
-        description: 'Release type - major, minor or patch'
-        required: true
-        default: 'patch'
 
-concurrency: 
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true        
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   prepare_release:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     outputs:
-      new_version: ${{ steps.set_new_version.outputs.new_version }}
+      current_version: ${{ steps.get_version.outputs.version }}
+      version_changed: ${{ steps.check_version.outputs.changed }}
+      should_release: ${{ steps.check_version.outputs.should_release }}
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
-
-      - name: 🌲 Setup Git
-        run: |
-          git config --global user.email "bot@webdriver.io"
-          git config --global user.name "WebdriverIO Release Bot"        
+        with:
+          fetch-depth: 0 # Fetch all history for tags
 
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: 🧩 Install Dependencies
         run: npm ci
 
-      - name: 🔄 Increment Version and Build Number
-        id: set_new_version
+      - name: 📖 Get Current Version
+        id: get_version
         run: |
-          NEW_VERSION=$(npm version ${{ github.event.inputs.releaseType }} --no-git-tag-version)
-          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "New version: $NEW_VERSION"
-          npm run build.versions
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $VERSION"
 
-      - name: 🌿 Create Pre-Release Branch
+      - name: 🔍 Check if Version Changed
+        id: check_version
         run: |
-          git checkout -b pre-release
-          git add .
-          git commit -m "chore: Preparing for release $NEW_VERSION"
-          git push origin pre-release
+          CURRENT_VERSION="${{ steps.get_version.outputs.version }}"
+
+          # Check if a tag for this version already exists
+          if git rev-parse "v${CURRENT_VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${CURRENT_VERSION} already exists"
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          else
+            echo "New version detected: ${CURRENT_VERSION}"
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "should_release=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: ℹ️ Release Decision
+        run: |
+          if [ "${{ steps.check_version.outputs.should_release }}" == "true" ]; then
+            echo "✅ Will create release for version ${{ steps.get_version.outputs.version }}"
+          else
+            echo "⏭️  Version ${{ steps.get_version.outputs.version }} already released, skipping"
+          fi
 
   android_build:
     needs: prepare_release
+    if: needs.prepare_release.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     steps:
-      - name: ⬇️ Checkout Pre-Release Branch
+      - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
-        with:
-          ref: pre-release
-          
+
       - name: 🧳 Cache Gradle Wrapper
         uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
-        
+
       - name: 🧳 Cache Gradle Dependencies
         uses: actions/cache@v3
         with:
@@ -78,39 +89,40 @@ jobs:
       - name: ☕ Setup Java and Android SDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'zulu'
-          java-version: '17.x'
+          distribution: "zulu"
+          java-version: "17.x"
 
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: 🧩 Install Dependencies
         run: npm ci
 
       - name: 🏗️ Build Android Release
-        run: npm run android.release
+        run: npm run android:release
 
       - name: 📦 Move 🤖 Android Build
-        run: mv android/app/build/outputs/apk/release/app-release.apk android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
+        run: |
+          VERSION="${{ needs.prepare_release.outputs.current_version }}"
+          mv apps/release/android.wdio.native.app.v${VERSION}.apk ./android.wdio.native.app.v${VERSION}.apk
 
       - name: 📤 Upload Android App
         uses: actions/upload-artifact@v3
         with:
-          name: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
-          path: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
+          name: android.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.apk
+          path: android.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.apk
 
   ios_build:
     needs: prepare_release
+    if: needs.prepare_release.outputs.should_release == 'true'
     # for https://github.com/facebook/react-native/issues/38294
     runs-on: macos-13
     steps:
-      - name: ⬇️ Checkout Pre-Release Branch
+      - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
-        with:
-          ref: pre-release
-      
+
       - name: 🧳 Cache Cocoapods Pods
         uses: actions/cache@v3
         with:
@@ -122,132 +134,78 @@ jobs:
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: "20.x"
 
       - name: 🧩 Install Dependencies
         run: npm ci
-      
-      # This is temp to fix the issue
-      # "error Cannot start server in new window because no terminal app was specified."
-      - name: 🚇 Start Metro Bundler
-        run: npm start -- --reset-cache &
 
-      # Using the 'verbose' xcodebuild command instead of the RN command
-      # to be able to alter the build path
       - name: 🏗️ Build iOS Release
-        run: |
-          cd ios
-          pod install
-          xcodebuild \
-            -workspace wdiodemoapp.xcworkspace \
-            -configuration Release \
-            -scheme wdiodemoapp \
-            -sdk iphonesimulator \
-            -derivedDataPath ./build \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO 
-            CODE_SIGNING_ALLOWED=NO
+        run: npm run ios:release
 
-      - name: 🛑 Stop Metro Bundler
-        if: always()
-        run: kill $(jobs -p) || true
-
-      - name: 📦 Zip and move iOS Simulator Build
+      - name: 📦 Move iOS Simulator Build
         run: |
-          mkdir Payload
-          cp -R ios/build/Build/Products/Release-iphonesimulator/wdiodemoapp.app Payload
-          zip -9 -r ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip Payload
-          rm -rf Payload
+          VERSION="${{ needs.prepare_release.outputs.current_version }}"
+          cp apps/release/ios.simulator.wdio.native.app.v${VERSION}.zip ./ios.simulator.wdio.native.app.v${VERSION}.zip
 
       - name: 📤 Upload iOS App
         uses: actions/upload-artifact@v3
         with:
-          name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
-          path: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
-            
+          name: ios.simulator.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.zip
+          path: ios.simulator.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.zip
+
   finalize:
     needs: [prepare_release, android_build, ios_build]
+    if: needs.prepare_release.outputs.should_release == 'true'
     runs-on: ubuntu-latest
-    if: success()
     steps:
-      - name: ⬇️ Checkout Pre-Release Branch
+      - name: ⬇️ Checkout Repository
         uses: actions/checkout@v3
         with:
-          ref: pre-release
-          fetch-depth: 0 
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🌲 Setup Git
         run: |
           git config --global user.email "bot@webdriver.io"
-          git config --global user.name "WebdriverIO Release Bot"  
+          git config --global user.name "WebdriverIO Release Bot"
 
       - name: 🔖 Tag New Release
         run: |
-          git tag -a "${{ needs.prepare_release.outputs.new_version }}" -m "Release ${{ needs.prepare_release.outputs.new_version }}"
-          git push origin "${{ needs.prepare_release.outputs.new_version }}"
-
-      - name: 🔀 Merge Pre-Release to Main
-        run: |
-          git fetch
-          git checkout main
-          git merge --no-ff pre-release -m "Merging pre-release to main: Release ${{ needs.prepare_release.outputs.new_version }}" || echo "Merge failed, printing diffs next."
-          git push origin main
-        continue-on-error: true
-
-      - name: 🕵️ Print Diffs if Merge Fails
-        if: failure()
-        run: |
-          echo "Printing diffs between main and pre-release..."
-          git diff main pre-release
-          echo "DIFFS_PRINTED=true" >> $GITHUB_ENV
-      
-      - name: 🔥 Delete Pre-Release Branch
-        run: |
-          git push origin --delete pre-release
+          VERSION="${{ needs.prepare_release.outputs.current_version }}"
+          git tag -a "v${VERSION}" -m "Release ${VERSION}"
+          git push origin "v${VERSION}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🚀 Create GitHub Release
         id: create_release
-        if: env.DIFFS_PRINTED != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ needs.prepare_release.outputs.new_version }}
-          RELEASE_NAME: "Release ${{ needs.prepare_release.outputs.new_version }}"
+          TAG_NAME: v${{ needs.prepare_release.outputs.current_version }}
+          RELEASE_NAME: "Release ${{ needs.prepare_release.outputs.current_version }}"
           DRAFT: true
           PRE_RELEASE: false
         run: |
           chmod +x .github/scripts/create_release.sh
           .github/scripts/create_release.sh
-    
+
       - name: 📥 Download Android App Artifact
         uses: actions/download-artifact@v3
         with:
-          name: android.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.apk
-  
+          name: android.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.apk
+
       - name: 📥 Download iOS App Artifact
         uses: actions/download-artifact@v3
         with:
-          name: ios.simulator.wdio.native.app.${{ needs.prepare_release.outputs.new_version }}.zip
+          name: ios.simulator.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.zip
 
       - name: 📤 Upload Artifacts to Release
-        if: env.DIFFS_PRINTED != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           chmod +x .github/scripts/upload_artifacts.sh
-          .github/scripts/upload_artifacts.sh "${{ env.ASSET_URL }}" ${{ needs.prepare_release.outputs.new_version }} ${{ secrets.GITHUB_TOKEN }}
-
-  cleanup:
-    runs-on: ubuntu-latest
-    if: ${{ failure() && (needs.prepare_release.result == 'failure' || needs.android_build.result == 'failure' || needs.ios_build.result == 'failure' || needs.finalize.result == 'failure') }}
-    needs: [prepare_release, android_build, ios_build, finalize]
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        
-      - name: 🔥 Delete Pre-Release Branch
-        run: |
-          git push origin --delete pre-release
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if [ -z "$ASSET_URL" ]; then
+            echo "Error: ASSET_URL not set. Release creation may have failed."
+            exit 1
+          fi
+          .github/scripts/upload_artifacts.sh "$ASSET_URL" ${{ needs.prepare_release.outputs.current_version }} ${{ secrets.GITHUB_TOKEN }}

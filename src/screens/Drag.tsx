@@ -8,7 +8,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import {testProperties} from '../config/TestProperties';
 import {STATUS_BAR_HEIGHT} from '../components/StatusBar';

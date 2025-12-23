@@ -1,4 +1,4 @@
-import React from 'react';
+import {ReactNode} from 'react';
 import {
   ActivityIndicator,
   StyleSheet,
@@ -9,17 +9,7 @@ import {
 import {testProperties} from '../config/TestProperties';
 import Colors from '../config/Colors';
 
-const Button: React.FC<{
-  backgroundColor?: string;
-  containerStyle?: object;
-  disabled?: boolean;
-  childComponent?: React.ReactNode;
-  loading?: boolean;
-  onPress?: () => void;
-  testID?: string;
-  text?: string;
-  textStyle?: object;
-}> = ({
+const Button = ({
   backgroundColor = 'transparent',
   containerStyle = {},
   disabled = false,
@@ -29,6 +19,16 @@ const Button: React.FC<{
   testID,
   text,
   textStyle = {},
+}: {
+  backgroundColor?: string;
+  containerStyle?: object;
+  disabled?: boolean;
+  childComponent?: ReactNode;
+  loading?: boolean;
+  onPress?: () => void;
+  testID?: string;
+  text?: string;
+  textStyle?: object;
 }) => {
   const buttonTextStyle = [styles.text, textStyle];
   if (loading) {

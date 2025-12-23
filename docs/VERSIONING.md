@@ -1,65 +1,125 @@
 # Versioning the App
 
-Versioning the app needs to be a manual step. Follow the instructions below to update the versions 
+Versioning the app is fully automated through a CLI script. The script automatically updates version numbers in both `app.json` and `package.json`, and increments build numbers for iOS and Android.
 
-## Step 1: Determine build and version number
-Determine the **CURRENT** build and the version number of the app. You can find the current build number for:
-- **Android:** Search in the file [android/app/build.gradle](../android/app/build.gradle), look for the 
-  `defaultConfig` and then `versionCode`
-- **iOS:** Search in the file 
-  [ios/wdioNativeDemoApp.xcodeproj/project.pbxproj](../ios/wdioNativeDemoApp.xcodeproj/project.pbxproj) and look for 
-  `CURRENT_PROJECT_VERSION`
-  
-The version number can be found in the [`package.json`](../package.json)-file.
+## Automated Versioning
 
-## Step 2: Run React Native Versioning
-> **NOTE:** This step will only increase the build/version numbers in the app, **NOT** the version number of the 
-> project, see [step 4](#step-4-create-a-new-release) for that.
+The versioning script handles all version updates automatically. Simply run one of the following commands:
 
-We use `react-native-versioning` to update the build and version number in the app. Use the build and version from 
-[step 1](#step-1-determine-build-and-version-number) and increase the buildnumber with 1, and the version number 
-according to [SemVer](https://semver.org/).  
+### Quick Commands
 
-### Usage
-    npx react-native-versioning \
-    -t --target <versionCode> \
-    -b --build <buildNumber> \
-    --android-only \
-    --ios-only
+```bash
+# Bump patch version (1.0.7 → 1.0.8) - for bug fixes
+npm run version:patch
 
-### Example
-    npx react-native-versioning --target=2.1.1
-    npx react-native-versioning --build=17
-    npx react-native-versioning --build=18 --ios-only
-    npx react-native-versioning --target=2.3 --build=16 --android-only
+# Bump minor version (1.0.7 → 1.1.0) - for new features
+npm run version:minor
 
-## Step 3: Create a PR
-Create a version bump PR with the adjusted versions as explained above
+# Bump major version (1.0.7 → 2.0.0) - for breaking changes
+npm run version:major
+
+# Set a custom version (e.g., 1.2.3)
+npm run version:custom 1.2.3
+```
+
+### What Gets Updated
+
+The script automatically updates:
+
+1. **App Version** (`expo.version` in `app.json` and `version` in `package.json`)
+2. **iOS Build Number** (`expo.ios.buildNumber` in `app.json`) - automatically incremented
+3. **Android Version Code** (`expo.android.versionCode` in `app.json`) - automatically incremented
+
+### Example Output
+
+When you run `npm run version:patch`, you'll see:
+
+```
+✅ Version updated successfully!
+
+📱 App Version:
+   1.0.7 → 1.0.8
+
+🔢 Build Numbers:
+   iOS:     17 → 18
+   Android: 18 → 19
+
+📝 Files updated:
+   - app.json
+   - package.json
+```
+
+### Version Types
+
+Follow [SemVer](https://semver.org/) for version numbering:
+
+- **Patch** (`version:patch`): 1.0.7 → 1.0.8 (bug fixes, small changes)
+- **Minor** (`version:minor`): 1.0.7 → 1.1.0 (new features, backward compatible)
+- **Major** (`version:major`): 1.0.7 → 2.0.0 (breaking changes)
+
+### Manual Versioning (Advanced)
+
+If you need to set a specific version manually, you can use:
+
+```bash
+npm run version:custom 1.2.3
+```
+
+Or run the script directly:
+
+```bash
+node scripts/version.js custom 1.2.3
+```
+
+## Step 1: Bump Version
+
+Run the appropriate version command based on your changes:
+
+```bash
+npm run version:patch   # or :minor, :major, or :custom
+```
+
+This will automatically update all version numbers and build numbers in the required files.
+
+## Step 2: Create a PR
+
+Create a version bump PR with the automatically adjusted versions. The script will have updated:
+- `app.json` - version, iOS build number, Android version code
+- `package.json` - version
 
 > **NOTE:** The version in the package.json and the actual release will be explained in 
-> [step 4](#step-4-create-a-new-release).
+> [step 3](#step-3-create-a-new-release).
 
-## Step 4: Create a new release
-When step 1 till 3 are executed we need to create a new release. Make sure that you are on the `main`-branch and all
-changes have been committed/pushed. Then run the following command
+## Step 3: Merge to Main and Release
 
-    yarn release
+When your version bump PR is merged to the `main` branch, the GitHub Actions workflow will automatically detect the version change and create a release.
 
-This will show an interactive UI to make a new release. See [np](https://github.com/sindresorhus/np#readme) for more
-information. Make sure you follow [SemVer](https://semver.org/) to target the release properly. 
+### Automated Release Process
 
-`yarn release` will also automatically open GutHub on the releases page with a draft. Add the things there that are new.
-Before you upload the assets you need to adjust the app names. The Appname for Android will automatically be created 
-when you build a new release, it will look like this
+1. **Version detection**: The workflow automatically:
+   - Reads the current version from `package.json`
+   - Checks if a Git tag for this version already exists
+   - If the version is new (no tag exists), it proceeds with the release
+   - If the version already has a tag, the workflow skips release creation
 
-    Android-NativeDemoApp-{x.y.z}.apk
+2. **Build and publish** (only if version changed):
+   - Builds Android release APK using the build scripts
+   - Builds iOS Simulator release app using the build scripts
+   - Creates a Git tag for the version (e.g., `v2.0.1`)
+   - Creates a GitHub release with the tag
+   - Uploads the release artifacts to GitHub Releases
 
-For iOS you first need to zip the file and then change the name from 
+3. **Release artifacts**: The built apps are automatically uploaded with the following naming:
+   - **Android**: `android.wdio.native.app.v{x.y.z}.apk`
+   - **iOS**: `ios.simulator.wdio.native.app.v{x.y.z}.zip`
 
-    wdioNativeDemoApp.app
+4. **Finalize the release**: The release is created as a draft. You should:
+   - Add release notes describing what's new in this version
+   - Review the uploaded artifacts
+   - Publish the release when ready
 
-to
+> [!NOTE]
+> The workflow only creates a release if the version in `package.json` has changed. If you merge other changes without bumping the version, no release will be created. This ensures that releases only happen when you explicitly bump the version.
 
-    iOS-Simulator-NativeDemoApp-{x.y.z}.app.zip
-    
-You can then upload the assets and release a new version.
+> [!TIP]
+> You can also manually trigger the workflow from the [Actions](https://github.com/webdriverio/native-demo-app/actions) page if needed, but it will still check if the version has changed before creating a release.

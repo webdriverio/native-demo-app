@@ -1,11 +1,10 @@
-import React from 'react';
 import {StyleSheet, useColorScheme, View} from 'react-native';
 import {WebView} from 'react-native-webview';
 import BorderText from '../components/BorderText';
 import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 import Colors from '../config/Colors';
 
-const RenderLoading: React.FC<{isDarkMode: boolean}> = ({isDarkMode}) => {
+const RenderLoading = ({isDarkMode}: {isDarkMode: boolean}) => {
   return (
     <View
       style={[

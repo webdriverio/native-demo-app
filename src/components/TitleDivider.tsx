@@ -1,8 +1,7 @@
-import React from 'react';
 import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 import Colors from '../config/Colors';
 
-const TitleDivider: React.FC<{text: string}> = ({text}) => {
+const TitleDivider = ({text}: {text: string}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (

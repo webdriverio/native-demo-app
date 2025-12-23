@@ -17,7 +17,7 @@ import {
   Text,
 } from 'react-native';
 import {Input} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import * as LocalAuthentication from 'expo-local-authentication';
 import {IS_IOS, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
@@ -40,7 +40,7 @@ const BIOMETRICS_TYPE: {[key: string]: BiometryType} = {
   IRIS: 'IRIS',
   BIOMETRICS: 'BIOMETRICS',
 };
-const TabSelector: React.FC<{selected: boolean}> = ({selected}) => {
+const TabSelector = ({selected}: {selected: boolean}) => {
   return (
     <View style={styles.selectorContainer}>
       <View style={selected && styles.selected} />

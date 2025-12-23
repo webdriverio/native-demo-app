@@ -1,4 +1,4 @@
-import React from 'react';
+import {memo, useCallback, useMemo, useRef, ComponentProps} from 'react';
 import {
   Image,
   ScrollView,
@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import type {ICarouselInstance} from 'react-native-reanimated-carousel';
 import Carousel from 'react-native-reanimated-carousel';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {STATUS_BAR_HEIGHT} from '../components/StatusBar';
 import TitleDivider from '../components/TitleDivider';
 import SliderEntry from '../components/SliderEntry';
@@ -19,7 +20,7 @@ import Colors from '../config/Colors';
 interface SliderEntries {
   title: string;
   subtitle: string;
-  icon: string;
+  icon: ComponentProps<typeof Icon>['name'];
 }
 const ENTRIES1: SliderEntries[] = [
   {
@@ -57,19 +58,27 @@ const ENTRIES1: SliderEntries[] = [
     icon: 'arrow-decision-outline',
   },
 ];
-const Item: React.FC<{item: SliderEntries}> = ({item}) => {
+const Item = memo(({item}: {item: SliderEntries}) => {
   return <SliderEntry {...item} />;
-};
+});
 
 const SwipeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const ref = React.useRef<ICarouselInstance>(null);
+  const ref = useRef<ICarouselInstance>(null);
 
-  const baseOptions = {
-    vertical: false,
-    width: WINDOW_WIDTH * 0.85,
-  } as const;
+  const baseOptions = useMemo(
+    () => ({
+      vertical: false,
+      width: WINDOW_WIDTH * 0.85,
+    }),
+    [],
+  );
+
+  const renderItem = useCallback(
+    ({item}: {item: SliderEntries}) => <Item item={item} />,
+    [],
+  );
 
   return (
     <ScrollView
@@ -87,19 +96,17 @@ const SwipeScreen = () => {
           ]}>
           Or swipe vertical to find what I'm hiding.
         </Text>
-        <View {...testProperties('Carousel')}>
-          <Carousel
-            {...baseOptions}
-            loop={false}
-            ref={ref}
-            style={styles.sliderContainer}
-            data={ENTRIES1}
-            pagingEnabled
-            // @ts-ignore
-            renderItem={Item}
-            height={340}
-          />
-        </View>
+        <Carousel
+          {...baseOptions}
+          loop={false}
+          ref={ref}
+          style={styles.sliderContainer}
+          data={ENTRIES1}
+          pagingEnabled
+          renderItem={renderItem}
+          height={Math.round(WINDOW_HEIGHT * 0.35)}
+          testID="Carousel"
+        />
       </View>
       <View style={styles.logoContainer}>
         <Image
@@ -128,13 +135,15 @@ const styles = StyleSheet.create({
   horizontalContainer: {
     height: WINDOW_HEIGHT - (HAS_IOS_NOTCH ? 100 : 55),
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
+    paddingTop: 100,
   },
   subText: {
     textAlign: 'center',
   },
   sliderContainer: {
     width: '100%',
+    marginTop: 100,
   },
   logoContainer: {
     flex: 1,

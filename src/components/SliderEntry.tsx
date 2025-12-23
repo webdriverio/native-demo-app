@@ -1,6 +1,6 @@
-import React from 'react';
+import {ComponentProps} from 'react';
 import {View, Text, StyleSheet, useColorScheme} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {IS_IOS, WINDOW_HEIGHT, WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
 import Colors from '../config/Colors';
@@ -9,11 +9,15 @@ const itemHorizontalMargin = Math.round(WINDOW_WIDTH * 0.02);
 export const SLIDE_WIDTH =
   Math.round(WINDOW_WIDTH * 0.75) + itemHorizontalMargin * 2;
 
-const SliderEntry: React.FC<{
-  icon: string;
+const SliderEntry = ({
+  icon,
+  title,
+  subtitle,
+}: {
+  icon: ComponentProps<typeof Icon>['name'];
   title: string;
   subtitle: string;
-}> = ({icon, title, subtitle}) => {
+}) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     alignItems: 'center',
     width: SLIDE_WIDTH,
-    height: Math.round(WINDOW_HEIGHT * 0.4),
+    height: Math.round(WINDOW_HEIGHT * 0.35),
     paddingHorizontal: itemHorizontalMargin,
     paddingTop: 18,
   },

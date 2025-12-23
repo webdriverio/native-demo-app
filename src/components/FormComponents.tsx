@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {MaterialCommunityIcons as Icon} from '@expo/vector-icons';
 import {Input} from 'react-native-elements';
 import {WINDOW_WIDTH} from '../config/Constants';
 import {testProperties} from '../config/TestProperties';
@@ -30,13 +30,14 @@ const options = [
     label: 'This app is awesome',
   },
 ];
-const Chevron: React.FC = () => {
+const Chevron = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <Icon
       name="chevron-down"
       size={24}
       color={isDarkMode ? Colors.white : Colors.black}
+      testID="dropdown-chevron"
     />
   );
 };
@@ -162,6 +163,8 @@ const FormComponents = () => {
             touchableWrapperProps={{...testProperties('Dropdown', true)}}
             // @ts-ignore
             Icon={Chevron}
+            darkTheme={isDarkMode}
+            
           />
         </View>
         <View style={styles.formGroup}>
