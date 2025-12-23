@@ -19,12 +19,12 @@ jobs:
       should_release: ${{ steps.check_version.outputs.should_release }}
     steps:
       - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Fetch all history for tags
 
       - name: 🌲 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20.x"
 
@@ -68,17 +68,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🧳 Cache Gradle Wrapper
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
 
       - name: 🧳 Cache Gradle Dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -93,7 +93,7 @@ jobs:
           java-version: "17.x"
 
       - name: 🌲 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20.x"
 
@@ -109,7 +109,7 @@ jobs:
           mv apps/release/android.wdio.native.app.v${VERSION}.apk ./android.wdio.native.app.v${VERSION}.apk
 
       - name: 📤 Upload Android App
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.apk
           path: android.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.apk
@@ -118,13 +118,13 @@ jobs:
     needs: prepare_release
     if: needs.prepare_release.outputs.should_release == 'true'
     # for https://github.com/facebook/react-native/issues/38294
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🧳 Cache Cocoapods Pods
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}-20231231
@@ -132,7 +132,7 @@ jobs:
             ${{ runner.os }}-pods-
 
       - name: 🌲 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "20.x"
 
@@ -148,7 +148,7 @@ jobs:
           cp apps/release/ios.simulator.wdio.native.app.v${VERSION}.zip ./ios.simulator.wdio.native.app.v${VERSION}.zip
 
       - name: 📤 Upload iOS App
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios.simulator.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.zip
           path: ios.simulator.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.zip
@@ -159,7 +159,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -190,12 +190,12 @@ jobs:
           .github/scripts/create_release.sh
 
       - name: 📥 Download Android App Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: android.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.apk
 
       - name: 📥 Download iOS App Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ios.simulator.wdio.native.app.v${{ needs.prepare_release.outputs.current_version }}.zip
 
