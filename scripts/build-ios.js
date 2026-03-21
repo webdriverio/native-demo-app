@@ -74,6 +74,13 @@ if (!fs.existsSync(appsDir)) {
   fs.mkdirSync(appsDir, { recursive: true });
 }
 
+// Remove any previous .app copy first. copyRecursive merges into an existing
+// destination; stale nested frameworks (e.g. old hermes.framework next to
+// hermesvm.framework) can break simulator install with duplicate bundle IDs.
+if (fs.existsSync(appDest)) {
+  fs.rmSync(appDest, { recursive: true, force: true });
+}
+
 copyRecursive(appSource, appDest);
 process.chdir('..');
 
