@@ -2,7 +2,6 @@
 
 const { execSync } = require('child_process');
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 
 function exec(command, options = {}) {
@@ -64,14 +63,10 @@ console.log(`🔨 Building iOS ${buildConfiguration} app...`);
 exec('npx expo prebuild --clean --platform ios');
 process.chdir('ios');
 
-// Apple Silicon hosts (including GitHub macos-latest): skip the x86_64 simulator slice.
-// Building both arm64 + x86_64 doubles Swift work in Pods and often OOMs or fails in ExpoLogBox / SwiftDriver on CI.
-const isAppleSiliconMac =
-  process.platform === 'darwin' && os.arch() === 'arm64';
-const archPrefix = isAppleSiliconMac ? 'EXCLUDED_ARCHS=x86_64 ' : '';
-
 exec(
-  `${archPrefix}xcodebuild -workspace wdiodemoapp.xcworkspace -configuration ${buildConfiguration} -scheme wdiodemoapp -sdk iphonesimulator -derivedDataPath ./build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO`,
+  'xcodebuild -workspace wdiodemoapp.xcworkspace -configuration ' +
+    `${buildConfiguration} -scheme wdiodemoapp -sdk iphonesimulator ` +
+    '-derivedDataPath ./build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO',
 );
 
 const appsDir = path.join('..', 'apps', outputDir);
