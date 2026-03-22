@@ -71,7 +71,9 @@
           "savePhotosPermission": "Allow wdiodemoapp to save photos for automated tests.",
           "isAccessMediaLocationEnabled": true
         }
-      ]
+      ],
+      "expo-secure-store",
+      "expo-sqlite"
     ],
     "extra": {
       "eas": {

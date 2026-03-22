@@ -13,7 +13,8 @@ export type TogglableTabName =
   | 'forms'
   | 'swipe'
   | 'drag'
-  | 'permissions';
+  | 'permissions'
+  | 'data';
 
 export const TOGGLABLE_TAB_ORDER: TogglableTabName[] = [
   'webview',
@@ -22,6 +23,7 @@ export const TOGGLABLE_TAB_ORDER: TogglableTabName[] = [
   'swipe',
   'drag',
   'permissions',
+  'data',
 ];
 
 /** Max tabs between Home and Menu (7 total = Home + 5 + Menu). */
@@ -34,6 +36,7 @@ const defaultPinned: Record<TogglableTabName, boolean> = {
   swipe: true,
   drag: true,
   permissions: false,
+  data: false,
 };
 
 type TabBarMenuContextValue = {

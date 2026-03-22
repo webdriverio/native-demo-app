@@ -38,6 +38,7 @@ const MENU_ENTRIES: MenuEntry[] = [
   {kind: 'tab', name: 'swipe', label: 'Swipe', icon: 'arrow-split-vertical'},
   {kind: 'tab', name: 'drag', label: 'Drag', icon: 'drag'},
   {kind: 'tab', name: 'permissions', label: 'Permissions', icon: 'shield-lock-outline'},
+  {kind: 'tab', name: 'data', label: 'Data', icon: 'database-outline'},
 ];
 
 export default function TabSideMenu() {
