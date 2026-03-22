@@ -10,6 +10,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+# Pin Node major for reproducibility (use 24.x on Actions; avoid deprecated Node 20 runners).
+env:
+  NODE_VERSION: "24.x"
+
 jobs:
   prepare_release:
     runs-on: ubuntu-latest
@@ -26,7 +30,8 @@ jobs:
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24.x"
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
 
       - name: 🧩 Install Dependencies
         run: npm ci
@@ -95,7 +100,8 @@ jobs:
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24.x"
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
 
       - name: 🧩 Install Dependencies
         run: npm ci
@@ -117,30 +123,45 @@ jobs:
   ios_build:
     needs: prepare_release
     if: needs.prepare_release.outputs.should_release == 'true'
-    # for https://github.com/facebook/react-native/issues/38294
-    runs-on: macos-latest
+    # Pinned image + Xcode so Swift/native deps (e.g. ExpoModulesCore) don’t drift with macos-latest.
+    # See https://github.com/facebook/react-native/issues/38294
+    runs-on: macos-15
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v5
 
-      - name: 🧳 Cache Cocoapods Pods
-        uses: actions/cache@v5
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}-20231231
-          restore-keys: |
-            ${{ runner.os }}-pods-
+          xcode-version: "16.4"
 
       - name: 🌲 Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: "24.x"
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
 
       - name: 🧩 Install Dependencies
         run: npm ci
 
+      - name: Validate Expo dependency versions
+        run: |
+          npx expo install --check
+          npx expo-doctor
+
+      # No ios/Pods cache: npm run ios:release runs `expo prebuild --clean`, which deletes ./ios, so a
+      # Pods cache would never survive the next build.
+
       - name: 🏗️ Build iOS Release
         run: npm run ios:release
+
+      - name: 📋 Upload xcodebuild log on failure
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: xcodebuild-ci-log
+          path: ios/xcodebuild-ci.log
+          if-no-files-found: ignore
 
       - name: 📦 Move iOS Simulator Build
         run: |

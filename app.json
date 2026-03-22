@@ -4,7 +4,6 @@
     "slug": "wdiodemoapp",
     "version": "2.1.0",
     "orientation": "portrait",
-    "newArchEnabled": true,
     "icon": "./src/assets/webdriverio.png",
     "userInterfaceStyle": "automatic",
     "splash": {

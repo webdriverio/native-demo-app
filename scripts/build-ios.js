@@ -14,6 +14,29 @@ function exec(command, options = {}) {
   }
 }
 
+function printXcodebuildFailureHints(logPath) {
+  console.error(`
+xcodebuild failed. There may be no literal "error:" line — common cases:
+  • ** BUILD FAILED ** / "The following build commands failed:" (scroll up from there)
+  • PhaseScriptExecution / script phase (red text above the phase name)
+  • Process killed / signal 9 / Killed / zsh: terminated (often OOM on CI)
+  • ld: / clang: (linker or compile messages use these prefixes)
+`);
+  if (logPath && fs.existsSync(logPath)) {
+    try {
+      const lines = fs.readFileSync(logPath, 'utf8').split(/\r?\n/);
+      const tail = lines.slice(-100).join('\n');
+      console.error(`--- Last 100 lines of ${logPath} ---\n${tail}\n`);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+}
+
+function xcodebuildPathLabel(absolutePath) {
+  return path.relative(path.join(__dirname, '..'), absolutePath) || absolutePath;
+}
+
 function hasBootedSimulator() {
   try {
     const output = execSync('xcrun simctl list devices', { encoding: 'utf-8' });
@@ -83,13 +106,35 @@ if (isAppleSilicon) {
 
 const ciParallelCap = process.env.CI ? ' -jobs 4' : '';
 
-exec(
+const xcodebuildCmd =
   'xcodebuild -workspace wdiodemoapp.xcworkspace -configuration ' +
-    `${buildConfiguration} -scheme wdiodemoapp -sdk iphonesimulator ` +
-    '-derivedDataPath ./build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO' +
-    ciParallelCap,
-  { env: xcodebuildEnv },
-);
+  `${buildConfiguration} -scheme wdiodemoapp -sdk iphonesimulator ` +
+  '-derivedDataPath ./build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO' +
+  ciParallelCap;
+
+const xcodeLogPath = path.join(process.cwd(), 'xcodebuild-ci.log');
+
+if (process.env.CI) {
+  console.log(`Running: ${xcodebuildCmd}`);
+  console.log(`CI: mirroring full output to ${xcodebuildPathLabel(xcodeLogPath)}`);
+  try {
+    execSync(`set -o pipefail; ${xcodebuildCmd} 2>&1 | tee "${xcodeLogPath}"`, {
+      stdio: 'inherit',
+      env: xcodebuildEnv,
+      shell: '/bin/bash',
+    });
+  } catch {
+    printXcodebuildFailureHints(xcodeLogPath);
+    process.exit(1);
+  }
+} else {
+  try {
+    execSync(xcodebuildCmd, { stdio: 'inherit', env: xcodebuildEnv });
+  } catch {
+    printXcodebuildFailureHints(null);
+    process.exit(1);
+  }
+}
 
 const appsDir = path.join('..', 'apps', outputDir);
 const appSource = path.resolve(sdkPath);

@@ -52,10 +52,11 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.14",
+    "expo-doctor": "^1.18.13",
     "react-test-renderer": "19.2.0",
     "typescript": "~5.9.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=24"
   }
 }
