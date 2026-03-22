@@ -28,10 +28,10 @@ export default function TabsLayout() {
         tabBarInactiveTintColor: Colors.white,
         tabBarHideOnKeyboard: true,
         tabBarLabelStyle: {
-          fontSize: 14,
+          fontSize: 10,
           fontWeight: '100',
-          paddingBottom: isIOS ? 5 : 8,
-          marginTop: isIOS ? 0 : 4,
+          paddingBottom: isIOS ? 4 : 6,
+          marginTop: isIOS ? 0 : 2,
         },
         tabBarStyle: {
           backgroundColor: Colors.black,
@@ -43,6 +43,7 @@ export default function TabsLayout() {
         },
         tabBarItemStyle: {
           paddingVertical: isIOS ? 0 : 4,
+          paddingHorizontal: 0,
         },
       }}>
       <Tabs.Screen
@@ -60,7 +61,7 @@ export default function TabsLayout() {
         name="webview"
         options={{
           title: 'Webview',
-          tabBarLabel: 'Webview',
+          tabBarLabel: 'Web',
           tabBarAccessibilityLabel: 'Webview',
           tabBarIcon: ({color}) => (
             <Icon color={color} name="web" size={26} />
@@ -108,6 +109,17 @@ export default function TabsLayout() {
           tabBarAccessibilityLabel: 'Drag',
           tabBarIcon: ({color}) => (
             <Icon color={color} name="drag" size={26} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="permissions"
+        options={{
+          title: 'Permissions',
+          tabBarLabel: 'Perms',
+          tabBarAccessibilityLabel: 'Permissions',
+          tabBarIcon: ({color}) => (
+            <Icon color={color} name="shield-lock-outline" size={26} />
           ),
         }}
       />

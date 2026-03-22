@@ -49,7 +49,29 @@
       ],
       "expo-local-authentication",
       "expo-splash-screen",
-      "expo-router"
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow wdiodemoapp to use the camera for automated tests.",
+          "microphonePermission": "Allow wdiodemoapp to use the microphone for automated tests.",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow wdiodemoapp to use your location while using the app for automated tests."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow wdiodemoapp to access your photos for automated tests.",
+          "savePhotosPermission": "Allow wdiodemoapp to save photos for automated tests.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ]
     ],
     "extra": {
       "eas": {
