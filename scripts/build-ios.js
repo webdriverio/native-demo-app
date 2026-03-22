@@ -63,10 +63,23 @@ console.log(`🔨 Building iOS ${buildConfiguration} app...`);
 exec('npx expo prebuild --clean --platform ios');
 process.chdir('ios');
 
+// On Apple Silicon (GitHub macos-latest), building iphonesimulator for both arm64 and x86_64
+// doubles Swift work and often OOMs or fails late in large pods (e.g. ExpoLogBox). CI only needs
+// the native simulator arch.
+const isAppleSilicon = process.arch === 'arm64';
+const xcodebuildEnv =
+  isAppleSilicon
+    ? { ...process.env, EXCLUDED_ARCHS: 'x86_64' }
+    : process.env;
+if (isAppleSilicon) {
+  console.log('ℹ️  EXCLUDED_ARCHS=x86_64 (Apple Silicon host; simulator build uses arm64 only)');
+}
+
 exec(
   'xcodebuild -workspace wdiodemoapp.xcworkspace -configuration ' +
     `${buildConfiguration} -scheme wdiodemoapp -sdk iphonesimulator ` +
     '-derivedDataPath ./build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO',
+  { env: xcodebuildEnv },
 );
 
 const appsDir = path.join('..', 'apps', outputDir);
