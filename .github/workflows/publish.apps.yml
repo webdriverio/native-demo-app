@@ -144,10 +144,12 @@ jobs:
       - name: 🧩 Install Dependencies
         run: npm ci
 
+      # expo install --check: ensures Expo/RN packages match the SDK (fails fast before Xcode).
+      # Do not run expo-doctor here: v1.18.x wrongly requires Xcode >=26.0.0 for SDK 55 (bundled typo;
+      # real Xcode is 16.x). See expo-doctor checkMinimumXcodeVersionAsync: { 55: ">=26.0.0" }.
+      # Run `npx expo-doctor` locally if you want; ignore "non-CNG" when ios/android exist from prebuild.
       - name: Validate Expo dependency versions
-        run: |
-          npx expo install --check
-          npx expo-doctor
+        run: npx expo install --check
 
       # No ios/Pods cache: npm run ios:release runs `expo prebuild --clean`, which deletes ./ios, so a
       # Pods cache would never survive the next build.
