@@ -67,18 +67,27 @@ process.chdir('ios');
 // doubles Swift work and often OOMs or fails late in large pods (e.g. ExpoLogBox). CI only needs
 // the native simulator arch.
 const isAppleSilicon = process.arch === 'arm64';
-const xcodebuildEnv =
-  isAppleSilicon
-    ? { ...process.env, EXCLUDED_ARCHS: 'x86_64' }
-    : process.env;
+const xcodebuildEnv = isAppleSilicon
+  ? {
+      ...process.env,
+      EXCLUDED_ARCHS: 'x86_64',
+      ARCHS: 'arm64',
+      ONLY_ACTIVE_ARCH: 'YES',
+    }
+  : process.env;
 if (isAppleSilicon) {
-  console.log('ℹ️  EXCLUDED_ARCHS=x86_64 (Apple Silicon host; simulator build uses arm64 only)');
+  console.log(
+    'ℹ️  Simulator build: EXCLUDED_ARCHS=x86_64, ARCHS=arm64, ONLY_ACTIVE_ARCH=YES (Apple Silicon)',
+  );
 }
+
+const ciParallelCap = process.env.CI ? ' -jobs 4' : '';
 
 exec(
   'xcodebuild -workspace wdiodemoapp.xcworkspace -configuration ' +
     `${buildConfiguration} -scheme wdiodemoapp -sdk iphonesimulator ` +
-    '-derivedDataPath ./build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO',
+    '-derivedDataPath ./build CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO' +
+    ciParallelCap,
   { env: xcodebuildEnv },
 );
 

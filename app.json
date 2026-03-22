@@ -41,6 +41,7 @@
     },
     "scheme": "wdio",
     "plugins": [
+      "./plugins/withIosSimulatorExcludedArchs.js",
       [
         "expo-dev-client",
         {

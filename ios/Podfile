@@ -61,5 +61,14 @@ target 'wdiodemoapp' do
       :mac_catalyst_enabled => false,
       :ccache_enabled => ccache_enabled?(podfile_properties),
     )
+    # Apple Silicon only: skip x86_64 simulator slice (halves Swift compile; avoids CI OOM)
+    if `uname -m`.strip == 'arm64'
+      installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |build_config|
+          build_config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'x86_64'
+        end
+      end
+    end
+
   end
 end
