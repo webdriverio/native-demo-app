@@ -228,6 +228,7 @@ function DataManagementScreen() {
       </Text>
       <View style={[styles.card, {borderColor: Colors.orange}]}>
         <Input
+          {...testProperties('data-memory-input')}
           label="Type a value (not saved to disk)"
           value={memoryInput}
           onChangeText={setMemoryInput}
@@ -249,7 +250,7 @@ function DataManagementScreen() {
             ▼ Current value (RAM only, lost after app is killed)
           </Text>
           <Text
-            {...readoutTestProps('data-memory-readout', memoryReadoutText)}
+            {...testProperties('data-memory-readout')}
             style={[styles.valueReadoutText, {color: fg}]}>
             {memoryReadoutText}
           </Text>
@@ -281,6 +282,7 @@ function DataManagementScreen() {
       </Text>
       <View style={[styles.card, {borderColor: Colors.orange}]}>
         <Input
+          {...testProperties('data-async-input')}
           label="Type a value, then tap Save"
           value={asyncInput}
           onChangeText={setAsyncInput}
@@ -303,7 +305,7 @@ function DataManagementScreen() {
             reopen → open this tab)
           </Text>
           <Text
-            {...readoutTestProps('data-async-readout', asyncReadoutText)}
+            {...testProperties('data-async-readout')}
             style={[styles.valueReadoutText, {color: fg}]}>
             {asyncReadoutText}
           </Text>
@@ -331,6 +333,7 @@ function DataManagementScreen() {
       </Text>
       <View style={[styles.card, {borderColor: Colors.orange}]}>
         <Input
+          {...testProperties('data-sqlite-input')}
           label="Type a value, then tap Save"
           value={sqliteInput}
           onChangeText={setSqliteInput}
@@ -352,7 +355,7 @@ function DataManagementScreen() {
             ▼ Last saved SQLite row (read from disk, survives app restart)
           </Text>
           <Text
-            {...readoutTestProps('data-sqlite-readout', sqliteReadoutText)}
+            {...testProperties('data-sqlite-readout')}
             style={[styles.valueReadoutText, {color: fg}]}>
             {sqliteReadoutText}
           </Text>
@@ -387,6 +390,7 @@ function DataManagementScreen() {
       </Text>
       <View style={[styles.card, {borderColor: Colors.orange}]}>
         <Input
+          {...testProperties('data-secure-input')}
           label="Type a value, then tap Save"
           value={secureInput}
           onChangeText={setSecureInput}
@@ -409,7 +413,7 @@ function DataManagementScreen() {
             uninstalled)
           </Text>
           <Text
-            {...readoutTestProps('data-secure-readout', secureReadoutText)}
+            {...testProperties('data-secure-readout')}
             style={[styles.valueReadoutText, {color: fg}]}>
             {secureReadoutText}
           </Text>
@@ -452,17 +456,6 @@ function DataManagementScreen() {
       <View style={{height: 40}} />
     </ScrollView>
   );
-}
-
-/**
- * Stable test id + label that includes the current readout text for Appium:
- * iOS: testID; Android: accessibilityLabel → content-desc (parse after "id: ").
- */
-function readoutTestProps(testId: string, displayText: string) {
-  return {
-    testID: testId,
-    accessibilityLabel: `${testId}: ${displayText}`,
-  };
 }
 
 /** Row objects may use different key casing per platform/driver. */
