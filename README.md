@@ -29,8 +29,9 @@ The app holds the following screens:
 - **:pinching_hand:	Swipe:** This screen will hold a carousel so horizontal swiping can be tested. It can also be used to test vertical
   swiping
 - **:pinching_hand:	Drag:** This screen holds a simple puzzle. The puzzle can be solved by dragging the pieces into the main image.
-- **:shield: Permissions:** This screen has switches for **camera**, **microphone**, **location**, and **photo library**. Turning a switch on asks the OS for that permission so you can exercise system permission dialogs in tests. Revoking access afterward is only possible in the device settings.
 - **:star2: Menu:** The **Menu** tab opens a side panel from the right. It lists all main destinations. Orange **stars** (everywhere except Home) choose which screens appear in the bottom tab bar: filled means the screen is shown there, outline means it is not. The bar always has **Home** on the left and **Menu** on the right, with up to **five** other screens between them (seven items in total). By default, Web, Login, Forms, Swipe, and Drag are on the tab bar.
+- **:shield: Permissions:** This screen has switches for **camera**, **microphone**, **location**, and **photo library**. Turning a switch on asks the OS for that permission so you can exercise system permission dialogs in tests. Revoking access afterward is only possible in the device settings.
+- **:floppy_disk: Data Management:** This screen demonstrates four storage tiers for automation and learning: **in-memory** (lost when app process dies), persisted key-value (**AsyncStorage tier**, implemented with SQLite in this app), explicit **SQLite**, and secure storage (**Keychain/Keystore**). Each section has clear input/readout blocks and stable test selectors for reading current and stored values in tests. It also explains uninstall/reinstall behavior differences between iOS and Android, which can vary by platform and app build/distribution settings.
 
 ## Contributing
 Please read [CONTRIBUTING.md](./docs/CONTRIBUTING.md) for details on our process for submitting pull requests to us or
