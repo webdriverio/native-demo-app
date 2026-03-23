@@ -2,7 +2,7 @@
   "expo": {
     "name": "wdiodemoapp",
     "slug": "wdiodemoapp",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "orientation": "portrait",
     "icon": "./src/assets/webdriverio.png",
     "userInterfaceStyle": "automatic",
@@ -14,7 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "org.wdiodemoapp",
-      "buildNumber": "19",
+      "buildNumber": "20",
       "infoPlist": {
         "NSFaceIDUsageDescription": "wdiodemoapp requires FaceID access to allows you quick and secure access.",
         "NSAppTransportSecurity": {
@@ -29,7 +29,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.wdiodemoapp",
-      "versionCode": 20,
+      "versionCode": 21,
       "permissions": [
         "USE_BIOMETRIC",
         "USE_FINGERPRINT"

@@ -91,7 +91,7 @@ export default function TabsLayout() {
             }}
           />
           <Tabs.Screen
-            name="data"
+            name="data-management"
             options={{
               title: 'Data',
               tabBarLabel: 'Data',
