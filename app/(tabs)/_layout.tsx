@@ -90,6 +90,17 @@ export default function TabsLayout() {
               ),
             }}
           />
+          <Tabs.Screen
+            name="data-management"
+            options={{
+              title: 'Data',
+              tabBarLabel: 'Data',
+              tabBarAccessibilityLabel: 'Data management',
+              tabBarIcon: ({color}) => (
+                <Icon color={color} name="database-outline" size={26} />
+              ),
+            }}
+          />
         </Tabs>
       </>
     </TabBarMenuProvider>
