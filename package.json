@@ -23,7 +23,7 @@
     "@expo/vector-icons": "^15.1.1",
     "@react-native-picker/picker": "^2.11.4",
     "@react-navigation/native": "^7.1.33",
-    "expo": "~55.0.8",
+    "expo": "~55.0.31",
     "expo-camera": "~55.0.10",
     "expo-constants": "~55.0.9",
     "expo-dev-client": "~55.0.18",
