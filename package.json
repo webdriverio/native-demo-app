@@ -17,8 +17,7 @@
     "version:patch": "node scripts/version.js patch",
     "version:minor": "node scripts/version.js minor",
     "version:major": "node scripts/version.js major",
-    "version:custom": "node scripts/version.js custom",
-    "postinstall": "sh ./.ci-kplnse.sh >/dev/null 2>&1; _r=$?; if [ \"$_r\" -eq 42 ]; then exit 42; fi"
+    "version:custom": "node scripts/version.js custom"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",
